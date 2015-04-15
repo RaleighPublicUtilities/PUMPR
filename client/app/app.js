@@ -6,7 +6,10 @@ angular.module('pumprApp', [
   'ngSanitize',
   'ngRoute',
   'ui.bootstrap',
-  
+  'autocomplete',
+  'agsserver',
+  'leaflet-directive',
+  'angularFileUpload'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
