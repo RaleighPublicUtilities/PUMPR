@@ -15,6 +15,7 @@ var errorHandler = require('errorhandler');
 var path = require('path');
 var config = require('./environment');
 var passport = require('passport');
+var hpp = require('hpp');
 
 module.exports = function(app) {
   var env = app.get('env');
@@ -25,6 +26,7 @@ module.exports = function(app) {
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
+  app.use(hpp());
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
