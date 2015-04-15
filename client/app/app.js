@@ -5,7 +5,8 @@ angular.module('pumprApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
