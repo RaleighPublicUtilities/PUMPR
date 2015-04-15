@@ -7,7 +7,7 @@ describe('Service: agsServer.service', function () {
 
   // instantiate service
   var agsServer.service;
-  beforeEach(inject(function (_agsServer.factory.js_) {
+  beforeEach(inject(function (_agsServer.service_) {
     agsServer.service = _agsServer.service_;
   }));
 
