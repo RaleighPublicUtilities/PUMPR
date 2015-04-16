@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .service('projectSearch', ['agsServer.service', function(serverFactory){
+  .service('projectSearch', ['agsServer.service', function(agsServer.service){
 
     //Auto fill function for street names
     this.autoFill = function (typed) {
@@ -20,7 +20,7 @@ angular.module('pumprApp')
           orderByFields: 'PROJECTNAME ASC'
         }
       };
-      return serverFactory.ptMs.request(projectOptions);
+      return agsServer.service.ptMs.request(projectOptions);
     };
     this.getSet = function (array){
       if (!array){
