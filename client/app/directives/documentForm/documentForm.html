@@ -1,0 +1,106 @@
+
+<!--Table column names-->
+<table class="table" ng-click="stopEditing()">
+  <thead>
+    <th class="text-primary">DOCID</th>
+    <th class="text-primary">DOCUMENT TYPE</th>
+    <th class="text-primary">SHEET DESCRIPTION</th>
+    <th class="text-primary">ENGINEERING FIRM</th>
+    <th class="text-primary">ALIAS</th>
+    <th class="text-primary">WATER</th>
+    <th class="text-primary">SEWER</th>
+    <th class="text-primary">REUSE</th>
+    <th class="text-primary">STORM</th>
+    <th class="text-primary">STREET 1</th>
+    <th class="text-primary">STREET 2</th>
+    <th class="text-primary">STREET 3</th>
+    <th class="text-primary">STREET 4</th>
+    <th class="text-primary">TAGS</th>
+    <th class="text-primary">LINK</th>
+  </thead>
+  <tbody class="table-body">
+    <!--table view -->
+    <tr ng-if="!doc.new" class="table-view" ng-repeat="doc in project">
+      <td>{{doc.attributes.DOCID}}</td>
+      <!--<td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="" ></td>-->
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
+      <td ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.DOCTYPEID" >
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.SHEETTYPEID.attributes.SHEETTYPE || doc.attributes.SHEETTYPE}}</td>
+      <td ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.SHEETTYPEID" >
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.ENGID.attributes.SIMPLIFIEDNAME || doc.attributes.SIMPLIFIEDNAME}}</td>
+      <td ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.ENGID" >
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.ALIAS}}</td>
+      <td ng-show="doc.edit"><input ng-keyup="post({'OBJECTID': doc.attributes.OBJECTID, 'ALIAS': doc.attributes.ALIAS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.ALIAS" placeholder="Alias..."/></td>
+      <td class="water" ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.WATER.name || doc.attributes.WATER}}</td>
+      <td class="water" ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'WATER': doc.attributes.WATER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="doc.attributes.WATER">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="sewer" ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.SEWER.name || doc.attributes.SEWER}}</td>
+      <td class="sewer" ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SEWER': doc.attributes.SEWER.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="doc.attributes.SEWER">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="reuse" ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.REUSE.name || doc.attributes.REUSE}}</td>
+      <td class="reuse" ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'REUSE': doc.attributes.REUSE.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="doc.attributes.REUSE">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td class="storm" ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STORM.name || doc.attributes.STORM}}</td>
+      <td class="storm" ng-show="doc.edit">
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'STORM': doc.attributes.STORM.id})" ng-options="boo.name for boo in selectionOptions.bool" class="form-control form-inputs" ng-model="doc.attributes.STORM">
+          <option value="">--Select--</option>
+        </select>
+      </td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_1}}</td>
+      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_1': doc.attributes.STREET_1})" ng-model="doc.attributes.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_2}}</td>
+      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_2': doc.attributes.STREET_2})" ng-model="doc.attributes.STREET_2" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_3}}</td>
+      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_3': doc.attributes.STREET_3})" ng-model="doc.attributes.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_4}}</td>
+      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_4': doc.attributes.STREET_4})" ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.TAGS}}</td>
+      <td ng-show="doc.edit"><input ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'TAGS': doc.attributes.TAGS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
+        <span ng-show="doc.upload.exisits || doc.upload.isSuccess" class="glyphicon glyphicon-ok checked" aria-hidden="true"></span>
+        <span ng-show="!doc.upload.exisits && !doc.upload.isSuccess" class="glyphicon glyphicon-ban-circle nofile" aria-hidden="true"></span>
+      </td>
+      <!-- <td ng-show="doc.edit"><div class="document-upload">Add Document<div></td> -->
+      <td ng-show="doc.edit" ng-controller="UploadCtrl">
+        {{doc.upload.isSuccess = uploadSuccess}}
+        <form name="fileUploadForm">
+          <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + (doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID) + '-' + doc.attributes.DOCID}}" />
+          <p ng-show="loadStatus.addFile.status">{{loadStatus.addFile.message}}</p>
+          <div ng-repeat="item in uploader.queue">
+            <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+              <span class="glyphicon glyphicon-upload"></span> Upload
+            </button>
+            <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+              <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button>
+            <span ng-show="uploadSuccess"><i class="glyphicon glyphicon-ok checked"></i></span>
+          </div>
+        </form>
+      </td>
+      <td><button ng-click="delete($index, {objectIds: doc.attributes.OBJECTID})" ng-show="doc.edit" type="button" class="btn btn-danger btn-sm">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+<!--Add new document button-->
+<div ng-click="add()" class="add-button">ADD NEW DOCUMENT</div>

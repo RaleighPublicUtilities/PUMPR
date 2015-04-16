@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('agsServer.service', ['Ags', function(Ags){
+  .factory('agsServer', ['Ags', function(Ags){
   //Create Server objects
   var mapstest = new Ags({host: 'mapstest.raleighnc.gov'}),
       maps = new Ags({host: 'maps.raleighnc.gov'}),

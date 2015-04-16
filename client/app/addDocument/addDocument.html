@@ -1,0 +1,13 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container-fluid">
+  <div class="row">
+    <h1 class="page-header">Project Tracking - Add Document</h1>
+    <div class="col-sm-5 col-md-4">
+      <autocomplete ng-model="searchData" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="startSearch" style="width:500px"></autocomplete>
+    </div>
+    <div ng-show="searchStatus" class="col-sm-12 col-md-12">
+    <document-form project="project"></document-form>
+  </div>
+  </div>
+</div>
