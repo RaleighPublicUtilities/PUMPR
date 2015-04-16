@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .service('streetSearch', ['agsServer.service', function(agsServer.service){
+  .service('streetSearch', ['agsServer', function(agsServer){
 
     //Auto fill function for street names
         var streets = [];
@@ -21,7 +21,7 @@ angular.module('pumprApp')
               orderByFields: 'CARTONAME ASC'
             }
           };
-          return agsServer.service.streetsMs.request(streetOptions);
+          return agsServer.streetsMs.request(streetOptions);
         };
 
 }]);

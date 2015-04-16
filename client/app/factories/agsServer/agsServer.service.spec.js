@@ -7,12 +7,12 @@ describe('Service: agsServer.service', function () {
 
   // instantiate service
   var agsServer.service;
-  beforeEach(inject(function (_agsServer.service_) {
-    agsServer.service = _agsServer.service_;
+  beforeEach(inject(function (_agsServer_) {
+    agsServer.service = _agsServer_;
   }));
 
   it('should do something', function () {
-    expect(!!agsServer.service).toBe(true);
+    expect(!!agsServer).toBe(true);
   });
 
 });

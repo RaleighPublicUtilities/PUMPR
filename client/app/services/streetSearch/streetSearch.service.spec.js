@@ -11,7 +11,7 @@ describe('Service: streetSearch', function () {
     streetSearch = _streetSearch_;
   }));
 
-  it('should do something', function () {
+  it('should return streets', function () {
     expect(!!streetSearch).toBe(true);
   });
 
