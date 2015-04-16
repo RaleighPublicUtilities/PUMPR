@@ -1,6 +1,9 @@
+
+
 table {
   /*background-color: rgba(255, 253, 231, 0.3);*/
   /*background: rgba(159, 159, 159, 0.43);*/
+  margin-top: 20px;
   border-radius: 25px;
   padding: 25px 50px;
 }
@@ -8,6 +11,11 @@ table {
 table tbody tr{
     border-bottom: 2px solid #13587C;
 
+}
+
+.table-bold{
+  font-weight: bold;
+  font-size: larger;
 }
 
 .table-view:last-child{
