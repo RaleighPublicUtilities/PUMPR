@@ -1,4 +1,8 @@
+.doc-table{
 
+  margin: 20px auto 20px auto;
+  width: 85%
+}
 
 table {
   /*background-color: rgba(255, 253, 231, 0.3);*/
@@ -48,11 +52,15 @@ table tbody tr{
   /*border-radius:25px;*/
   padding: 5px;
   text-align: center;
+
+  margin: 20px auto 20px auto;
+  width: 85%
 }
 
 .add-button:hover {
   cursor: pointer;
   background-color: #39a040;
+  margin-bottom: 50px;
 }
 
 .document-upload {
