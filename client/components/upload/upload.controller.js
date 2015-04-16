@@ -12,7 +12,7 @@ angular.module('pumprApp')
     $scope.uploadSuccess = '';
 
     $scope.uploader = $scope.uploader = new FileUploader({
-      url: '/upload',
+      url: '/api/documents',
       removeAfterUpload: true
     });
 

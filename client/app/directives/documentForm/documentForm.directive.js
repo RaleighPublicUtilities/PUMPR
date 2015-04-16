@@ -184,7 +184,7 @@ angular.module('pumprApp')
               filename: filename
             }
           };
-          return $http.get('/upload', config);
+          return $http.get('/api/documents', config);
         }
 
 
