@@ -25,11 +25,20 @@ angular.module('pumprApp', [
     return {
       // Add authorization token to headers
       request: function (config) {
-        config.headers = config.headers || {};
-        if ($cookieStore.get('token')) {
-          config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+        //Check if request is for arcgis server and do not add bearer token if it is
+        var re = new RegExp('http://[a-z]{3,8}.raleighnc.gov/arcgis/rest/services/');
+        var result = re.test(config.url);
+        if (result){
+          delete config.headers.Authorization;
+          return config;
         }
-        return config;
+        else {
+          config.headers = config.headers || {};
+          if ($cookieStore.get('token')) {
+            config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+          }
+          return config;
+        }
       },
 
       // Intercept 401s and redirect you to login
