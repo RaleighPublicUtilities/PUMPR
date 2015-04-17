@@ -9,7 +9,7 @@ angular.module('pumprApp')
         data: '=',
         active: '='
       },
-      templateUrl: 'app/directives/mapEdit/map-edit.html',
+      templateUrl: 'app/directives/mapEdit/mapEdit.html',
       link: function (scope) {
 
 

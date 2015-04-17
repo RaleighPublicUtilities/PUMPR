@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'cookies', 'agsServer',
-    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, cookies, agsServer) {
+  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'cookies', 'agsServer', '$location',
+    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, cookies, agsServer, $location) {
 
     //Add root scope to set recent projects
     var scope = $rootScope;
-
+    //Make map height 100%
+    angular.element('body').find('div').addClass('fullScreen');
   $scope.searchStatus = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
@@ -426,7 +427,7 @@ $scope.searchControl = function (typed){
   console.log(typed);
 
   //Add projects to recent projects cookie
-  CookieService.addProjectCookie(typed);
+  cookies.addProjectCookie(typed);
   var selection = typed.split(':');
 
   var projectOptions = {
@@ -452,7 +453,7 @@ $scope.searchControl = function (typed){
     }
   }
 
-  serverFactory.pt_fs.request(projectOptions)
+  agsServer.ptFs.request(projectOptions)
     .then(function(data){
       console.log(data);
       //Prepare Results Table
@@ -484,7 +485,7 @@ $scope.searchControl = function (typed){
       });
 
       //Get Document Information for carousel
-      serverFactory.pt_fs.request(documentOptions)
+      agsServer.ptFs.request(documentOptions)
         .then(function(data){
           if (data.features.length !== 0){
                 angular.element('.angular-leaflet-map').addClass('map-move');

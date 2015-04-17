@@ -46,18 +46,16 @@ html body p h1 h2 h3 h4 li td div {
 html, body{
   height:100%;
   overflow-y: auto;
+  height: 100%;
 }
 
 /*.ng-scope {
   height: 100%;
 }*/
 body {
-  /*padding-top: 50px;*/
-
   color:white;
   font-size: 11px;
   padding-top: 70px;
-
 }
 
 .row

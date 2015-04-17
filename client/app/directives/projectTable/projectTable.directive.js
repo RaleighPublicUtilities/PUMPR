@@ -8,7 +8,7 @@ angular.module('pumprApp')
       scope: {
         project: '='
       },
-      templateUrl: 'app/directives/projectTable/project-table.html',
+      templateUrl: 'app/directives/projectTable/projectTable.html',
       link: function (scope, element) {
         //Gets correct REST endpoints form ArcGIS server
         var url;
