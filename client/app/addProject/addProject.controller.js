@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'cookies', 'agsServer', '$location',
-    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, cookies, agsServer, $location) {
+  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'cookies', 'agsServer',
+    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, cookies, agsServer) {
 
     //Add root scope to set recent projects
     var scope = $rootScope;

@@ -21,13 +21,12 @@
 .leaflet-center {
   width: 25%;
   /*width: 400px;*/
-
+  /*margin: 0 auto;*/
+  left: 38%;
   /*padding: 10px 10px;*/
   /*border: 1px red solid;*/
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-
+	/*margin-left: auto;
+	margin-right: auto;*/
 }
 
 .fullScreen {
