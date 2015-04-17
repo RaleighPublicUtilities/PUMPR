@@ -1,0 +1,13 @@
+<table class="table mapTable" >
+  <thead>
+    <th class="text-primary">Key</th>
+    <th class="text-primary">Value</th>
+  </thead>
+  <tbody class="mapTableBody">
+    <tr ng-repeat="(key, value) in project">
+      <td>{{key}}</td>
+      <td ng-if="key !== 'CPLINK'">{{value}}</td>
+      <td ng-if="key === 'CPLINK'"><a href="" ng-click="popup(value)">Link</a><td>
+    </tr>
+  </tbody>
+</table>
