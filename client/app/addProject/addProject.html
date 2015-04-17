@@ -1,3 +1,49 @@
-<div class="col-md-12">
-This is the addProject view.
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+<!--Map Project Seach Bar and Table -->
+<!-- <div class="mapSearch"> -->
+  <autocomplete id="searchBar" class="mapSearch" ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete>
+<!-- </div> -->
+
+<project-table project="project_info" ng-show="searchStatus"></project-table>
+
+<!-- Map -->
+    <leaflet center="center" layers="layers" geojson="geojson" paths="paths" markers="markers" controls="controls" id="map"></leaflet>
+
+<!-- Map Edit Panel -->
+    <map-edit class="map-move-left" active="active" data="editLayer" ></map-edit>
+
+<!--PDF Carosel-->
+  <pdf-carousel docs="project_docs" ng-show="project_docs"></pdf-carousel>
+
+<!-- Print -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Print Map</h4>
+      </div>
+      <div class="modal-body">
+        <form name="form" validate class="css-form">
+        dpi: <input type="number" ng-model="dpi" class="form-control form-inputs"></input><br>
+        Export Type: <select ng-options="type for type in printFormatList" class="form-control form-inputs" ng-model="print_format">
+          <option value="">Select Export Type</option>
+        </select>
+        Export Size: <select ng-options="type.size for type in exportSizes" class="form-control form-inputs" ng-model="output">
+          <option value="">Select Export Size</option>
+        </select>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" ng-click="printMap()" class="btn btn-primary">Print</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 </div>
