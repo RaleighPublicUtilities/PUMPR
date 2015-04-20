@@ -31,7 +31,7 @@ angular.module('pumprApp')
         });
         //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
-      }
+      };
       //Function handles the selection
       $scope.searchControl = function (typed){
         if (typed === 'Sorry Project Not Found...'){
@@ -74,5 +74,5 @@ angular.module('pumprApp')
           $scope.project_docs = true;
         });
 
-      }
+      };
     }]);

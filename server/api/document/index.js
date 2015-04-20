@@ -58,7 +58,7 @@ router.use(multer({
 }));
 
   router.get('/', controller.exisits);
-// router.get('/:id', controller.show);
+  router.get('/download', controller.download);
   router.post('/', controller.upload);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);

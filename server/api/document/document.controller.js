@@ -29,6 +29,27 @@ exports.upload = function(req, res){
   res.json(req.file);
 };
 
+//Used to download
+exports.download = function(req, res){
+  //Sets up response data
+  var data = {
+      filename: req.query.filename,
+      folder : req.query.filename.split('-')[0]
+    };
+  var file = './public/documents/' + data.folder + '/' + data.filename;
+  //Checks if the file exisits
+  fs.stat(file, function (err, stats){
+    if (err) {
+      data.exisits = false;
+      res.json(data)
+    }
+    else if (stats.isFile()){
+      res.download(file);
+    }
+  });
+
+}
+
 // Get list of documents
 // exports.index = function(req, res) {
 //   Document.find(function (err, documents) {

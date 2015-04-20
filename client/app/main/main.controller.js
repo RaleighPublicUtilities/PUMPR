@@ -11,7 +11,7 @@ angular.module('pumprApp')
       $scope.autoFillProjects = function (typed) {
         //Turns on the map resulsts table
         $scope.searchStatus = false;
-        $scope.project_docs = false;
+        $scope.projectDocs = false;
         //Uses the Project Search Servies
         $scope.projects = [];
         var newProject = projectSearch.autoFill(typed);
@@ -31,7 +31,7 @@ angular.module('pumprApp')
         });
         //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
-      }
+      };
       //Function handles the selection
       $scope.searchControl = function (typed){
         if (typed === 'Sorry Project Not Found...'){
@@ -71,8 +71,8 @@ angular.module('pumprApp')
           }
           //Activates table view
           $scope.searchStatus = true;
-          $scope.project_docs = true;
+          $scope.projectDocs = true;
         });
 
-      }
+      };
     }]);
