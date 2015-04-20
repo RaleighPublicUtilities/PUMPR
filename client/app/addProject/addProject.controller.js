@@ -23,111 +23,94 @@ angular.module('pumprApp')
                   url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
                   type: 'xyz'
                 },
-                darkRaleigh: {
-                  name: 'Raleigh - Dark',
-                  url: 'https://{s}.tiles.mapbox.com/v3/ctwhite.l4hma6jb/{z}/{x}/{y}.png',
-                  type: 'xyz'
-                },
                 osm: {
                   name: 'Open Street Map',
                   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                   type: 'xyz'
                 },
-                esriImagery:{
-
-                  name: "esri Imagery",
-                  type: "dynamic",
-                  url: "http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-                  visible: false,
-                  layerOptions: {
-                    layers: [0, 1, 2, 3],
-                    opacity: 1,
-                    attribution: "Copyright:© 2014 Esri, DeLorme, HERE, TomTom"
-                  }
-                },
                 raleigh:{
 
-                  name: "Basic Base Map",
-                    type: "dynamic",
-                    url: "http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer",
+                  name: 'Basic Base Map',
+                    type: 'dynamic',
+                    url: 'http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer',
                     visible: false,
                     layerOptions: {
                         layers: ['*'],
                           opacity: 0.5,
-                          attribution: "Copyright:© 2014 City of Raleigh"
+                          attribution: 'Copyright:© 2014 City of Raleigh'
                     }
                 }
             },
             overlays: {
               projects:{
-              name: "Project Tracking",
-                type: "dynamic",
-                url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer",
+              name: 'Project Tracking',
+                type: 'dynamic',
+                url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
                 visible: false,
                 layerOptions: {
                     layers: [1],
                       opacity: 0.5,
-                      attribution: "Copyright:© 2014 City of Raleigh",
+                      attribution: 'Copyright:© 2014 City of Raleigh',
                       position: 'back'
                 },
               },
                 sewer: {
-                name: "Sewer Collection Network",
-                  type: "dynamic",
-                  url: "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer",
+                name: 'Sewer Collection Network',
+                  type: 'dynamic',
+                  url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer',
                   visible: false,
                   layerOptions: {
                       layers: [0,1,2,3,4],
                         opacity: 1,
-                        attribution: "Copyright:© 2014 City of Raleigh",
+                        attribution: 'Copyright:© 2014 City of Raleigh',
                         position: 'back'
                   }
             },
             water: {
-              name: "Water Distribution Network",
-                type: "dynamic",
-                url: "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer",
+              name: 'Water Distribution Network',
+                type: 'dynamic',
+                url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer',
                 visible: false,
                 layerOptions: {
                     layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
                       opacity: 1,
-                      attribution: "Copyright:© 2014 City of Raleigh",
+                      attribution: 'Copyright:© 2014 City of Raleigh',
                       position: 'back'
                 }
             },
             reuse: {
-              name: "Reuse Distribution Network",
-                type: "dynamic",
-                url: "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer",
+              name: 'Reuse Distribution Network',
+                type: 'dynamic',
+                url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer',
                 visible: false,
                 layerOptions: {
                     layers: [0,1,2,3,4,5,6,7,8,9,10,11],
                       opacity: 1,
-                      attribution: "Copyright:© 2014 City of Raleigh",
+                      attribution: 'Copyright:© 2014 City of Raleigh',
                       position: 'back'
                 }
             },
             detailsIntersections: {
-              name: "Detailed Intersections",
-              type: "dynamic",
-              url: "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/",
+              name: 'Detailed Intersections',
+              type: 'dynamic',
+              url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
               visible: false,
               layerOptions: {
                 layers: [0],
                 opacity: 1,
-                attribution: "Copyright:© 2014 City of Raleigh",
+                attribution: 'Copyright:© 2014 City of Raleigh',
                 position: 'back'
               }
             },
             parcels: {
-              name: "Parcels",
-              type: "dynamic",
-              url: "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer",
+              name: 'Parcels',
+              type: 'dynamic',
+              url: 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer',
               visible: false,
               layerOptions: {
                 layers: ['*'],
                 opacity: 1,
-                attribution: "Copyright:© 2014 City of Raleigh",
+                attribution: 'Copyright:© 2014 City of Raleigh',
                 position: 'back'
               }
             }
@@ -253,8 +236,8 @@ leafletData.getMap('map').then(function(map) {
         geojson: true
       };
       switch (layer.url){
-        case "http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/":
-          serverFactory.pt_ms.request(onClickOptions)
+        case 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/':
+          agsServer.ptMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -263,8 +246,8 @@ leafletData.getMap('map').then(function(map) {
             selectedFeatures.addLayer(selectedGeojson);
           });
           break;
-        case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/":
-          serverFactory.reclaimed_ms.request(onClickOptions)
+        case 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/':
+          agsServer.reclaimedMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -273,8 +256,8 @@ leafletData.getMap('map').then(function(map) {
             selectedFeatures.addLayer(selectedGeojson);
           });
           break;
-        case "http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/":
-          serverFactory.water_ms.request(onClickOptions)
+        case 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/':
+          agsServer.waterMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -283,8 +266,8 @@ leafletData.getMap('map').then(function(map) {
             selectedFeatures.addLayer(selectedGeojson);
           });
           break;
-        case "http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/":
-          serverFactory.sewer_ms.request(onClickOptions)
+        case 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/':
+          agsServer.sewerMs.request(onClickOptions)
             .then(function(data){
               selectedGeojson = L.geoJson(data, {
                 onEachFeature: createPopup,
@@ -293,8 +276,8 @@ leafletData.getMap('map').then(function(map) {
               selectedFeatures.addLayer(selectedGeojson);
             });
           break;
-        case "http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/":
-          serverFactory.parcels_ms.request(onClickOptions)
+        case 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/':
+          agsServer.parcelsMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
               onEachFeature: createPopup,
@@ -355,7 +338,7 @@ leafletData.getMap('map').then(function(map) {
         $scope.editLayer = layer.toGeoJSON();
       }
 
-    })
+    });
     $scope.active = true;
     $scope.searchStatus = false;
   });
@@ -421,7 +404,7 @@ $scope.autoFillProjects = function (typed) {
   });
   //Adds the project to the recently searched cook
   scope.myrecent = $scope.projects;
-}
+};
 
 $scope.searchControl = function (typed){
   console.log(typed);
@@ -451,7 +434,7 @@ $scope.searchControl = function (typed){
       outFields: '*',
       where: "PROJECTID =  '" + selection[2] + "'",
     }
-  }
+  };
 
   agsServer.ptFs.request(projectOptions)
     .then(function(data){
@@ -493,17 +476,17 @@ $scope.searchControl = function (typed){
                 var _docType;
                 $scope.project_docs = data.features.map(function (each){
 
-                  each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = "";
+                  each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = '';
                   var url = {
-                      url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + "/" + each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + ".pdf"),
-                      name: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID,
-                      resid: each.attributes.PROJECTID + "-" + each.attributes.DOCTYPEID + "-" + each.attributes.DOCID + "res",
-                      icon: "../images/" + _docType + ".png"
+                      url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + '/' + each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + '.pdf'),
+                      name: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID,
+                      resid: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + 'res',
+                      icon: '../images/' + _docType + '.png'
                   };
                   return url;
                 });
                 for (var a in $scope.project_docs){
-                  var ele_id = "#" + $scope.project_docs[a].resid;
+                  var ele_id = '#' + $scope.project_docs[a].resid;
                   $(ele_id).resizable();
                 }
               }
@@ -513,7 +496,7 @@ $scope.searchControl = function (typed){
 
 
 
-}
+};
 
 
 $scope.list1 = {title: 'AngularJS - Drag Me'};
@@ -535,11 +518,11 @@ $scope.exportSizes = [
     size: [700, 1000]
   }
 ];
-$scope.printFormatList = ["PDF", "PNG8", "PNG32", "JPG", "GIF", "EPS", "SVG",  "SVGZ"];
+$scope.printFormatList = ['PDF', 'PNG8', 'PNG32', 'JPG', 'GIF', 'EPS', 'SVG',  'SVGZ'];
 var web_map_specs = {
-  "mapOptions":{ },
-  "operationalLayers": [ ],
-  "baseMap": [{
+  mapOptions:{ },
+  operationalLayers: [ ],
+  baseMap: [{
     title: 'Basemap',
     baseMapLayers:[
       {
@@ -548,7 +531,7 @@ var web_map_specs = {
       }
     ]
   }],
-  "exportOptions": {
+  exportOptions: {
       dpi: $scope.dpi,
       outputSize: [700, 500] || $scope.output
   }
@@ -560,10 +543,10 @@ leafletData.getMap('map').then(function(map) {
     map.on('move', function(){
       $scope.mapbounds = map.getBounds();
       web_map_specs.mapOptions.extent = {
-        "xmin": $scope.mapbounds._southWest.lat,
-        "ymin": $scope.mapbounds._southWest.lng,
-        "xmax": $scope.mapbounds._northEast.lat,
-        "ymax": $scope.mapbounds._northEast.lng
+        xmin: $scope.mapbounds._southWest.lat,
+        ymin: $scope.mapbounds._southWest.lng,
+        xmax: $scope.mapbounds._northEast.lat,
+        ymax: $scope.mapbounds._northEast.lng
       };
       web_map_specs.operationalLayers = [];
         map.eachLayer(function (layer){
@@ -606,6 +589,6 @@ $scope.printMap = function () {
     .success(function(res){
       console.log(res);
     });
-}
+};
 
   }]);

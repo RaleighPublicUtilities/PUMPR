@@ -4,7 +4,6 @@ angular.module('pumprApp')
   .service('streetSearch', ['agsServer', function(agsServer){
 
     //Auto fill function for street names
-        var streets = [];
         this.autoFill = function (typed) {
           typed = typed.toUpperCase();
 

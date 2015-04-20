@@ -7,13 +7,15 @@ angular.module('pumprApp')
       if (current !== undefined && current.length > 0 && current.indexOf(typed) === -1){
         console.log('Add to Cookie');
         current.unshift(typed);
-        current.length > 5 ? current.pop() : current;
+        if (current.length > 5){
+          current.pop();
+        }
         $cookieStore.put('projects', current);
       }
       else if (!current){
         console.log('new cookie');
-        $cookieStore.put('projects', [typed])
+        $cookieStore.put('projects', [typed]);
       }
       return this;
-    }
+    };
   }]);

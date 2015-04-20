@@ -13,7 +13,7 @@ angular.module('pumprApp')
           }
           data[a] = data[a] === 'false' ? 0 : data[a] === 'true' ? 1 : data[a];
         }
-        return data
+        return data;
     }
     //Options constructor
     var Document = function (data){
@@ -75,7 +75,7 @@ angular.module('pumprApp')
           },
           function(err){
             console.log(err);
-          })
+          });
       },
       updateDoc: function (){
         //Removes faslsy values
@@ -104,7 +104,7 @@ angular.module('pumprApp')
           },
           function(err){
             console.log(err);
-          })
+          });
 
       },
       deleteDoc: function (){
@@ -133,6 +133,6 @@ angular.module('pumprApp')
             console.log(err);
           });
       }
-    }
+    };
     return (Document);
   }]);

@@ -28,9 +28,11 @@ angular.module('pumprApp')
       }
       var temp = [];
       for (var i = 0, x = array.length; i < x; i++){
-        temp.indexOf(temp[i]) !== -1 ? array : temp.push(array[i]);
+        if (temp.indexOf(temp[i]) === -1){
+          temp.push(array[i]);
+        }
       }
       return temp;
-    }
+    };
 
 }]); //ProjectSearch

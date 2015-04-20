@@ -39,7 +39,7 @@ angular.module('pumprApp')
   //Check for correct file type (PDF)
   $scope.uploader.filters.push({
       name: 'checkFileType',
-      fn: function(item, options) {
+      fn: function(item) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
         $scope.loadStatus.addFile.message = 'Invalid File Type: ' + type + ', please select a pdf.';
         return '|pdf|PDF'.indexOf(type) !== -1;
@@ -48,40 +48,40 @@ angular.module('pumprApp')
 
     // CALLBACKS
 
-    $scope.uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/, filter, options) {
+    $scope.uploader.onWhenAddingFileFailed = function() {
       $scope.uploadSuccess = '';
       $scope.loadStatus.addFile.status = true;
     };
-    $scope.uploader.onAfterAddingFile = function(fileItem) {
-      console.info('onAfterAddingFile', fileItem);
-    };
-    $scope.uploader.onAfterAddingAll = function(addedFileItems) {
-      console.info('onAfterAddingAll', addedFileItems);
-    };
+    // $scope.uploader.onAfterAddingFile = function(fileItem) {
+    //   console.info('onAfterAddingFile', fileItem);
+    // };
+    // $scope.uploader.onAfterAddingAll = function(addedFileItems) {
+    //   console.info('onAfterAddingAll', addedFileItems);
+    // };
     $scope.uploader.onBeforeUploadItem = function(item) {
       item.file.name = item.formData.newName + '.pdf';
-      console.log(item);
+      // console.log(item);
       return item;
     };
-    $scope.uploader.onProgressItem = function(fileItem, progress) {
-      console.info('onProgressItem', fileItem, progress);
-    };
-    $scope.uploader.onProgressAll = function(progress) {
-      console.info('onProgressAll', progress);
-    };
-    $scope.uploader.onSuccessItem = function(fileItem, response, status, headers) {
-      console.info('onSuccessItem', fileItem, response, status, headers);
+    // $scope.uploader.onProgressItem = function(fileItem, progress) {
+    //   console.info('onProgressItem', fileItem, progress);
+    // };
+    // $scope.uploader.onProgressAll = function(progress) {
+    //   console.info('onProgressAll', progress);
+    // };
+    $scope.uploader.onSuccessItem = function(fileItem) {
+      // console.info('onSuccessItem', fileItem, response, status, headers);
       //Dirty hack needs to be fixed in future
       $scope.uploadSuccess = fileItem.isSuccess && 'Upload Successful';
     };
-    $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
-      console.info('onErrorItem', fileItem, response, status, headers);
-    };
-    $scope.uploader.onCancelItem = function(fileItem, response, status, headers) {
-      console.info('onCancelItem', fileItem, response, status, headers);
-    };
-    $scope.uploader.onCompleteItem = function(fileItem, response, status, headers) {
-      console.info('onCompleteItem', fileItem, response, status, headers);
+    // $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+    //   console.info('onErrorItem', fileItem, response, status, headers);
+    // };
+    // $scope.uploader.onCancelItem = function(fileItem, response, status, headers) {
+    //   console.info('onCancelItem', fileItem, response, status, headers);
+    // };
+    $scope.uploader.onCompleteItem = function(fileItem) {
+      // console.info('onCompleteItem', fileItem, response, status, headers);
       //Dirty hack needs to be fixed in future
       $scope.uploadSuccess = fileItem.isSuccess && 'Upload Successful';
     };

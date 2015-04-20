@@ -83,7 +83,7 @@ angular.module('pumprApp')
                 scope.newMaxProjectId = data.features[0].attributes.PROJECTID + 1;
                 getReady.PROJECTID = parseInt(scope.newMaxProjectId, 10);
                 //Post new feature data to server
-                serverFactory.pt_fs.request(postOptions)
+                agsServer.ptFs.request(postOptions)
                   .then(function(data){
                     console.log(data);
                   },
