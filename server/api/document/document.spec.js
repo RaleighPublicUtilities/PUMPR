@@ -8,7 +8,7 @@ describe('GET /api/:projectid/documents', function() {
 
   it('should respond with JSON array', function(done) {
     request(app)
-      .get('/api/:projectid/documents')
+      .get('/api/documents')
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {

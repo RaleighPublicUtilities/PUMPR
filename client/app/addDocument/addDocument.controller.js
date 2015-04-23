@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddDocumentCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope', 'Auth',
-    function ($scope, cookies, agsServer, projectSearch, $rootScope, Auth) {
+  .controller('AddDocumentCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope',
+    function ($scope, cookies, agsServer, projectSearch, $rootScope) {
       //Set root scope as scope
       var scope = $rootScope;
 
