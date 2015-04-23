@@ -28,12 +28,12 @@ angular.module('pumprApp')
       fn: function(item, options) {
         var re = /[0-9]{6}-[A-Z]{2}-[0-9]*/;
         if(re.test(options.formData.newName)){
-          console.log('Passed RegEx');
+  
           return options.formData.newName;
         }
         else {
           $scope.loadStatus.addFile.message = 'Invalid File Name: ' + options.formData.newName;
-          console.log('Failed RegEx: ' + options.formData.newName);
+
           return false;
         }
       }
@@ -62,7 +62,6 @@ angular.module('pumprApp')
     //   console.info('onAfterAddingAll', addedFileItems);
     // };
     $scope.uploader.onBeforeUploadItem = function(item) {
-      console.log(item);
       if (item.file.type === 'application/pdf'){
         item.file.name = item.formData.newName + '.pdf';
       }

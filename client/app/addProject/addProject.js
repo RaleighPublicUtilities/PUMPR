@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/addProject', {
         templateUrl: 'app/addProject/addProject.html',
-        controller: 'AddProjectCtrl'
+        controller: 'AddProjectCtrl',
+        authenticate: true
       });
   });

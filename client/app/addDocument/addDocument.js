@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/addDocument', {
         templateUrl: 'app/addDocument/addDocument.html',
-        controller: 'AddDocumentCtrl'
+        controller: 'AddDocumentCtrl',
+        authenticate: true
       });
   });
