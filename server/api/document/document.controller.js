@@ -9,10 +9,14 @@ exports.exisits = function(req, res){
   //Sets up response data
   var data = {
       filename: req.query.filename,
-      folder : req.query.filename.split('-')[0]
+      folder : req.query.filename.split('-')[0],
+      exisits: false
     };
   //Checks if the file exisits
   fs.readdir(path.join('public/documents', data.folder), function (err, files){
+    if (err){
+      res.json(data);
+    }
     var file;
     for (var i = 0, len = files.length; i < len; i++){
       file = files[i].split('.')[0];
@@ -20,11 +24,8 @@ exports.exisits = function(req, res){
         data.exisits = true;
         break;
       }
-      else {
-        data.exisits = false;
-      }
     }
-    res.json(data)
+    res.json(data);
   });
 };
 
@@ -38,11 +39,15 @@ exports.download = function(req, res){
   //Sets up response data
   var data = {
       filename: req.query.filename,
-      folder : req.query.filename.split('-')[0]
+      folder : req.query.filename.split('-')[0],
+      exisits: false
     };
 
   var dir = path.join('public/documents', data.folder);
     fs.readdir(dir, function (err, files){
+      if (err){
+        res.json(data);
+      }
       var file;
       for (var i = 0, len = files.length; i < len; i++){
         file = files[i].split('.')[0];
