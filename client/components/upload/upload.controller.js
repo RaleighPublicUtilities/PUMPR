@@ -41,8 +41,8 @@ angular.module('pumprApp')
       name: 'checkFileType',
       fn: function(item) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-        $scope.loadStatus.addFile.message = 'Invalid File Type: ' + type + ', please select a pdf.';
-        return '|pdf|PDF'.indexOf(type) !== -1;
+        $scope.loadStatus.addFile.message = 'Invalid File Type: ' + type + ', please select a different file.';
+        return '|pdf|PDF|TIF|tif|tiff|TIFF'.indexOf(type) !== -1;
       }
     });
 
@@ -59,7 +59,13 @@ angular.module('pumprApp')
     //   console.info('onAfterAddingAll', addedFileItems);
     // };
     $scope.uploader.onBeforeUploadItem = function(item) {
-      item.file.name = item.formData.newName + '.pdf';
+      console.log(item);
+      if (item.file.type === 'application/pdf'){
+        item.file.name = item.formData.newName + '.pdf';
+      }
+      else if (item.file.type === 'image/tiff'){
+        item.file.name = item.formData.newName + '.TIF';
+      }
       // console.log(item);
       return item;
     };

@@ -79,7 +79,7 @@ angular.module('pumprApp')
                   //Sets all edit states to false
                   data.edit = false;
                   //Checks if file currently exisits
-                  checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID + '.pdf').then(function(res){
+                  checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID).then(function(res){
                     data.upload = res.data;
                     data.upload.isSuccess = false;
                   },

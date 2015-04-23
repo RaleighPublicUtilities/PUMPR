@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var Document = require('./document.model');
 var fs = require('fs');
+var path = require('path');
 
 exports.exisits = function(req, res){
   //Sets up response data
@@ -11,17 +12,20 @@ exports.exisits = function(req, res){
       folder : req.query.filename.split('-')[0]
     };
   //Checks if the file exisits
-  fs.stat('./public/documents/' + data.folder + '/' + data.filename, function (err, stats){
-    if (err) {
-      data.exisits = false;
-      res.json(data)
+  fs.readdir(path.join('./public/documents', data.folder), function (err, files){
+    var file;
+    for (var i = 0, len = files.length; i < len; i++){
+      file = files[i].split('.')[0];
+      if(data.filename === file){
+        data.exisits = true;
+        break;
+      }
+      else {
+        data.exisits = false;
+      }
     }
-    else if (stats.isFile()){
-      data.exisits = true;
-      res.json(data);
-    }
+    res.json(data)
   });
-  console.log('Request made with query ' + data.filename);
 };
 
 //Used to upload images to server
@@ -41,7 +45,7 @@ exports.download = function(req, res){
   fs.stat(file, function (err, stats){
     if (err) {
       data.exisits = false;
-      res.json(data)
+      res.json(data);
     }
     else if (stats.isFile()){
       res.download(file);
