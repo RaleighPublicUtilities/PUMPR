@@ -36,6 +36,7 @@ angular.module('pumprApp', [
           config.headers = config.headers || {};
           if ($cookieStore.get('token')) {
             config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+            console.log(config);
           }
           return config;
         }

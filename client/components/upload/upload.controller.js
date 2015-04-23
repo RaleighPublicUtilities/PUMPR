@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('UploadCtrl', ['$scope', 'FileUploader', function($scope, FileUploader) {
+  .controller('UploadCtrl', ['$scope', 'FileUploader', 'Auth', function($scope, FileUploader, Auth) {
     $scope.loadStatus = {
       addFile: {
         status: false,
@@ -13,8 +13,11 @@ angular.module('pumprApp')
 
     $scope.uploader = $scope.uploader = new FileUploader({
       url: '/api/documents',
+      headers: Auth.setAuthHeader(),
       removeAfterUpload: true
     });
+
+
 
 
     // FILTERS

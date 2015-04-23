@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express'),
+    auth = require('../../auth/auth.service'),
     controller = require('./document.controller'),
     bodyParser = require('body-parser'),
     multer  = require('multer'),
@@ -59,7 +60,7 @@ router.use(multer({
 
   router.get('/', controller.exisits);
   router.get('/download', controller.download);
-  router.post('/', controller.upload);
+  router.post('/', auth.isAuthenticated(), controller.upload);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);
 // router.delete('/:id', controller.destroy);

@@ -141,6 +141,18 @@ angular.module('pumprApp')
        */
       getToken: function() {
         return $cookieStore.get('token');
+      },
+      /**
+       *Checks sets authorization header
+       *
+       * @return {object} header
+       */
+      setAuthHeader: function(){
+        var headers ={};
+        if (this.isLoggedIn()) {
+          headers = {Authorization: 'Bearer ' + this.getToken()};
+          return headers;
+        }
       }
     };
   });
