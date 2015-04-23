@@ -15,7 +15,7 @@ router.use(bodyParser.urlencoded({ extended: true })); // for parsing applicatio
 router.use(multer({
   dest: './public/documents',
   limits: {
-    fileSize: 100
+    fileSize: 100000000
   },
   //Sets the file name from optoins
   rename: function (fieldname, filename){

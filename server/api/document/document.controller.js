@@ -12,7 +12,7 @@ exports.exisits = function(req, res){
       folder : req.query.filename.split('-')[0]
     };
   //Checks if the file exisits
-  fs.readdir(path.join('./public/documents', data.folder), function (err, files){
+  fs.readdir(path.join('public/documents', data.folder), function (err, files){
     var file;
     for (var i = 0, len = files.length; i < len; i++){
       file = files[i].split('.')[0];
@@ -40,17 +40,20 @@ exports.download = function(req, res){
       filename: req.query.filename,
       folder : req.query.filename.split('-')[0]
     };
-  var file = './public/documents/' + data.folder + '/' + data.filename;
-  //Checks if the file exisits
-  fs.stat(file, function (err, stats){
-    if (err) {
-      data.exisits = false;
-      res.json(data);
-    }
-    else if (stats.isFile()){
-      res.download(file);
-    }
-  });
+
+  var dir = path.join('public/documents', data.folder);
+    fs.readdir(dir, function (err, files){
+      var file;
+      for (var i = 0, len = files.length; i < len; i++){
+        file = files[i].split('.')[0];
+        if(data.filename === file){
+          // var filestream = fs.createReadStream(path.join(dir, files[i]));
+          // filestream.pipe(res);
+          res.download(path.join(dir, files[i]));
+        }
+      }
+
+    });
 
 }
 
