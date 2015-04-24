@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('MainCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope',
-    function ($scope, cookies, agsServer, projectSearch, $rootScope) {
+  .controller('MainCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope', '$location',
+    function ($scope, cookies, agsServer, projectSearch, $rootScope, $location) {
       //Set root scope as scope
       var scope = $rootScope;
 
@@ -37,42 +37,43 @@ angular.module('pumprApp')
         if (typed === 'Sorry Project Not Found...'){
           return;
         }
+        $location.url('/project/' + typed.split(':')[2]);
         //Add projects to recent projects cookie
-        cookies.addProjectCookie(typed);
-        //Set up GET request options
-
-        var options = {
-          layer: 'RPUD.PTK_DOCUMENTS',
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: 'PROJECTID = ' + typed.split(':')[2],
-            outFields: '*',
-            orderByFields: 'DOCID ASC',
-            returnGeometry: false
-          }
-        };
-        agsServer.ptFs.request(options).then(function(data){
-
-          //If no project documents have been added
-          if (!data.features.length){
-
-            $scope.project = [{
-              new: true,
-              attributes: {
-                PROJECTID: typed.split(':')[2],
-                PROJECTNAME: typed.split(':')[0]
-              }
-            }];
-          }
-          //If project documents have been added
-          else {
-            $scope.project = data.features;
-          }
-          //Activates table view
-          $scope.searchStatus = true;
-          $scope.projectDocs = true;
-        });
+        // cookies.addProjectCookie(typed);
+        // //Set up GET request options
+        //
+        // var options = {
+        //   layer: 'RPUD.PTK_DOCUMENTS',
+        //   actions: 'query',
+        //   params: {
+        //     f: 'json',
+        //     where: 'PROJECTID = ' + typed.split(':')[2],
+        //     outFields: '*',
+        //     orderByFields: 'DOCID ASC',
+        //     returnGeometry: false
+        //   }
+        // };
+        // agsServer.ptFs.request(options).then(function(data){
+        //
+        //   //If no project documents have been added
+        //   if (!data.features.length){
+        //
+        //     $scope.project = [{
+        //       new: true,
+        //       attributes: {
+        //         PROJECTID: typed.split(':')[2],
+        //         PROJECTNAME: typed.split(':')[0]
+        //       }
+        //     }];
+        //   }
+        //   //If project documents have been added
+        //   else {
+        //     $scope.project = data.features;
+        //   }
+        //   //Activates table view
+        //   $scope.searchStatus = true;
+        //   $scope.projectDocs = true;
+        // });
 
       };
     }]);
