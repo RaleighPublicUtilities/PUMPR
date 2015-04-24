@@ -18,14 +18,17 @@ exports.exisits = function(req, res){
       res.json(data);
     }
     var file;
-    for (var i = 0, len = files.length; i < len; i++){
-      file = files[i].split('.')[0];
-      if(data.filename === file){
-        data.exisits = true;
-        break;
+    if(Array.isArray(files) && files.length !== 0){
+      for (var i = 0, len = files.length; i < len; i++){
+        file = files[i].split('.')[0];
+        if(data.filename === file){
+          data.exisits = true;
+          break;
+        }
       }
+      res.json(data);
     }
-    res.json(data);
+
   });
 };
 
