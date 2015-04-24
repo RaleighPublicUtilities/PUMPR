@@ -40,40 +40,7 @@ angular.module('pumprApp')
         $location.url('/project/' + typed.split(':')[2]);
         //Add projects to recent projects cookie
         // cookies.addProjectCookie(typed);
-        // //Set up GET request options
-        //
-        // var options = {
-        //   layer: 'RPUD.PTK_DOCUMENTS',
-        //   actions: 'query',
-        //   params: {
-        //     f: 'json',
-        //     where: 'PROJECTID = ' + typed.split(':')[2],
-        //     outFields: '*',
-        //     orderByFields: 'DOCID ASC',
-        //     returnGeometry: false
-        //   }
-        // };
-        // agsServer.ptFs.request(options).then(function(data){
-        //
-        //   //If no project documents have been added
-        //   if (!data.features.length){
-        //
-        //     $scope.project = [{
-        //       new: true,
-        //       attributes: {
-        //         PROJECTID: typed.split(':')[2],
-        //         PROJECTNAME: typed.split(':')[0]
-        //       }
-        //     }];
-        //   }
-        //   //If project documents have been added
-        //   else {
-        //     $scope.project = data.features;
-        //   }
-        //   //Activates table view
-        //   $scope.searchStatus = true;
-        //   $scope.projectDocs = true;
-        // });
+      
 
       };
     }]);
