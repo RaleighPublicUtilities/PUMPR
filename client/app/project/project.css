@@ -60,7 +60,9 @@ rect {
   fill: none;
   pointer-events: all;
 }
-
+#line{
+  height: 100%;
+}
 pre {
   font-size: 18px;
 }

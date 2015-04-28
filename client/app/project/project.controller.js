@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', function ($scope, $location, $timeout, agsServer) {
+  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', 'leafletData', function ($scope, $location, $timeout, agsServer, leafletData) {
     // //Set up GET request options
     //
     var m = [20, 120, 20, 120],
@@ -48,7 +48,7 @@ var vis = d3.select("#tree").append("svg:svg")
 
 
     $scope.projectid = $location.path().split('/')[2]
-    console.log($scope.projectid)
+    $scope.projectname;
     var options = {
       layer: 'RPUD.PTK_DOCUMENTS',
       actions: 'query',
@@ -60,6 +60,40 @@ var vis = d3.select("#tree").append("svg:svg")
         returnGeometry: false
       }
     };
+
+    //Options for search
+  var searchOptions = {
+    params: {
+      f: 'json',
+      searchText: $scope.projectid,
+      searchFields: 'PROJECTID',
+      layers: 'Project Tracking, RPUD.PTK_DOCUMENTS', //Use layer names or layer ids
+      sr: 4326
+    },
+    actions: 'find',
+    geojson: true
+  };
+  //Sets the basemap
+  leafletData.getMap('project-map').then(function(map) {
+    L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
+  });
+  //Get project data from server
+  agsServer.ptMs.request(searchOptions).then(function(res){
+     console.log(res);
+     $scope.projectname = res.features[0].properties['Project Name'];
+     $scope.projectInfo = res.features[0].properties;
+     $scope.projectInfo = removeEmptyFields($scope.projectInfo)
+     leafletData.getMap('project-map').then(function(map) {
+       L.geoJson(res, {
+         onEachFeature: function (feature, layer) {
+           map.fitBounds(layer.getBounds());
+         }
+       }).addTo(map);
+     });
+   },
+   function (err){
+       console.log(err);
+   });
 
     agsServer.ptFs.request(options).then(function(data){
       if (data.error || (Array.isArray(data.features) && data.features.length === 0)){
@@ -213,8 +247,8 @@ function update(source) {
       .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
   nodeEnter.append("svg:text")
-      .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
-      .attr("dy", ".35em")
+      .attr("x", function(d) { return d.children || d._children ? 40 : 10; })
+      .attr("dy", "2em")
       .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
       .text(function(d) { return d.name; })
       .style("fill-opacity", 1e-6);
@@ -290,7 +324,13 @@ function toggle(d) {
   }
 }
 
-
+function removeEmptyFields (data) {
+    for (var a in data){
+      data[a] === 'Null' ? delete data[a] : data[a];
+    }
+    console.log(data);
+    return data;
+  }
 
 
 

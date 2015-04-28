@@ -2,14 +2,14 @@
 <div class='container'>
   <div class="row">
     <div class="col-md-12">
-      <h1>{{projectid}}</h1>
+      <h1>{{projectid}}: {{projectname}}</h1>
       <p ng-hide="message.docs">{{message.error}}</p>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4 project-backgroud">
-      <leaflet height="250"></leaflet>
-      <canvas id="line" class="chart chart-line" data="data" labels="labels" series="series" click="onClick"></canvas>
+      <leaflet id="project-map" height="250"></leaflet>
+      <canvas id="line" class="chart chart-bar" data="data" labels="labels" height="400" series="series" click="onClick"></canvas>
     </div>
     <div class="col-md-8 project-backgroud">
       <div id="tree"></div>
