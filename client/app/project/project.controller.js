@@ -77,15 +77,23 @@ function checkAndAdd(name, arr) {
   if (!found) { arr.push({ name: name, children: [] }); }
 }
 
+function addGraphLayer(arr, data, match, attr){
+  for (var a in arr){
+    if (arr[a].name === data[match]){
+      arr[a].children.push({name: data[attr]});
+    }
+  }
+}
+
 function generateGraph(data, graph, cb){
   data.forEach(function(i){
     for (var n in graph.children){
       if (graph.children[n].name === i.attributes.DOCTYPEID){
-        graph.children[n].children.push({name: i.attributes.DOCID});
+        checkAndAdd(i.attributes.SHEETTYPEID, graph.children[n].children);
+        addGraphLayer(graph.children[n].children, i.attributes, 'SHEETTYPEID', 'DOCID');
       }
     }
   });
-  // cb(JSON.stringify(graph));
   cb(graph);
 }
 
