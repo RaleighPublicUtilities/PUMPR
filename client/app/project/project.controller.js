@@ -1,9 +1,52 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectCtrl', ['$scope', '$location', 'agsServer', function ($scope, $location, agsServer) {
+  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', function ($scope, $location, $timeout, agsServer) {
     // //Set up GET request options
     //
+    var m = [20, 120, 20, 120],
+    w = 1280 - m[1] - m[3],
+    h = 800 - m[0] - m[2],
+    i = 0,
+    root;
+
+var tree = d3.layout.tree()
+    .size([h, w]);
+
+var diagonal = d3.svg.diagonal()
+    .projection(function(d) { return [d.y, d.x]; });
+
+var vis = d3.select("#tree").append("svg:svg")
+    .attr("width", w + m[1] + m[3])
+    .attr("height", h + m[0] + m[2])
+  .append("svg:g")
+    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+
+
+    $scope.supportTables = [
+      {
+          name: 'engTypes',
+          id: 'RPUD.ENGINEERINGFIRM',
+          joinField: 'ENGID',
+          addField: 'SIMPLIFIEDNAME',
+      },
+      {
+          name: 'sheetTypes',
+          id: 'RPUD.SHEETTYPES',
+          joinField: 'SHEETTYPEID',
+          addField: 'SHEETTYPE',
+      },
+      {
+          name: 'docTypes',
+          id: 'RPUD.DOCUMENTTYPES',
+          joinField: 'DOCTYPEID',
+          addField: 'DOCUMENTTYPE',
+      }
+     ];
+
+
+
+
     $scope.projectid = $location.path().split('/')[2]
     console.log($scope.projectid)
     var options = {
@@ -26,37 +69,83 @@ angular.module('pumprApp')
         }
       }
       else {
-        $scope.docs = data.features;
-        console.log(data.features);
-        createGraph($scope.docs, function(graph){
-          // console.log(graph);
-          generateGraph($scope.docs, graph, function(json){
-            root = json;
-            root.x0 = h / 2;
-            root.y0 = 0;
-
-            function toggleAll(d) {
-              if (d.children) {
-                d.children.forEach(toggleAll);
-                toggle(d);
-              }
-            }
-
-            // Initialize the display to show a few nodes.
-            root.children.forEach(toggleAll);
-            // toggle(root.children[1]);
-            // toggle(root.children[1].children[2]);
-            // toggle(root.children[9]);
-            // toggle(root.children[9].children[0]);
-
-            update(root);
-          });
-        });
+        return data.features;
       }
 
     }, function(err){
       console.log(err)
+    })
+    .then(function(data){
+      $scope.supportTables.forEach(function(table){
+        var name = table.name;
+
+        var options = {
+          layer: table.id,
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: '1=1',
+            outFields: '*',
+            orderByFields: table.addField + ' ASC',
+            returnGeometry: false
+          }
+        };
+        agsServer.ptFs.request(options).then(function(d){
+          table.data = d.features;
+          agsServer.addFieldFromTable(data, table.data, table.joinField, table.addField);
+
+        });
+      });
+      return data;
+    }, function(err){
+      console.log('Issue joining tables');
+    })
+    .then(function(data){
+      $scope.docs = data;
+      $timeout(function(){
+      createGraph(data, function(graph){
+        generateGraph(data, graph, function(json){
+          console.log(json);
+          root = json;
+          root.x0 = h / 2;
+          root.y0 = 0;
+
+          function toggleAll(d) {
+            if (d.children) {
+              d.children.forEach(toggleAll);
+              toggle(d);
+            }
+          }
+
+          // Initialize the display to show a few nodes.
+          root.children.forEach(toggleAll);
+
+          console.log('Two seconds')
+          update(root);
+
+        });
+      });
+    }, 500);
     });
+
+
+    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+  $scope.series = ['Series A', 'Series B'];
+  $scope.data = [
+    [65, 59, 80, 81, 56, 55, 40],
+    [28, 48, 40, 19, 86, 27, 90]
+  ];
+  $scope.onClick = function (points, evt) {
+    console.log(points, evt);
+  };
+
+  // Simulate async data update
+  $timeout(function () {
+    $scope.data = [
+      [28, 48, 40, 19, 86, 27, 90],
+      [65, 59, 80, 81, 56, 55, 40]
+    ];
+  }, 3000);
 
 function createGraph(data, cb){
   var graph = {
@@ -65,7 +154,7 @@ function createGraph(data, cb){
   };
 
   data.forEach(function(i){
-    checkAndAdd(i.attributes.DOCTYPEID, graph.children);
+    checkAndAdd(i.attributes.DOCUMENTTYPE, graph.children);
   });
   cb(graph);
 }
@@ -88,54 +177,17 @@ function addGraphLayer(arr, data, match, attr){
 function generateGraph(data, graph, cb){
   data.forEach(function(i){
     for (var n in graph.children){
-      if (graph.children[n].name === i.attributes.DOCTYPEID){
-        checkAndAdd(i.attributes.SHEETTYPEID, graph.children[n].children);
-        addGraphLayer(graph.children[n].children, i.attributes, 'SHEETTYPEID', 'DOCID');
+      if (graph.children[n].name === i.attributes.DOCUMENTTYPE){
+        // console.log(i.attributes)
+        checkAndAdd(i.attributes.SHEETTYPE, graph.children[n].children);
+        addGraphLayer(graph.children[n].children, i.attributes, 'SHEETTYPE', 'DOCID');
       }
     }
   });
   cb(graph);
 }
 
-    var m = [20, 120, 20, 120],
-    w = 1280 - m[1] - m[3],
-    h = 800 - m[0] - m[2],
-    i = 0,
-    root;
 
-var tree = d3.layout.tree()
-    .size([h, w]);
-
-var diagonal = d3.svg.diagonal()
-    .projection(function(d) { return [d.y, d.x]; });
-
-var vis = d3.select("#tree").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
-  .append("svg:g")
-    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
-
-// d3.json("flare.json", function(json) {
-//   root = json;
-//   root.x0 = h / 2;
-//   root.y0 = 0;
-//
-//   function toggleAll(d) {
-//     if (d.children) {
-//       d.children.forEach(toggleAll);
-//       toggle(d);
-//     }
-//   }
-//
-//   // Initialize the display to show a few nodes.
-//   root.children.forEach(toggleAll);
-//   toggle(root.children[1]);
-//   toggle(root.children[1].children[2]);
-//   toggle(root.children[9]);
-//   toggle(root.children[9].children[0]);
-//
-//   update(root);
-// });
 
 function update(source) {
   var duration = d3.event && d3.event.altKey ? 5000 : 500;

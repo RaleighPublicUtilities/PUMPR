@@ -6,8 +6,8 @@
 }
 
 .node text {
-  font-size: 14px;
-  fill: #fff;
+  font-size: 12px;
+  fill: #ffffff;
 }
 
 path.link {
@@ -22,6 +22,9 @@ path.link {
   font-size: 14px;
   font-family: "Helvetica Neue", Helvetica;
 }*/
+.project-backgroud{
+  background: rgba(0, 0, 0, 0.7);
+}
 
 #chart, #header, #footer {
   position: absolute;

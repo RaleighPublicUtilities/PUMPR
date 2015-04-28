@@ -9,7 +9,8 @@ angular.module('pumprApp', [
   'autocomplete',
   'agsserver',
   'leaflet-directive',
-  'angularFileUpload'
+  'angularFileUpload',
+  'chart.js'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

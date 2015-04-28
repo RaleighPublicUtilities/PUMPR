@@ -46,7 +46,7 @@ angular.module('pumprApp')
                   actions: 'query',
                   params: {
                     f: 'json',
-                    where: 'OBJECTID > 0',
+                    where: '1=1',
                     outFields: '*',
                     orderByFields: table.addField + ' ASC',
                     returnGeometry: false
