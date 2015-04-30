@@ -10,6 +10,9 @@ angular.module('pumprApp')
     i = 0,
     root;
 
+/*hell
+dsfs
+*/
 var tree = d3.layout.tree()
     .size([h, w]);
 
@@ -45,7 +48,12 @@ var vis = d3.select("#tree").append("svg:svg")
      ];
 
 
-
+     $scope.labels = ['ACCEPTANCE LETTER', 'AS-BUILT DRAWING', 'CONSTRUCTION DRAWING', 'PERMIT', 'PLAT', 'STATEMENT OF COST', 'WAIVER', 'WARRENTY LETTER'];
+     $scope.series = ['Document Types', 'Total Documents'];
+     $scope.data = [
+       [0,0,0,0,0,0,0,0],
+       [0,0,0,0,0,0,0,0],
+     ];
 
     $scope.projectid = $location.path().split('/')[2]
     $scope.projectname;
@@ -85,6 +93,9 @@ var vis = d3.select("#tree").append("svg:svg")
      $scope.projectInfo = removeEmptyFields($scope.projectInfo)
      leafletData.getMap('project-map').then(function(map) {
        L.geoJson(res, {
+         style: {
+           color: 'rgb(151, 187, 205)'
+         },
          onEachFeature: function (feature, layer) {
            map.fitBounds(layer.getBounds());
          }
@@ -95,14 +106,19 @@ var vis = d3.select("#tree").append("svg:svg")
        console.log(err);
    });
 
+   $scope.message = {
+     docs: true,
+     error: ''
+   }
     agsServer.ptFs.request(options).then(function(data){
       if (data.error || (Array.isArray(data.features) && data.features.length === 0)){
         $scope.message = {
           docs: false,
-          error: "No Documents are currently loaded."
+          error: 'No Documents are currently loaded.'
         }
       }
       else {
+
         return data.features;
       }
 
@@ -154,32 +170,38 @@ var vis = d3.select("#tree").append("svg:svg")
           // Initialize the display to show a few nodes.
           root.children.forEach(toggleAll);
 
-          console.log('Two seconds')
-          update(root);
 
+          update(root);
+          getBarChartData($scope.labels, json)
         });
       });
-    }, 500);
+    }, 1000);
     });
 
+  function getBarChartData (labels, graph){
+    for (var a = 0, len = labels.length; a < len; a++){
+      for (var i in graph.children){
+        if (graph.children[i].name === labels[a]){
+          var total = 0;
+          for (var q in graph.children[i]._children){
+            total+= graph.children[i]._children[q]._children.length;
+          }
+          console.log(graph.children[i]._children)
+          $scope.data[0].splice(a, 1, graph.children[i]._children.length);
+          $scope.data[1].splice(a, 1, total);
+          break;
+        }
+      }
+    }
+  }
 
-    $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
-  $scope.series = ['Series A', 'Series B'];
-  $scope.data = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-  ];
+
+
   $scope.onClick = function (points, evt) {
     console.log(points, evt);
   };
 
-  // Simulate async data update
-  $timeout(function () {
-    $scope.data = [
-      [28, 48, 40, 19, 86, 27, 90],
-      [65, 59, 80, 81, 56, 55, 40]
-    ];
-  }, 3000);
+
 
 function createGraph(data, cb){
   var graph = {
