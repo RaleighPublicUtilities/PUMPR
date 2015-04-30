@@ -3,7 +3,8 @@
 angular.module('pumprApp')
   .factory('agsServer', ['Ags', function(Ags){
   //Create Server objects
-  var mapstest = new Ags({host: 'mapstest.raleighnc.gov'}),
+
+  var mapstest = new Ags({host: 'mapststarcsvr1:6080'}),
       maps = new Ags({host: 'maps.raleighnc.gov'}),
       gis = new Ags({host: 'maps.raleighnc.gov'});
 

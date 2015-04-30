@@ -27,9 +27,12 @@ angular.module('pumprApp', [
       // Add authorization token to headers
       request: function (config) {
         //Check if request is for arcgis server and do not add bearer token if it is
+
         var re = new RegExp('http://[a-z]{3,8}.raleighnc.gov/arcgis/rest/services/');
+        var re1 = new RegExp('http://mapststarcsvr1:6080/arcgis/rest/services/');
         var result = re.test(config.url);
-        if (result){
+        var result1 = re1.test(config.url);
+        if (result || result1){
           delete config.headers.Authorization;
           return config;
         }

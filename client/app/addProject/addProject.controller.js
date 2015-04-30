@@ -45,7 +45,7 @@ angular.module('pumprApp')
               projects:{
               name: 'Project Tracking',
                 type: 'dynamic',
-                url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
+                url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
                 visible: false,
                 layerOptions: {
                     layers: [1],
@@ -93,7 +93,7 @@ angular.module('pumprApp')
             detailsIntersections: {
               name: 'Detailed Intersections',
               type: 'dynamic',
-              url: 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
+              url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
               visible: false,
               layerOptions: {
                 layers: [0],
@@ -468,29 +468,29 @@ $scope.searchControl = function (typed){
       });
 
       //Get Document Information for carousel
-      agsServer.ptFs.request(documentOptions)
-        .then(function(data){
-          if (data.features.length !== 0){
-                angular.element('.angular-leaflet-map').addClass('map-move');
-                angular.element('.map-edit-container').addClass('map-edit-container-move');
-                var _docType;
-                $scope.project_docs = data.features.map(function (each){
-
-                  each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = '';
-                  var url = {
-                      url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + '/' + each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + '.pdf'),
-                      name: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID,
-                      resid: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + 'res',
-                      icon: '../images/' + _docType + '.png'
-                  };
-                  return url;
-                });
-                for (var a in $scope.project_docs){
-                  var ele_id = '#' + $scope.project_docs[a].resid;
-                  $(ele_id).resizable();
-                }
-              }
-        });
+      // agsServer.ptFs.request(documentOptions)
+      //   .then(function(data){
+      //     if (data.features.length !== 0){
+      //           angular.element('.angular-leaflet-map').addClass('map-move');
+      //           angular.element('.map-edit-container').addClass('map-edit-container-move');
+      //           var _docType;
+      //           $scope.project_docs = data.features.map(function (each){
+      //
+      //             each.attributes.DOCTYPEID ? _docType = each.attributes.DOCTYPEID.toLowerCase() : _docType = '';
+      //             var url = {
+      //                 url : $sce.trustAsResourceUrl(projectConstants.documentBaseUrl + each.attributes.PROJECTID + '/' + each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + '.pdf'),
+      //                 name: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID,
+      //                 resid: each.attributes.PROJECTID + '-' + each.attributes.DOCTYPEID + '-' + each.attributes.DOCID + 'res',
+      //                 icon: '../images/' + _docType + '.png'
+      //             };
+      //             return url;
+      //           });
+      //           for (var a in $scope.project_docs){
+      //             var ele_id = '#' + $scope.project_docs[a].resid;
+      //             $(ele_id).resizable();
+      //           }
+      //         }
+      //   });
 
     });
 
