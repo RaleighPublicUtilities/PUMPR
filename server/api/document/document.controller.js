@@ -13,7 +13,7 @@ exports.exisits = function(req, res){
       exisits: false
     };
   //Checks if the file exisits
-  fs.readdir(path.join('documents', data.folder), function (err, files){
+  fs.readdir(path.join('public/documents', data.folder), function (err, files){
     if (err){
       res.json(data);
     }
@@ -46,7 +46,7 @@ exports.download = function(req, res){
       exisits: false
     };
 
-  var dir = path.join('documents', data.folder);
+  var dir = path.join('public/documents', data.folder);
     fs.readdir(dir, function (err, files){
       if (err){
         res.json(data);
