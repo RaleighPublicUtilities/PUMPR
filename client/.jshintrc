@@ -33,6 +33,8 @@
     "expect": true,
     "browser": true,
     "element": true,
-    "by": true
+    "by": true,
+    "L": true,
+    "d3": true
   }
 }

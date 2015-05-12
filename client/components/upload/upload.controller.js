@@ -26,9 +26,9 @@ angular.module('pumprApp')
   $scope.uploader.filters.push({
       name: 'checkName',
       fn: function(item, options) {
-        var re = /[0-9]{6}-[A-Z]{2}-[0-9]*/;
+        var re = /[0-9]{6}-[A-Z]{3}-[0-9]*/;
         if(re.test(options.formData.newName)){
-  
+
           return options.formData.newName;
         }
         else {

@@ -19,11 +19,11 @@ var tree = d3.layout.tree()
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
 
-var vis = d3.select("#tree").append("svg:svg")
-    .attr("width", w + m[1] + m[3])
-    .attr("height", h + m[0] + m[2])
-  .append("svg:g")
-    .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
+var vis = d3.select('#tree').append('svg:svg')
+    .attr('width', w + m[1] + m[3])
+    .attr('height', h + m[0] + m[2])
+  .append('svg:g')
+    .attr('transform', 'translate(' + m[3] + ',' + m[0] + ')');
 
 
     $scope.supportTables = [
@@ -55,7 +55,7 @@ var vis = d3.select("#tree").append("svg:svg")
        [0,0,0,0,0,0,0,0],
      ];
 
-    $scope.projectid = $location.path().split('/')[2]
+    $scope.projectid = $location.path().split('/')[2];
     $scope.projectname;
     var options = {
       layer: 'RPUD.PTK_DOCUMENTS',
@@ -90,7 +90,7 @@ var vis = d3.select("#tree").append("svg:svg")
      console.log(res);
      $scope.projectname = res.features[0].properties['Project Name'];
      $scope.projectInfo = res.features[0].properties;
-     $scope.projectInfo = removeEmptyFields($scope.projectInfo)
+     $scope.projectInfo = removeEmptyFields($scope.projectInfo);
      leafletData.getMap('project-map').then(function(map) {
        L.geoJson(res, {
          style: {
@@ -109,13 +109,13 @@ var vis = d3.select("#tree").append("svg:svg")
    $scope.message = {
      docs: true,
      error: ''
-   }
+   };
     agsServer.ptFs.request(options).then(function(data){
       if (data.error || (Array.isArray(data.features) && data.features.length === 0)){
         $scope.message = {
           docs: false,
           error: 'No Documents are currently loaded.'
-        }
+        };
       }
       else {
 
@@ -123,7 +123,7 @@ var vis = d3.select("#tree").append("svg:svg")
       }
 
     }, function(err){
-      console.log(err)
+      console.log(err);
     })
     .then(function(data){
       $scope.supportTables.forEach(function(table){
@@ -172,7 +172,7 @@ var vis = d3.select("#tree").append("svg:svg")
 
 
           update(root);
-          getBarChartData($scope.labels, json)
+          getBarChartData($scope.labels, json);
         });
       });
     }, 1000);
@@ -186,7 +186,6 @@ var vis = d3.select("#tree").append("svg:svg")
           for (var q in graph.children[i]._children){
             total+= graph.children[i]._children[q]._children.length;
           }
-          console.log(graph.children[i]._children)
           $scope.data[0].splice(a, 1, graph.children[i]._children.length);
           $scope.data[1].splice(a, 1, total);
           break;
@@ -255,74 +254,74 @@ function update(source) {
   nodes.forEach(function(d) { d.y = d.depth * 180; });
 
   // Update the nodes…
-  var node = vis.selectAll("g.node")
+  var node = vis.selectAll('g.node')
       .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
   // Enter any new nodes at the parent's previous position.
-  var nodeEnter = node.enter().append("svg:g")
-      .attr("class", "node")
-      .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-      .on("click", function(d) { toggle(d); update(d); });
+  var nodeEnter = node.enter().append('svg:g')
+      .attr('class', 'node')
+      .attr('transform', function() { return 'translate(' + source.y0 + ',' + source.x0 + ')'; })
+      .on('click', function(d) { toggle(d); update(d); });
 
-  nodeEnter.append("svg:circle")
-      .attr("r", 1e-6)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+  nodeEnter.append('svg:circle')
+      .attr('r', 1e-6)
+      .style('fill', function(d) { return d._children ? 'lightsteelblue' : '#fff'; });
 
-  nodeEnter.append("svg:text")
-      .attr("x", function(d) { return d.children || d._children ? 40 : 10; })
-      .attr("dy", "2em")
-      .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+  nodeEnter.append('svg:text')
+      .attr('x', function(d) { return d.children || d._children ? 40 : 10; })
+      .attr('dy', '2em')
+      .attr('text-anchor', function(d) { return d.children || d._children ? 'end' : 'start'; })
       .text(function(d) { return d.name; })
-      .style("fill-opacity", 1e-6);
+      .style('fill-opacity', 1e-6);
 
   // Transition nodes to their new position.
   var nodeUpdate = node.transition()
       .duration(duration)
-      .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+      .attr('transform', function(d) { return 'translate(' + d.y + ',' + d.x + ')'; });
 
-  nodeUpdate.select("circle")
-      .attr("r", 4.5)
-      .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+  nodeUpdate.select('circle')
+      .attr('r', 4.5)
+      .style('fill', function(d) { return d._children ? 'lightsteelblue' : '#fff'; });
 
-  nodeUpdate.select("text")
-      .style("fill-opacity", 1);
+  nodeUpdate.select('text')
+      .style('fill-opacity', 1);
 
   // Transition exiting nodes to the parent's new position.
   var nodeExit = node.exit().transition()
       .duration(duration)
-      .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+      .attr('transform', function() { return 'translate(' + source.y + ',' + source.x + ')'; })
       .remove();
 
-  nodeExit.select("circle")
-      .attr("r", 1e-6);
+  nodeExit.select('circle')
+      .attr('r', 1e-6);
 
-  nodeExit.select("text")
-      .style("fill-opacity", 1e-6);
+  nodeExit.select('text')
+      .style('fill-opacity', 1e-6);
 
   // Update the links…
-  var link = vis.selectAll("path.link")
+  var link = vis.selectAll('path.link')
       .data(tree.links(nodes), function(d) { return d.target.id; });
 
   // Enter any new links at the parent's previous position.
-  link.enter().insert("svg:path", "g")
-      .attr("class", "link")
-      .attr("d", function(d) {
+  link.enter().insert('svg:path', 'g')
+      .attr('class', 'link')
+      .attr('d', function() {
         var o = {x: source.x0, y: source.y0};
         return diagonal({source: o, target: o});
       })
     .transition()
       .duration(duration)
-      .attr("d", diagonal);
+      .attr('d', diagonal);
 
   // Transition links to their new position.
   link.transition()
       .duration(duration)
-      .attr("d", diagonal);
+      .attr('d', diagonal);
 
   // Transition exiting nodes to the parent's new position.
   link.exit().transition()
       .duration(duration)
-      .attr("d", function(d) {
+      .attr('d', function() {
         var o = {x: source.x, y: source.y};
         return diagonal({source: o, target: o});
       })
