@@ -43,6 +43,13 @@ table tbody tr{
 #add-document{
   background-color: #41d252;
 }
+#doc-link {
+  color: #428bca;
+}
+
+#doc-link:hover {
+  color: #56b6f6;
+}
 
 .add-button {
   font-size: 16px;

@@ -10,7 +10,8 @@ angular.module('pumprApp', [
   'agsserver',
   'leaflet-directive',
   'angularFileUpload',
-  'chart.js'
+  'chart.js',
+  'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

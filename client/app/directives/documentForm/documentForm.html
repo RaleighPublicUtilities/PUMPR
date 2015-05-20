@@ -15,7 +15,6 @@
     <th>STREET 2</th>
     <th>STREET 3</th>
     <th>STREET 4</th>
-    <th>TAGS</th>
     <th>LINK</th>
   </thead>
   <tbody class="table-body">
@@ -75,9 +74,7 @@
       <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_3': doc.attributes.STREET_3})" ng-model="doc.attributes.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_4}}</td>
       <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_4': doc.attributes.STREET_4})" ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.TAGS}}</td>
-      <td ng-show="doc.edit"><input ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'TAGS': doc.attributes.TAGS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.TAGS" placeholder="Tags..."/></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
         <span ng-show="doc.upload.exisits || doc.upload.isSuccess" class="glyphicon glyphicon-ok checked" aria-hidden="true"></span>
         <span ng-show="!doc.upload.exisits && !doc.upload.isSuccess" class="glyphicon glyphicon-ban-circle nofile" aria-hidden="true"></span>
       </td>
