@@ -385,11 +385,12 @@ $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
   $scope.project_docs = false;
+  $scope.projectError = false;
   angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
   $scope.projects = [];
-  var newProject = projectSearch.autoFill(typed);
-  newProject.then(function(data){
+  $scope.newProject = projectSearch.autoFill(typed)
+    .then(function(data){
     if (data.features){
       data.features = projectSearch.getSet(data.features);
       for (var i = 0, x = data.features.length; i < x; i++){
@@ -400,7 +401,7 @@ $scope.autoFillProjects = function (typed) {
     }
 
   }, function (error){
-    console.log(error);
+    $scope.projectError = true;
   });
   //Adds the project to the recently searched cook
   scope.myrecent = $scope.projects;

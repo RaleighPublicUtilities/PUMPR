@@ -7,6 +7,8 @@
     </div>
     <div class="col-sm-5 col-md-4">
       <autocomplete ng-model="searchData" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="startSearch" style="width:500px"></autocomplete>
+      <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
+      <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
     </div>
   </div>
   <div class="row">

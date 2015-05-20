@@ -12,10 +12,11 @@ angular.module('pumprApp')
         //Turns on the map resulsts table
         $scope.searchStatus = false;
         $scope.project_docs = false;
+        $scope.projectError = false;
         //Uses the Project Search Servies
         $scope.projects = [];
-        var newProject = projectSearch.autoFill(typed);
-        newProject.then(function(data){
+        $scope.newProject = projectSearch.autoFill(typed)
+          .then(function(data){
               console.log(data);
               data.features = projectSearch.getSet(data.features);
               if (data.features.length === 0){
@@ -28,7 +29,7 @@ angular.module('pumprApp')
               }
 
           }, function (error){
-            console.log(error);
+            $scope.projectError = true;
         });
         //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
