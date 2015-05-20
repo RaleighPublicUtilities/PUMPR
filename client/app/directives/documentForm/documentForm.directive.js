@@ -88,7 +88,7 @@ angular.module('pumprApp')
                   });
                   //Sets boolean values for utility options
                   for (var _i = 0, _len = utils.length; _i < _len; _i++){
-                   data.attributes[utils[_i]] = data.attributes[utils[_i]] ? 'true' : 'false';
+                   data.attributes[utils[_i]] = data.attributes[utils[_i]] ? true : false;
                   }
                 });
             }
