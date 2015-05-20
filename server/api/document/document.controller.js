@@ -65,6 +65,8 @@ exports.download = function(req, res){
 
 }
 
+
+
 // Get list of documents
 // exports.index = function(req, res) {
 //   Document.find(function (err, documents) {

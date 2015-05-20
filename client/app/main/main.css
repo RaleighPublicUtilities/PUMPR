@@ -41,3 +41,7 @@ body {
   height: 200px;
   width: 200px;
 }
+
+.main-alert{
+  margin-top: 5px;
+}

@@ -225,7 +225,9 @@ body {
   }
 
 
-
+.cg-busy-default-sign {
+  background: rgba(233, 238, 238, 0.49);
+}
 
 
 .asbuilts {
