@@ -16,6 +16,7 @@ angular.module('pumprApp')
         $scope.projects = [];
         var newProject = projectSearch.autoFill(typed);
         newProject.then(function(data){
+              console.log(data);
               data.features = projectSearch.getSet(data.features);
               if (data.features.length === 0){
                 $scope.projects.push('Sorry Project Not Found...');

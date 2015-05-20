@@ -138,7 +138,7 @@ angular.module('pumprApp')
           //Turns off editor after 10 seconds
           $timeout(function(){
             doc.edit = false;
-          }, 60000);
+          }, (60000 * 5));
         };
         //Add new document visibility controll
         scope.addDoc = true;
@@ -149,6 +149,7 @@ angular.module('pumprApp')
             PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
             PROJECTID: scope.project[0].attributes.PROJECTID,
             DEVPLANID: scope.project[0].attributes.DEVPLANID || undefined,
+            ENGID: scope.project[0].attributes.ENGID || undefined,
             DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1 || 1
           });
 
