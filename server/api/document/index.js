@@ -23,12 +23,16 @@ router.use(multer({
     console.log('File Name: ' + filename);
     return filename;
   },
-  //Creates new directory and/or add new file to proper directory
-  onFileUploadComplete: function (file) {
+  //Creates new directory
+  onFileUploadStart: function(file, req, res){
     var folder = file.path.split('.')[0].split('-')[0];
     fs.mkdir(folder, function(err){
       if (err) return;
     });
+  },
+  //Add new file to proper directory
+  onFileUploadComplete: function (file) {
+    var folder = file.path.split('.')[0].split('-')[0];
     //Creates Read Stream to uploaded file
       var source = fs.createReadStream(file.path);
     //Sets the destination and creates write stream to that loacation
@@ -52,10 +56,12 @@ router.use(multer({
           console.log(err);
           if(err) throw err;
         });
-
-
-
+  },
+  onError: function (error, next) {
+    console.log(error);
+    next(error);
   }
+  
 }));
 
   router.get('/', controller.exisits);
