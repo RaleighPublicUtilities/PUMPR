@@ -82,9 +82,9 @@ angular.module('pumprApp')
       //Dirty hack needs to be fixed in future
       $scope.uploadSuccess = fileItem.isSuccess && 'Upload Successful';
     };
-    // $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
-    //   console.info('onErrorItem', fileItem, response, status, headers);
-    // };
+    $scope.uploader.onErrorItem = function(fileItem, response, status, headers) {
+      console.info('onErrorItem', fileItem, response, status, headers);
+    };
     // $scope.uploader.onCancelItem = function(fileItem, response, status, headers) {
     //   console.info('onCancelItem', fileItem, response, status, headers);
     // };
