@@ -36,7 +36,6 @@ angular.module('pumprApp')
              //Watch for change of project
             scope.project = undefined;
             scope.refresh = function (project){
-            console.log(project);
             if (project !== undefined){
               scope.supportTables.forEach(function(table){
                 var name = table.name;
@@ -95,7 +94,6 @@ angular.module('pumprApp')
           };
 
           scope.$watchCollection('project',function(){
-            console.log(scope.project);
             //Checks if project exisits
             scope.refresh(scope.project);
             // scope.project = newVal;
