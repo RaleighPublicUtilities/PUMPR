@@ -61,12 +61,13 @@ router.use(multer({
     console.log(error);
     next(error);
   }
-  
+
 }));
 
   router.get('/', controller.exisits);
   router.get('/download', controller.download);
   router.post('/', auth.isAuthenticated(), controller.upload);
+  router.post('/:id', controller.serve);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);
 // router.delete('/:id', controller.destroy);

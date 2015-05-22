@@ -347,10 +347,8 @@ function toggle(d) {
   if (d.depth === 3){
     // console.log(d);
     var url = $location.path() + '/';
-    console.log($location.path() + '/' + d.name);
     $location.url( url + d.name);
     $scope.$apply();
-    console.log($location)
   }
 }
 

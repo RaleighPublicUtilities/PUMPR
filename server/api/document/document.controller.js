@@ -63,7 +63,15 @@ exports.download = function(req, res){
 
     });
 
-}
+};
+
+exports.serve = function(req, res){
+  // var filename = req.params[0],
+  //     folder = filename.split('-')[0];
+  // var path = path.join('public/documents', folder);
+  // console.log()
+  // res.sendfile(path + '/index.html');
+};
 
 
 
