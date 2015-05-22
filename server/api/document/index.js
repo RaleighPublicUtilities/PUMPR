@@ -26,10 +26,19 @@ router.use(multer({
     return filename;
   },
   changeDest: function(dest, req, res){
+    var stat = null;
     var folder = dest + '/' + currentFile.split('-')[0];
-    fs.mkdir(folder, function(err){
-      if (err) return;
-    });
+    try {
+        // using fs.statSync; NOTE that fs.existsSync is now deprecated; fs.accessSync could be used but is only nodejs >= v0.12.0
+        stat = fs.statSync(folder);
+    } catch(err) {
+        // for nested folders, look at npm package "mkdirp"
+        fs.mkdirSync(folder);
+    }
+    if (stat && !stat.isDirectory()) {
+        // Woh! This file/link/etc already exists, so isn't a directory. Can't save in it. Handle appropriately.
+        throw new Error('Directory cannot be created because an inode of a different type exists at "' + folder + '"');
+    }
     return folder;
   },
   onError: function (error, next) {
