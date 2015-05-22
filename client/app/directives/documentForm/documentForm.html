@@ -11,10 +11,6 @@
     <th>SEWER</th>
     <th>REUSE</th>
     <th>STORM</th>
-    <!-- <th>STREET 1</th>
-    <th>STREET 2</th>
-    <th>STREET 3</th>
-    <th>STREET 4</th> -->
     <th>LINK</th>
   </thead>
   <tbody class="table-body">
@@ -66,14 +62,6 @@
           <option value="">--Select--</option>
         </select>
       </td>
-      <!-- <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_1}}</td>
-      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_1': doc.attributes.STREET_1})" ng-model="doc.attributes.STREET_1" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_2}}</td>
-      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_2': doc.attributes.STREET_2})" ng-model="doc.attributes.STREET_2" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_3}}</td>
-      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_3': doc.attributes.STREET_3})" ng-model="doc.attributes.STREET_3" data="streets" on-type="autoFill" ></autocomplete></td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.STREET_4}}</td>
-      <td ng-show="doc.edit"><autocomplete ng-keypress="post({'OBJECTID': doc.attributes.OBJECTID, 'STREET_4': doc.attributes.STREET_4})" ng-model="doc.attributes.STREET_4" data="streets" on-type="autoFill" ></autocomplete></td> -->
       <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" href="#/document/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
         <span ng-show="doc.upload.exisits || doc.upload.isSuccess" class="glyphicon glyphicon-ok checked" aria-hidden="true"></span>
         <span ng-show="!doc.upload.exisits && !doc.upload.isSuccess" class="glyphicon glyphicon-ban-circle nofile" aria-hidden="true"></span>

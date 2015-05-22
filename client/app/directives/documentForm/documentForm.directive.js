@@ -161,10 +161,28 @@ angular.module('pumprApp')
 
         //Post data to server
         scope.post = function(data){
+          var targ;
+        	if (!e) var e = window.event;
+        	if (e.target) targ = e.target;
+        	else if (e.srcElement) targ = e.srcElement;
+        	if (targ.nodeType == 3) // defeat Safari bug
+        		targ = targ.parentNode;
           //Sets updated values
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server
-          scope.updateDocument.updateDoc();
+          scope.updateDocument.updateDoc()
+          .then(function(data){
+            if (data.error){
+              console.log(data.error);
+              angular.element(targ).addClass('animated shake addDocFailure');
+            }
+            else{
+              angular.element(targ).addClass('addDocSuccess');
+            }
+          },
+          function(err){
+            angular.element(targ).addClass('animated shake addDocFailure');
+          });
         };
 
         scope.delete = function (index, data){

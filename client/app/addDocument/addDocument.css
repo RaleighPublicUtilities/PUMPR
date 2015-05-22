@@ -1,3 +1,11 @@
 .docForm{
   overflow-y: auto;
 }
+
+.addDocSuccess {
+  border-color: #03f82f !important;
+}
+
+.addDocFailure {
+  border-color: #fb0202 !important;
+}

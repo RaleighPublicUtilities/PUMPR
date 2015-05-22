@@ -28,12 +28,7 @@ angular.module('pumprApp')
         FORMERNAME: data.FORMERNAME || undefined,
         ALIAS: data.ALIAS || undefined,
         DEVPLANID: data.DEVPLANID,
-        STREET_1: data.STREET_1 || undefined,
-        STREET_2: data.STREET_2 || undefined,
-        STREET_3: data.STREET_3 || undefined,
-        STREET_4: data.STREET_4 || undefined,
         NOTES: data.NOTES || undefined,
-        TAGS: data.TAGS || undefined,
         ENGID: data.ENGID || undefined,
         DOCTYPEID: data.DOCTYPEID || undefined,
         SHEETTYPEID: data.SHEETTYPEID || undefined
@@ -93,19 +88,8 @@ angular.module('pumprApp')
               }
             };
 
-        agsServer.ptFs.request(options)
-          .then(function(data){
-            if (data.error){
-              console.log(data.error);
-            }
-            else{
-              console.log(data);
-            }
-          },
-          function(err){
-            console.log(err);
-          });
-
+        return agsServer.ptFs.request(options);
+          
       },
       deleteDoc: function (){
 
