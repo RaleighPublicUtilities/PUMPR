@@ -5,6 +5,7 @@ var express = require('express'),
     controller = require('./document.controller'),
     bodyParser = require('body-parser'),
     multer  = require('multer'),
+    path = require('path'),
     fs = require('fs');
 
 var router = express.Router();
@@ -14,7 +15,7 @@ var router = express.Router();
 //Handles file uploads
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 router.use(multer({
-  dest: './public/documents',
+  dest: './documents',
   limits: {
     fileSize: 100000000
   },
@@ -34,7 +35,7 @@ router.use(multer({
   onFileUploadComplete: function (file) {
     var folder = file.path.split('.')[0].split('-')[0];
     //Creates Read Stream to uploaded file
-      var source = fs.createReadStream(file.path);
+      var source = fs.createReadStream(path.join(folder, file.name));
     //Sets the destination and creates write stream to that loacation
       var dest = fs.createWriteStream(folder + '/' + file.name);
     //Pipes  the source data to the destination
