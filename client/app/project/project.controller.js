@@ -224,7 +224,7 @@ function checkAndAdd(name, arr) {
 function addGraphLayer(arr, data, match, attr){
   for (var a in arr){
     if (arr[a].name === data[match]){
-      arr[a].children.push({name: data[attr]});
+      arr[a].children.push({name: $scope.projectid + '-' + data.DOCTYPEID + '-' + data[attr]});
     }
   }
 }
@@ -267,6 +267,7 @@ function update(source) {
       .attr('r', 1e-6)
       .style('fill', function(d) { return d._children ? 'lightsteelblue' : '#fff'; });
 
+  console.log(nodeEnter);
   nodeEnter.append('svg:text')
       .attr('x', function(d) { return d.children || d._children ? 40 : 10; })
       .attr('dy', '2em')
@@ -342,6 +343,14 @@ function toggle(d) {
   } else {
     d.children = d._children;
     d._children = null;
+  }
+  if (d.depth === 3){
+    // console.log(d);
+    var url = $location.path() + '/';
+    console.log($location.path() + '/' + d.name);
+    $location.url( url + d.name);
+    $scope.$apply();
+    console.log($location)
   }
 }
 
