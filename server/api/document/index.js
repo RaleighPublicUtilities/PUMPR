@@ -15,7 +15,7 @@ var currentFile;
 //Handles file uploads
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 router.use(multer({
-  dest: './documents',
+  dest: './public/documents',
   limits: {
     fileSize: 100000000
   },
