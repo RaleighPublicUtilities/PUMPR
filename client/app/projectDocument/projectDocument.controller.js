@@ -5,26 +5,76 @@ angular.module('pumprApp')
     $scope.documentid = $location.path().split('/')[3];
     $scope.documentInfo = $scope.documentid.split('-');
     $scope.projectname;
+    $scope.documentDetails;
+    var projectDocuments;
+    var projectid = $scope.projectid = $scope.documentInfo[0];
+    var docid = $scope.docid = parseInt($scope.documentInfo[2], 10);
     var options = {
       layer: 'RPUD.PTK_DOCUMENTS',
       actions: 'query',
       params: {
         f: 'json',
-        where: 'PROJECTID = ' + $scope.documentInfo[0] + " AND DOCTYPEID = '" + $scope.documentInfo[1] + "' AND DOCID = " + $scope.documentInfo[2],
+        where: 'PROJECTID = ' + projectid, // + " AND DOCTYPEID = '" + $scope.documentInfo[1] + "' AND DOCID = " + $scope.documentInfo[2],
         outFields: 'DOCID, WATER, SEWER, REUSE, STORM, PROJECTNAME, FORMERNAME, ALIAS, ENGID, DOCTYPEID, SHEETTYPEID',
         returnGeometry: false
       }
     };
+
+
 
     agsServer.ptFs.request(options)
       .then(function(res){
         if (res.error){
 
         }
-        $scope.documentDetails = res.features[0];
+        //Get list of project documents
+        projectDocuments = res.features;
+        console.log(projectDocuments)
+        projectDocuments.forEach(function(doc){
+          if (doc.attributes.DOCID === docid){
+            $scope.documentDetails = doc.attributes;
+          }
+        });
         console.log(res)
       },
        function(err){
 
-       });
+      });
+
+      function getDocPath(documents, docid){
+        var path = '/project/' + projectid + '/';
+
+        //set the document id at the begin and end
+        if (docid > documents.length){
+          docid = 1;
+        }
+        else if (docid < 1){
+          docid = documents.length
+        }
+
+        //set document path
+        documents.forEach(function(doc){
+            var doc = doc.attributes;
+            if (doc.DOCID === docid){
+              path = path + projectid + '-' + doc.DOCTYPEID + '-' + docid;
+              $location.path(path);
+            }
+          });
+        }
+
+       $scope.go = function ( direction ) {
+         var path = '/project/';
+         switch (direction){
+           case 'foward':
+              getDocPath(projectDocuments, docid + 1 );
+              break;
+           case 'back':
+              getDocPath(projectDocuments, docid - 1 );
+              break;
+            default:
+              var path = '/project/' + projectid;
+              $location.path(path);
+          }
+
+       };
   }]);

@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h1>{{documentid}} : {{documentDetails.attributes.DOCUMENTTYPE}} {{documentDetails.attributes.PROJECTNAME}}</h1>
+      <h1>{{documentid}} : {{documentDetails.DOCUMENTTYPE}} {{documentDetails.PROJECTNAME}}</h1>
     </div>
   </div>
   <!-- {{join}} -->
@@ -14,7 +14,7 @@
           <th class="text-primary">Value</th>
         </thead>
         <tbody>
-          <tr ng-repeat="(key, value) in documentDetails.attributes">
+          <tr ng-repeat="(key, value) in documentDetails">
             <td>{{key}}</td>
             <td>{{value}}</td>
           </tr>
@@ -23,9 +23,9 @@
       <div class="row">
         <div class="col-md-12 col-md-offset-3">
           <div class="btn-group btn-group-lg" role="group" aria-label="...">
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
-            <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn-primary" ng-click="go('back')"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn-primary" ng-click="go()"><span class="glyphicon glyphicon-home" aria-hidden="true"></button>
+            <button type="button" class="btn btn-primary" ng-click="go('foward')"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></button>
           </div>
         </div>
       </div>
