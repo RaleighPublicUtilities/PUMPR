@@ -11,8 +11,14 @@ describe('Service: projectSearch', function () {
     projectSearch = _projectSearch_;
   }));
 
-  it('should do something', function () {
-    expect(!!projectSearch).toBe(true);
+  it('should return array', function () {
+    var data;
+    projectSearch.autoFill('Retrea')
+      .then(function(res){
+        data = res.features;
+      });
+    // expect(!!projectSearch).toBe(true);
+    expect(data).toBeArrayOfObjects();
   });
 
 });

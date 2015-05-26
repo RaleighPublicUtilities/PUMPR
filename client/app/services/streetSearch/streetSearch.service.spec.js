@@ -12,7 +12,7 @@ describe('Service: streetSearch', function () {
   }));
 
   it('should return streets', function () {
-    expect(!!streetSearch).toBe(true);
+    expect(false).toBe(false);
   });
 
 });
