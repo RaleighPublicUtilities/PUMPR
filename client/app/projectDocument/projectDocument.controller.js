@@ -2,13 +2,14 @@
 
 angular.module('pumprApp')
   .controller('ProjectDocumentCtrl', ['$scope', '$location', 'agsServer' , function ($scope, $location, agsServer) {
-    $scope.documentid = $location.path().split('/')[3];
+    var documentid = $scope.documentid = $location.path().split('/')[3];
     $scope.documentInfo = $scope.documentid.split('-');
     $scope.projectname;
     $scope.documentDetails;
     var projectDocuments;
     var projectid = $scope.projectid = $scope.documentInfo[0];
     var docid = $scope.docid = parseInt($scope.documentInfo[2], 10);
+    var url = $scope.url = '/api/documents/' + projectid + '/' + documentid;
     var options = {
       layer: 'RPUD.PTK_DOCUMENTS',
       actions: 'query',
@@ -29,13 +30,13 @@ angular.module('pumprApp')
         }
         //Get list of project documents
         projectDocuments = res.features;
-        console.log(projectDocuments)
+
+        //Set page view
         projectDocuments.forEach(function(doc){
           if (doc.attributes.DOCID === docid){
             $scope.documentDetails = doc.attributes;
           }
         });
-        console.log(res)
       },
        function(err){
 

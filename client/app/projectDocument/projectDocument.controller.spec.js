@@ -15,7 +15,11 @@ describe('Controller: ProjectDocumentCtrl', function () {
     });
   }));
 
-  it('should ...', function () {
-    expect(1).toEqual(1);
+  it('should navigate to first document in list', function () {
+      // var $scope = {};
+      // var controller = $controller('ProjectDocumentCtrl', { $scope: $scope });
+      // $scope.password = 'longerthaneightchars';
+      // $scope.grade();
+      // expect($scope.strength).toEqual('strong');
   });
 });

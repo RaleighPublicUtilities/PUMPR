@@ -67,12 +67,48 @@ exports.download = function(req, res){
 
 };
 
-exports.serve = function(req, res){
-  // var filename = req.params[0],
-  //     folder = filename.split('-')[0];
-  // var path = path.join('public/documents', folder);
-  // console.log()
-  // res.sendfile(path + '/index.html');
+exports.send = function(req, res){
+  var projectid = req.params.projectid,
+      documentid = req.params.documentid,
+      dir = path.join('public/documents', projectid),
+      file = documentid + '.pdf',
+      fileInfo,
+      options,
+      stat;
+
+          
+            fs.stat(path.join(dir, file), function(err, stats){
+              if (err){
+                res.status(404).send('Sorry, we cannot find that!').end();
+              }
+              else{
+                stat = stats
+
+                options = {
+                  // root: __dirname + '/public/',
+                  // dotfiles: 'deny',
+                  headers: {
+                      'Content-Type':'application/pdf',
+                      'Content-Length': stat.size
+                  }
+                };
+
+                res.sendfile(path.join(dir, file), options, function (err) {
+                  if (err) {
+                    console.log(err);
+                    res.status(err.status).end();
+                  }
+                  else {
+                    console.log('Sent:', file);
+                    res.send(200);
+                  }
+                  });
+              }
+
+
+            });
+
+
 };
 
 
