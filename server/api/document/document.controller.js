@@ -67,40 +67,48 @@ exports.download = function(req, res){
 
 };
 
-exports.send = function(req, res){
+exports.send = function(req, res, next){
   var projectid = req.params.projectid,
       documentid = req.params.documentid,
       dir = path.join('public/documents', projectid),
       file = documentid + '.pdf',
       fileInfo,
-      options,
-      stat;
+      options;
 
-          
+      // res.sendfile(path.join(dir, file));
+
+
             fs.stat(path.join(dir, file), function(err, stats){
               if (err){
-                res.status(404).send('Sorry, we cannot find that!').end();
+                res.status(404);
+                res.json({'error': err, 'message':'Sorry, we cannot find that!'}).end();
               }
               else{
-                stat = stats
 
+                // console.log(stats);
+                // console.log(__dirname);
+                // console.log(path.join(__dirname, '../../../', dir, file));
                 options = {
-                  // root: __dirname + '/public/',
-                  // dotfiles: 'deny',
+                  root: path.join(__dirname, '../../../', dir),
+                  dotfiles: 'deny',
                   headers: {
-                      'Content-Type':'application/pdf',
-                      'Content-Length': stat.size
+                    'Content-Type': 'application/pdf',
+                    'Content-Length': stats.size,
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    Pragma: 'no-cache',
+                    Expires: 1
+                      // 'Accept-Ranges': 'bytes=0-' + stats.size
                   }
                 };
 
-                res.sendfile(path.join(dir, file), options, function (err) {
+                res.sendfile(file, options, function (err) {
                   if (err) {
                     console.log(err);
+                    res.json({'error': err, 'message':'Sorry, we cannot find that!'}).end();
                     res.status(err.status).end();
                   }
                   else {
-                    console.log('Sent:', file);
-                    res.send(200);
+                    console.log('IP:', req.ip, 'Sent:', file);
                   }
                   });
               }

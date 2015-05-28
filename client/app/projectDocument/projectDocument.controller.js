@@ -1,15 +1,16 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectDocumentCtrl', ['$scope', '$location', 'agsServer' , function ($scope, $location, agsServer) {
+  .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', '$http', 'agsServer' , function ($scope, $location, $sce, $http, agsServer) {
     var documentid = $scope.documentid = $location.path().split('/')[3];
     $scope.documentInfo = $scope.documentid.split('-');
     $scope.projectname;
     $scope.documentDetails;
+    $scope.testDate = Date.now();
     var projectDocuments;
     var projectid = $scope.projectid = $scope.documentInfo[0];
     var docid = $scope.docid = parseInt($scope.documentInfo[2], 10);
-    var url = $scope.url = '/api/documents/' + projectid + '/' + documentid;
+    var url = $scope.url = $sce.trustAsResourceUrl('/api/documents/' + projectid + '/' + documentid);
     var options = {
       layer: 'RPUD.PTK_DOCUMENTS',
       actions: 'query',
@@ -21,7 +22,13 @@ angular.module('pumprApp')
       }
     };
 
-
+    var x = document.getElementById('iframePdf');
+    console.log(x)
+      // x.addEventListener('onload', function(e){
+      // console.log(e);
+      //
+      // });
+      x.contentWindow.location.href = x.src;
 
     agsServer.ptFs.request(options)
       .then(function(res){
@@ -41,6 +48,8 @@ angular.module('pumprApp')
        function(err){
 
       });
+
+
 
       function getDocPath(documents, docid){
         var path = '/project/' + projectid + '/';
