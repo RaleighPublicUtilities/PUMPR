@@ -22,13 +22,6 @@ angular.module('pumprApp')
       }
     };
 
-    var x = document.getElementById('iframePdf');
-    console.log(x)
-      // x.addEventListener('onload', function(e){
-      // console.log(e);
-      //
-      // });
-      x.contentWindow.location.href = x.src;
 
     agsServer.ptFs.request(options)
       .then(function(res){
