@@ -7,6 +7,8 @@ angular.module('pumprApp')
     this.autoFill = function (typed) {
       typed = typed.toUpperCase();
 
+      //Allows apostrophe (single quote) to be searched
+      typed = typed.replace("'", "''");
 
       var projectOptions = {
         layer: 'Project Tracking',
