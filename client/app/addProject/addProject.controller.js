@@ -220,7 +220,7 @@ leafletData.getMap('map').then(function(map) {
     selectedFeatures.clearLayers();
 
     map.eachLayer(function(layer){
-      // console.log(layer);
+
       if (layer.options !== undefined && layer.options.layers) {
       var onClickOptions = {
         params: {
@@ -235,8 +235,9 @@ leafletData.getMap('map').then(function(map) {
         actions: 'identify',
         geojson: true
       };
-      switch (layer.url){
-        case 'http://mapstest.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/':
+
+      switch (layer.options.url){
+        case 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/':
           agsServer.ptMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {
