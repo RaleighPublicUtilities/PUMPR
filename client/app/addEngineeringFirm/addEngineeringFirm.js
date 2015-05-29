@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/addEngineeringFirm', {
         templateUrl: 'app/addEngineeringFirm/addEngineeringFirm.html',
-        controller: 'AddEngineeringFirmCtrl'
+        controller: 'AddEngineeringFirmCtrl',
+        authenticate: true
       });
   });
