@@ -89,14 +89,14 @@ exports.send = function(req, res, next){
                 // console.log(__dirname);
                 // console.log(path.join(__dirname, '../../../', dir, file));
                 options = {
-                  root: path.join(__dirname, '../../../', dir),
+                  root: path.join(__dirname, '../../', dir),
                   dotfiles: 'deny',
                   headers: {
                     'Content-Type': 'application/pdf',
                     'Content-Length': stats.size,
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    Pragma: 'no-cache',
-                    Expires: 1
+                    // 'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    // Pragma: 'no-cache',
+                    // Expires: 1
                       // 'Accept-Ranges': 'bytes=0-' + stats.size
                   }
                 };
