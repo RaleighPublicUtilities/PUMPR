@@ -17,7 +17,8 @@ angular.module('pumprApp')
         params: {
           f: 'json',
           outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
-          text: typed,
+          // text: typed,
+          where: "PROJECTNAME like '%" +typed + "%' OR DEVPLANID like '%" +typed + "%' OR PROJECTID like '%" +typed + "%' OR ALIAS like '%" +typed + "%' OR FORMERNAME like'%" +typed + "%'",
           returnGeometry: false,
           orderByFields: 'PROJECTNAME ASC'
         }
