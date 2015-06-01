@@ -13,21 +13,15 @@
 
           <input type="text" name="name" class="form-control" ng-model="eng.name"
                  mongoose-error/>
-          <p class="help-block" ng-show="form.name.$error.mongoose">
-              {{ errors.other }}
+          <p class="help-block" ng-show="(form.simp.$error.required) && (form.simp.$dirty || submitted)">
+              Please Enter Engineering Firm Name
           </p>
         </div>
 
         <div class="form-group">
           <label>Simplified Name</label>
 
-          <input type="text" name="simplified" class="form-control" ng-model="eng.simp"
-                 ng-minlength="3"
-                 required/>
-          <p class="help-block"
-             ng-show="(form.simp.$error.minlength || form.simp.$error.required) && (form.simp.$dirty || submitted)">
-            Password must be at least 3 characters.
-          </p>
+          <input type="text" name="simplified" class="form-control" ng-model="eng.simp"/>
         </div>
 
         <p class="help-block"> {{ message }} </p>
