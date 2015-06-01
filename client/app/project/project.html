@@ -8,8 +8,8 @@
   <div ng-hide="message.docs" class="row">
     <div class="col-md-12">
       <div class="alert alert-info" role="alert">
-        <h2>{{message.error}}</h2>
-        <a href="/addDocument">Add Documents</a>
+        <h2 class="text-center">{{message.error}}</h2>
+        <a ng-show="isLoggedIn()" class="addNewProjectLink" ng-href="/addDocument/{{projectid}}"><h2 class="animated pulse infinite">Add Documents</h2></a>
       </div>
     </div>
   </div>

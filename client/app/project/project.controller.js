@@ -1,9 +1,11 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', 'leafletData', function ($scope, $location, $timeout, agsServer, leafletData) {
+  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', 'leafletData', 'Auth', function ($scope, $location, $timeout, agsServer, leafletData,  Auth) {
     // //Set up GET request options
     //
+    $scope.isLoggedIn = Auth.isLoggedIn;
+    
     var m = [20, 120, 20, 120],
     w = 1280 - m[1] - m[3],
     h = 800 - m[0] - m[2],
