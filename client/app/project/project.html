@@ -1,10 +1,11 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class='container'>
+<div class='container-fluid'>
   <div class="row">
     <div class="col-md-12">
-      <h1>{{projectid}}: {{projectname}}</h1>
+      <h1 class="page-header">{{projectname}}: <small>{{projectid}}</small></h1>
     </div>
   </div>
+  <div class='container'>
   <div ng-hide="message.docs" class="row">
     <div class="col-md-12">
       <div class="alert alert-info" role="alert">
@@ -13,12 +14,13 @@
       </div>
     </div>
   </div>
-  <div ng-show="message.docs" class="row">
-    <div class="col-md-5 project-backgroud">
-      <leaflet id="project-map" height="250"></leaflet>
-      <canvas id="line" class="chart chart-bar" data="data" labels="labels" height="400"  series="series" click="onClick"></canvas>
+</div>
+  <div ng-show="message.docs" class="row project-backgroud">
+    <div class="col-md-5">
+      <leaflet id="project-map" height="350"></leaflet>
+      <canvas id="line" class="chart chart-bar" data="data" labels="labels" height="300"  series="series" click="onClick"></canvas>
     </div>
-    <div class="col-md-7 project-backgroud">
+    <div class="col-md-7">
       <div id="tree"></div>
     </div>
   </div>

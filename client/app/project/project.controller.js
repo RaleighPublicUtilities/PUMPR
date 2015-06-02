@@ -5,9 +5,9 @@ angular.module('pumprApp')
     // //Set up GET request options
     //
     $scope.isLoggedIn = Auth.isLoggedIn;
-    
+
     var m = [20, 120, 20, 120],
-    w = 1280 - m[1] - m[3],
+    w = 1000 - m[1] - m[3],
     h = 800 - m[0] - m[2],
     i = 0,
     root;
@@ -22,7 +22,7 @@ var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
 
 var vis = d3.select('#tree').append('svg:svg')
-    .attr('width', w + m[1] + m[3])
+    .attr('width', '100%')
     .attr('height', h + m[0] + m[2])
   .append('svg:g')
     .attr('transform', 'translate(' + m[3] + ',' + m[0] + ')');
