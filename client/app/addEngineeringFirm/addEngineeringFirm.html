@@ -1,9 +1,9 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container-fuild">
+<div class="container engview">
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="engPad">Add Engineering Firm</h1>
+      <h1 class="page-header">Add Engineering Firm</h1>
     </div>
   </div>
     <div class="row">
@@ -25,48 +25,33 @@
           <input type="text" name="simplified" class="form-control" ng-model="eng.simp"/>
         </div>
 
-        <button class="btn btn-lg btn-primary" type="submit">Add Firm</button>
+        <button ng-show="( engData | filter:eng.name).length == 0" class="btn btn-lg btn-primary eng-submit" type="submit">Add Firm</button>
       </form>
     </div>
     <div class="col-sm-8">
 
       <table  id="engtab" class="table">
-        <thead class="table-bold text-primary">
+        <thead id="eng-thead" class="table-bold text-primary">
           <th>Id</th>
           <th>Name</th>
           <th>Alias</th>
         </thead>
       </table>
       <div class="eng-table">
+        <div cg-busy="{promise:engtable,message:'Loading Firms',backdrop:false}"></div>
         <table id="engtab" class="table">
         <tbody class="table-body">
-          <tr class="table-view" ng-repeat="firm in engData | filter:eng.name | orderBy:'ENGID'">
+          <tr class="table-view" ng-repeat="firm in engData | filter:eng.name | orderBy: 'ENGID'">
             <td>{{firm.ENGID}}</td>
             <td>{{firm.FULLNAME}}</td>
             <td>{{firm.SIMPLIFIEDNAME}}</td>
+
           </tr>
         </tbody>
       </table>
+      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0">No Matching Record!<p>Ok to add</p></h2>
     </div>
     </div>
 
   </div>
-  <!-- <div class="row">
-    <div class="col-sm-12">
-      <table class="table doc-table">
-        <thead class="table-bold text-primary">
-          <th>Id</th>
-          <th>Name</th>
-          <th>Alias</th>
-        </thead>
-        <tbody class="table-body">
-          <tr class="table-view" ng-repeat="firm in engData">
-            <td>{{firm.ENGID}}</td>
-            <td>{{firm.FULLNAME}}</td>
-            <td>{{firm.SIMPLIFIEDNAME}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div> -->
 </div>

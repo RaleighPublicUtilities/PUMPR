@@ -1,17 +1,30 @@
+.engview {
+  background: rgba(12, 4, 4, 0.77);
+  border: 1px solid #fff;
+}
+
 .engPad{
   padding-left: 1.5em;
 }
 
 .eng-table {
-  max-height: 70em;
+  max-height: 60em;
   overflow-y: auto;
-  margin: 0 auto 0 auto;
+  margin: 0 auto 3em auto;
 }
  #engtab{
    margin: 0 auto 0 auto;
-   width: 70%;
+   width: 100%;
  }
 
 .eng-help{
   color: #56a7ff;
+}
+
+.eng-submit{
+  margin-bottom: 1em;
+}
+
+#eng-thead{
+  width: 100%;
 }
