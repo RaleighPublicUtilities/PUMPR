@@ -5,7 +5,6 @@ angular.module('pumprApp')
     // Service logic
     // ...
 
-    var meaningOfLife = 42;
 
     // Public API here
     return {
@@ -37,21 +36,26 @@ angular.module('pumprApp')
         var engid = '';
         var whiteList = /[A-Z]/;
         if (typeof eng === 'string'){
+          eng = eng.toUpperCase();
           eng = eng.trim().split(' ');
           eng.forEach(function(item){
             if(whiteList.test(item.charAt(0))){
               engid+=item.charAt(0);
-            };
+            }
+            else{
+              cb({error: 'Please Enter String'});
+            }
           });
-          return cb(engid);
+           cb(engid);
         }
         else{
-          return cb({error: 'Please Enter String'});
+         cb({error: 'Please Enter String'});
         }
       },
 
       //Checks in generated ENGID is already in use reuturns ture/false
       checkId: function (engid, cb){
+        var that = this;
         if (typeof engid === 'object'){
           cb(engid);
         }
@@ -71,7 +75,7 @@ angular.module('pumprApp')
             }
             else {
               engid+=engid.charAt(0);
-              checkEngId(engid, function(a){
+              that.checkId(engid, function(a){
                 cb(a);
               });
             }

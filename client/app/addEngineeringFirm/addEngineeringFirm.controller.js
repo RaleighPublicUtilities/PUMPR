@@ -5,21 +5,22 @@ angular.module('pumprApp')
     $scope.errors = {};
     $scope.engid;
     $scope.engData =[];
-    $scope.error = false;
+    $scope.error = {
+      status: false
+    };
 
     $scope.engtable = addEngineeringFirm.getAll()
       .then(function(res){
         addEngineeringFirm.setTable(res.features, function(tableData){
           $scope.totalfirms = tableData.length;
           $scope.numberofpages = Math.ceil($scope.totalfirms / 10);
-          $scope.pages = [];
-          for (var i = 0; i < $scope.numberofpages; i++){
-            $scope.pages.push(i + 1);
-          }
           $scope.engData = tableData;
         });
       }, function(err){
-        $scope.error = true;
+        $scope.error = {
+          status: true,
+          message: 'Whoops..Failed to load data to server\nplease try again'
+        };
       });
 
     //Add engineering firm to db
@@ -47,10 +48,16 @@ angular.module('pumprApp')
 
 
       $scope.submitted = true;
-      if(form.$valid) {
+      if(form.$valid && !$scope.engid.error) {
         console.log($scope.engid);
         console.log(options.params.features[0].attributes.ENGID);
         // agsServer.ptFs.request(options).then(function(data){});
+      }
+      else {
+        $scope.error = {
+          status: true,
+          message: 'Please Check Name for Proper Formatting'
+        };
       }
     });
   });

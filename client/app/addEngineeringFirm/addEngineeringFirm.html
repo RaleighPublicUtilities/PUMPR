@@ -3,7 +3,7 @@
 <div class="container engview">
   <div class="row">
     <div class="col-sm-12">
-      <h1 class="page-header">Add Engineering Firm</h1>
+      <h1 class="page-header"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Engineering Firm</h1>
     </div>
   </div>
     <div class="row">
@@ -13,10 +13,8 @@
         <div class="form-group">
           <label>Full Name</label>
 
-          <input type="text" name="name" class="form-control" ng-model="eng.name" required/>
-          <p class="help-block eng-help" ng-show="(form.name.$error.required) && (form.name.$dirty || submitted)">
-              Please Enter Engineering Firm Name
-          </p>
+          <input type="text" name="name" class="form-control" ng-model="eng.name" ng-change="error.status = false"required/>
+          <p class="help-block eng-help" ng-show="(form.name.$error.required) && (form.name.$dirty || submitted)">Please Enter Engineering Firm Name</p>
         </div>
 
         <div class="form-group">
@@ -25,7 +23,7 @@
           <input type="text" name="simplified" class="form-control" ng-model="eng.simp"/>
         </div>
 
-        <button ng-show="( engData | filter:eng.name).length == 0 && !error" class="btn btn-lg btn-primary eng-submit" type="submit">Add Firm</button>
+        <button ng-show="( engData | filter:eng.name).length == 0 && !error.status" class="btn btn-lg btn-primary eng-submit" type="submit">Add Firm</button>
       </form>
     </div>
     <div class="col-sm-8">
@@ -49,8 +47,8 @@
           </tr>
         </tbody>
       </table>
-      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0 && !error">No Matching Record!<p>Ok to add</p></h2>
-      <h2 class="text-center" ng-show="error">Whoops..Failed to load data to server<p>please try again</p></h2>
+      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0 && !error.status">No Matching Record!<p>Ok to add</p></h2>
+      <h2 class="text-center" ng-show="error.status">{{error.message}}</h2>
     </div>
     </div>
 
