@@ -22,6 +22,33 @@ angular.module('pumprApp')
         return agsServer.ptFs.request(options);
       },
 
+      find: function (search) {
+
+        var options = {
+          layer: 'RPUD.ENGINEERINGFIRM',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: "ENGID LIKE '%" + search + "%'",
+            outFields: 'ENGID, FULLNAME, SIMPLIFIEDNAME'
+          }
+        };
+        return agsServer.ptFs.request(options);
+      },
+
+      findOne: function (search) {
+
+        var options = {
+          layer: 'RPUD.ENGINEERINGFIRM',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: "ENGID = '" + search + "'",
+            outFields: 'ENGID, FULLNAME, SIMPLIFIEDNAME'
+          }
+        };
+        return agsServer.ptFs.request(options);
+      },
 
       setTable: function (data, cb){
         var outData = [];
