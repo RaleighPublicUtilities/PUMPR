@@ -1,12 +1,14 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container">
+<div class="container-fuild">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Add Engineering Firm</h1>
+      <h1 class="engPad">Add Engineering Firm</h1>
     </div>
-    <div class="col-sm-12">
-      <form class="form" name="form" ng-submit="addEngineeringFirm(form)" novalidate>
+  </div>
+    <div class="row">
+    <div class="col-sm-4">
+      <form class="form engPad" name="form" ng-submit="addEngineeringFirm(form)" novalidate>
 
         <div class="form-group">
           <label>Full Name</label>
@@ -27,10 +29,39 @@
         <button class="btn btn-lg btn-primary" type="submit">Add Firm</button>
       </form>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="gridStyle" ng-grid="gridOptions"></div>
+    <div class="col-sm-8">
+      <table class="table doc-table">
+        <thead class="table-bold text-primary">
+          <th>Id</th>
+          <th>Name</th>
+          <th>Alias</th>
+        </thead>
+        <tbody class="table-body">
+          <tr class="table-view" ng-repeat="firm in engData | limitTo: 10 | filter:eng.name">
+            <td>{{firm.ENGID}}</td>
+            <td>{{firm.FULLNAME}}</td>
+            <td>{{firm.SIMPLIFIEDNAME}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+  <!-- <div class="row">
+    <div class="col-sm-12">
+      <table class="table doc-table">
+        <thead class="table-bold text-primary">
+          <th>Id</th>
+          <th>Name</th>
+          <th>Alias</th>
+        </thead>
+        <tbody class="table-body">
+          <tr class="table-view" ng-repeat="firm in engData">
+            <td>{{firm.ENGID}}</td>
+            <td>{{firm.FULLNAME}}</td>
+            <td>{{firm.SIMPLIFIEDNAME}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
 </div>

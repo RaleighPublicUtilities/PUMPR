@@ -5,20 +5,11 @@ angular.module('pumprApp')
     $scope.errors = {};
     $scope.engid;
     $scope.engData =[];
-    $scope.gridOptions = {
-      data: 'engData',
-      primaryKey: 'ENGID'
-    };
+
     $scope.engtable = addEngineeringFirm.getAll()
       .then(function(res){
-        console.log(res);
         addEngineeringFirm.setTable(res.features, function(tableData){
           $scope.engData = tableData;
-          console.log($scope.engData)
-          $scope.gridOptions = {
-            data: 'engData',
-            primaryKey: 'ENGID'
-          };
         });
       }, function(err){
         console.log(err);
