@@ -1,65 +1,34 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddEngineeringFirmCtrl', ['$scope', 'agsServer', function ($scope, agsServer) {
+  .controller('AddEngineeringFirmCtrl', ['$scope', 'agsServer', 'addEngineeringFirm', function ($scope, agsServer, addEngineeringFirm) {
     $scope.errors = {};
     $scope.engid;
-
-    //Generates new ENGID by taking the first letter of each word and concat them, adds next letter to resolve conflicts
-    function generateEngId (eng, cb){
-      var engid = '';
-      var whiteList = /[A-Z]/;
-      if (typeof eng === 'string'){
-        eng = eng.trim().split(' ');
-        eng.forEach(function(item){
-          if(whiteList.test(item.charAt(0))){
-            engid+=item.charAt(0);
+    $scope.engData =[];
+    $scope.gridOptions = {
+      data: 'engData',
+      primaryKey: 'ENGID'
+    };
+    $scope.engtable = addEngineeringFirm.getAll()
+      .then(function(res){
+        console.log(res);
+        addEngineeringFirm.setTable(res.features, function(tableData){
+          $scope.engData = tableData;
+          console.log($scope.engData)
+          $scope.gridOptions = {
+            data: 'engData',
+            primaryKey: 'ENGID'
           };
         });
-        return cb(engid);
-      }
-      else{
-        return cb({error: 'Please Enter String'});
-      }
-    }
-
-    //Checks in generated ENGID is already in use reuturns ture/false
-    function checkEngId (engid, cb){
-      if (typeof engid === 'object'){
-        cb(engid);
-      }
-      var options = {
-        layer: 'RPUD.ENGINEERINGFIRM',
-        actions: 'query',
-        params: {
-          f: 'json',
-          where: "ENGID = '" + engid + "'",
-          outFields: 'ENGID'
-        }
-      };
-
-        agsServer.ptFs.request(options).then(function(data){
-          if (data.features.length === 0){
-            cb(engid);
-          }
-          else {
-            engid+=engid.charAt(0);
-            checkEngId(engid, function(a){
-              cb(a);
-            });
-          }
-        }, function(err){
-          console.log(err);
-          cb(err);
-        });
-
-    }
+      }, function(err){
+        console.log(err);
+      });
 
     //Add engineering firm to db
     $scope.addEngineeringFirm = function(form) {
 
-      generateEngId($scope.eng.name, function(engid){
-        checkEngId(engid, function(eId){
+      addEngineeringFirm.generateId($scope.eng.name, function(engid){
+        addEngineeringFirm.checkId(engid, function(eId){
           $scope.engid = eId;
 
 
