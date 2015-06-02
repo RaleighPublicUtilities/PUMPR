@@ -47,8 +47,9 @@
           </tr>
         </tbody>
       </table>
-      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0 && !error.status">No Matching Record!<p>Ok to add</p></h2>
-      <h2 class="text-center" ng-show="error.status">{{error.message}}</h2>
+      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0 && !error.status && !success.status">No Matching Record!<p>Ok to add</p></h2>
+      <h2 class="text-center eng-error animated shake" ng-show="error.status">{{error.message}}</h2>
+      <h2 class="text-center" ng-show="success.status">{{success.message}}</h2>
     </div>
     </div>
 

@@ -25,7 +25,7 @@ angular.module('pumprApp')
 
     //Add engineering firm to db
     $scope.addEngineeringFirm = function(form) {
-
+      
       addEngineeringFirm.generateId($scope.eng.name, function(engid){
         addEngineeringFirm.checkId(engid, function(eId){
           $scope.engid = eId;
@@ -49,18 +49,29 @@ angular.module('pumprApp')
 
       $scope.submitted = true;
       if(form.$valid && !$scope.engid.error) {
-        console.log($scope.engid);
-        console.log(options.params.features[0].attributes.ENGID);
-        // agsServer.ptFs.request(options).then(function(data){});
-      }
-      else {
-        $scope.error = {
-          status: true,
-          message: 'Please Check Name for Proper Formatting'
-        };
-      }
+        agsServer.ptFs.request(options)
+          .then(function(data){
+            console.log(data)
+            $scope.success = {
+              status: true,
+              message: 'Add Engineering Firm: Success\nPlease Try Again'
+            };
+          }, function(err){
+            $scope.error = {
+              status: true,
+              message: 'Add Engineering Firm: Failed\nPlease Try Again'
+            };
+            angular.element('engview').addClass('animated shake addDocFailure')
+          });
+        }
+        else {
+          $scope.error = {
+            status: true,
+            message: 'Please Check Name for Proper Formatting'
+          };
+        }
+      });
     });
-  });
-		};
+	};
 
   }]);

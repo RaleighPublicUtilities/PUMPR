@@ -28,3 +28,8 @@
 #eng-thead{
   width: 100%;
 }
+
+.eng-error {
+  border: 1px solid #e91010;
+  padding: 1em;
+}

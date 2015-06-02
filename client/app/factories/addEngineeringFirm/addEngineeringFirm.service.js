@@ -22,6 +22,7 @@ angular.module('pumprApp')
         return agsServer.ptFs.request(options);
       },
 
+
       setTable: function (data, cb){
         var outData = [];
         data.forEach(function(record){
@@ -42,9 +43,6 @@ angular.module('pumprApp')
             if(whiteList.test(item.charAt(0))){
               engid+=item.charAt(0);
             }
-            else{
-              cb({error: 'Please Enter String'});
-            }
           });
            cb(engid);
         }
@@ -56,33 +54,36 @@ angular.module('pumprApp')
       //Checks in generated ENGID is already in use reuturns ture/false
       checkId: function (engid, cb){
         var that = this;
-        if (typeof engid === 'object'){
-          cb(engid);
+        if (typeof engid === 'object' || engid === ''){
+          cb({error: 'Please Enter String'});
         }
-        var options = {
-          layer: 'RPUD.ENGINEERINGFIRM',
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: "ENGID = '" + engid + "'",
-            outFields: 'ENGID'
-          }
-        };
+        else{
+          var options = {
+            layer: 'RPUD.ENGINEERINGFIRM',
+            actions: 'query',
+            params: {
+              f: 'json',
+              where: "ENGID = '" + engid + "'",
+              outFields: 'ENGID'
+            }
+          };
 
-          agsServer.ptFs.request(options).then(function(data){
-            if (data.features.length === 0){
+            agsServer.ptFs.request(options).then(function(data){
+              if (data.features.length === 0){
+                cb(engid);
+              }
+              else {
+                engid+=engid.charAt(0);
+                that.checkId(engid, function(a){
+                  cb(a);
+                });
+              }
+            }, function(err){
+              console.log(err);
               cb(engid);
-            }
-            else {
-              engid+=engid.charAt(0);
-              that.checkId(engid, function(a){
-                cb(a);
-              });
-            }
-          }, function(err){
-            console.log(err);
-            cb(err);
-          });
+            });
+        }
+
 
       },
 
