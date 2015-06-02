@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $scope.errors = {};
     $scope.engid;
     $scope.engData =[];
+    $scope.error = false;
 
     $scope.engtable = addEngineeringFirm.getAll()
       .then(function(res){
@@ -18,7 +19,7 @@ angular.module('pumprApp')
           $scope.engData = tableData;
         });
       }, function(err){
-        console.log(err);
+        $scope.error = true;
       });
 
     //Add engineering firm to db

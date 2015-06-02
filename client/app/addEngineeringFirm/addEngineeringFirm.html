@@ -25,7 +25,7 @@
           <input type="text" name="simplified" class="form-control" ng-model="eng.simp"/>
         </div>
 
-        <button ng-show="( engData | filter:eng.name).length == 0" class="btn btn-lg btn-primary eng-submit" type="submit">Add Firm</button>
+        <button ng-show="( engData | filter:eng.name).length == 0 && !error" class="btn btn-lg btn-primary eng-submit" type="submit">Add Firm</button>
       </form>
     </div>
     <div class="col-sm-8">
@@ -49,7 +49,8 @@
           </tr>
         </tbody>
       </table>
-      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0">No Matching Record!<p>Ok to add</p></h2>
+      <h2 class="text-center" ng-show="( engData | filter:eng.name).length == 0 && !error">No Matching Record!<p>Ok to add</p></h2>
+      <h2 class="text-center" ng-show="error">Whoops..Failed to load data to server<p>please try again</p></h2>
     </div>
     </div>
 
