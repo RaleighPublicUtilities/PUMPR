@@ -9,6 +9,12 @@ angular.module('pumprApp')
     $scope.engtable = addEngineeringFirm.getAll()
       .then(function(res){
         addEngineeringFirm.setTable(res.features, function(tableData){
+          $scope.totalfirms = tableData.length;
+          $scope.numberofpages = Math.ceil($scope.totalfirms / 10);
+          $scope.pages = [];
+          for (var i = 0; i < $scope.numberofpages; i++){
+            $scope.pages.push(i + 1);
+          }
           $scope.engData = tableData;
         });
       }, function(err){
@@ -48,4 +54,5 @@ angular.module('pumprApp')
     });
   });
 		};
+
   }]);

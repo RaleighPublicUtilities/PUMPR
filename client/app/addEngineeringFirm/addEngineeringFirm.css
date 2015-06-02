@@ -1,9 +1,17 @@
-.gridStyle {
-    width: 100%;
-    height: 500px;
-
-
-}
 .engPad{
   padding-left: 1.5em;
+}
+
+.eng-table {
+  max-height: 70em;
+  overflow-y: auto;
+  margin: 0 auto 0 auto;
+}
+ #engtab{
+   margin: 0 auto 0 auto;
+   width: 70%;
+ }
+
+.eng-help{
+  color: #56a7ff;
 }

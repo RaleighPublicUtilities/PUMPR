@@ -13,9 +13,8 @@
         <div class="form-group">
           <label>Full Name</label>
 
-          <input type="text" name="name" class="form-control" ng-model="eng.name"
-                 mongoose-error/>
-          <p class="help-block" ng-show="(form.simp.$error.required) && (form.simp.$dirty || submitted)">
+          <input type="text" name="name" class="form-control" ng-model="eng.name" required/>
+          <p class="help-block eng-help" ng-show="(form.name.$error.required) && (form.name.$dirty || submitted)">
               Please Enter Engineering Firm Name
           </p>
         </div>
@@ -30,14 +29,18 @@
       </form>
     </div>
     <div class="col-sm-8">
-      <table class="table doc-table">
+
+      <table  id="engtab" class="table">
         <thead class="table-bold text-primary">
           <th>Id</th>
           <th>Name</th>
           <th>Alias</th>
         </thead>
+      </table>
+      <div class="eng-table">
+        <table id="engtab" class="table">
         <tbody class="table-body">
-          <tr class="table-view" ng-repeat="firm in engData | limitTo: 10 | filter:eng.name">
+          <tr class="table-view" ng-repeat="firm in engData | filter:eng.name | orderBy:'ENGID'">
             <td>{{firm.ENGID}}</td>
             <td>{{firm.FULLNAME}}</td>
             <td>{{firm.SIMPLIFIEDNAME}}</td>
@@ -45,6 +48,8 @@
         </tbody>
       </table>
     </div>
+    </div>
+
   </div>
   <!-- <div class="row">
     <div class="col-sm-12">
