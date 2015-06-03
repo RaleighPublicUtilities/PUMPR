@@ -11,8 +11,7 @@ angular.module('pumprApp', [
   'leaflet-directive',
   'angularFileUpload',
   'chart.js',
-  'cgBusy',
-  'ngGrid'
+  'cgBusy'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
