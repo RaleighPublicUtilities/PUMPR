@@ -1,1 +1,23 @@
 .trash { color:rgb(209, 91, 71); }
+.trash:hover{
+  cursor: pointer;
+}
+.admin {
+  background: rgba(12, 4, 4, 0.77);
+}
+
+.blue {
+  color: #3c81dc
+}
+
+.role{
+  color: #000000;
+}
+
+.role-success{
+  border-color: #6cee01;
+}
+
+.role-failure{
+  border-color: #ff0303;
+}

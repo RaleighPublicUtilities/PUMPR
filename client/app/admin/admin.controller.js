@@ -14,4 +14,29 @@ angular.module('pumprApp')
         }
       });
     };
+
+    $scope.roles = [{role: 'admin'}, {role:'superuser'}, {role:'user'}];
+    // $scope.selectedRole;
+
+    $scope.changeRole = function(user, role){
+      var targ;
+      if (!e) var e = window.event;
+      if (e.target) targ = e.target;
+      else if (e.srcElement) targ = e.srcElement;
+      // defeat Safari bug
+      if (targ.nodeType == 3){
+        targ = targ.parentNode;
+      }
+
+      user.newRole = role;
+      console.log(user);
+      Auth.changeRole(user)
+        .then( function() {
+          angular.element(targ).addClass('role-success');
+        })
+        .catch( function() {
+          angular.element(targ).addClass('role-failure');
+        });
+    };
+
   });

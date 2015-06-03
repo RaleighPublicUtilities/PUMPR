@@ -17,6 +17,12 @@ angular.module('pumprApp')
         params: {
           id:'me'
         }
+      },
+      changeRole: {
+        method: 'PUT',
+        params: {
+          controller: 'role'
+        }
       }
 	  });
   });

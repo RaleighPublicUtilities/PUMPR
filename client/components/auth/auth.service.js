@@ -93,6 +93,26 @@ angular.module('pumprApp')
       },
 
       /**
+       * Change role
+       *
+       * @param  {String}   newRole
+       * @param  {Function} callback    - optional
+       * @return {Promise}
+       */
+      changeRole: function(user, callback) {
+        var cb = callback || angular.noop;
+        console.log(user);
+        return User.changeRole({ id: user._id }, {
+          newRole: user.newRole
+        }, function(user) {
+          return cb(user);
+        }, function(err) {
+          return cb(err);
+        }).$promise;
+      },
+
+
+      /**
        * Gets all available info on authenticated user
        *
        * @return {Object} user
@@ -134,6 +154,15 @@ angular.module('pumprApp')
        */
       isAdmin: function() {
         return currentUser.role === 'admin';
+      },
+
+      /**
+       * Check if a user is a superuser
+       *
+       * @return {Boolean}
+       */
+      isSuperuser: function() {
+        return currentUser.role === 'superuser' || currentUser.role === 'admin';
       },
 
       /**
