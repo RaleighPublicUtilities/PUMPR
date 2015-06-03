@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('DocumentFactory', ['agsServer', '$cacheFactory', function(agsServer, $cacheFactory){
+  .factory('DocumentFactory', ['agsServer', '$cacheFactory', 'Auth', function(agsServer, $cacheFactory, Auth){
     //Creates cache to store touch documents
     var cache = $cacheFactory('docId');
 
@@ -89,7 +89,6 @@ angular.module('pumprApp')
             };
 
         return agsServer.ptFs.request(options);
-          
       },
       deleteDoc: function (){
 
