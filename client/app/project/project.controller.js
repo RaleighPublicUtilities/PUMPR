@@ -157,7 +157,6 @@ var vis = d3.select('#tree').append('svg:svg')
       $timeout(function(){
       createGraph(data, function(graph){
         generateGraph(data, graph, function(json){
-          console.log(json);
           root = json;
           root.x0 = h / 2;
           root.y0 = 0;

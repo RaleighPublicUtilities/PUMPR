@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', '$http', 'agsServer' , function ($scope, $location, $sce, $http, agsServer) {
+  .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', '$http', 'agsServer', 'Auth' , function ($scope, $location, $sce, $http, agsServer, Auth) {
+    $scope.isLoggedIn = Auth.isLoggedIn;
     var documentid = $scope.documentid = $location.path().split('/')[3];
     $scope.documentInfo = $scope.documentid.split('-');
     $scope.projectname;
@@ -75,9 +76,11 @@ angular.module('pumprApp')
            case 'back':
               getDocPath(projectDocuments, docid - 1 );
               break;
+            case 'edit':
+              $location.path('/addDocument/' + projectid);
+              break;
             default:
-              var path = '/project/' + projectid;
-              $location.path(path);
+              $location.path(path + projectid);
           }
 
        };
