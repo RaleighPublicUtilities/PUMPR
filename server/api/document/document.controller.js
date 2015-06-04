@@ -57,8 +57,6 @@ exports.download = function(req, res){
       for (var i = 0, len = files.length; i < len; i++){
         file = files[i].split('.')[0];
         if(data.filename === file){
-          // var filestream = fs.createReadStream(path.join(dir, files[i]));
-          // filestream.pipe(res);
           res.download(path.join(dir, files[i]));
         }
       }

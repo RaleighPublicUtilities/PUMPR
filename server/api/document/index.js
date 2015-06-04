@@ -6,6 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     multer  = require('multer'),
     path = require('path'),
+    tiff2pdf = require('tiff2pdf'),
     fs = require('fs');
 
 var router = express.Router();
@@ -40,6 +41,13 @@ router.use(multer({
         throw new Error('Directory cannot be created because an inode of a different type exists at "' + folder + '"');
     }
     return folder;
+  },
+  onFileUploadComplete: function (file, req, res){
+    if (file.mimetype === 'image/tiff'){
+      tiff2pdf(file.path, path.dirname(file.path), function(err){
+         console.log(err.message);
+      });
+    }
   },
   onError: function (error, next) {
     console.log(error);
