@@ -5,12 +5,52 @@ angular.module('pumprApp')
     // Service logic
     // ...
 
-    var meaningOfLife = 42;
 
     // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
+    var search = {
+
+      //Lookup Project by metadata
+      project: function (){
+
+      },
+
+      //Lookup project by location
+      location: function(){
+
+      },
+
+      //Lookup project by permit #
+      permit: function(){
+
+      },
+
+      //Lookup Address
+      address: function(typed){
+        //Auto fill function for street names
+        typed = typed.toUpperCase();
+
+        var streetOptions = {
+          layer: 'Streets',
+          geojson: false,
+          actions: 'query',
+          params: {
+            f: 'json',
+            outFields: 'CARTONAME',
+            text: typed,
+            returnGeometry: false,
+            orderByFields: 'CARTONAME ASC'
+          }
+        };
+
+        return agsServer.streetsMs.request(streetOptions);
+
       }
+
+
+    }; //end search object
+
+
+    return (search);
+
     };
   });
