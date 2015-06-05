@@ -66,6 +66,7 @@ angular.module('pumprApp')
 
       },
 
+      //Searches all posible options returns promise when all resolve
       all: function(typed){
         //Generate promises for all search vectors
         var project = this.projects(typed),
