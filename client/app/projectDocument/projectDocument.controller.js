@@ -37,11 +37,12 @@ angular.module('pumprApp')
         projectDocuments.forEach(function(doc){
           if (doc.attributes.DOCID === docid){
             $scope.documentDetails = doc.attributes;
+            console.log($scope.documentDetails);
           }
         });
-      },
-       function(err){
-
+      })
+       .catch(function(err){
+         console.log(err);
       });
 
 
