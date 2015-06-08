@@ -1,13 +1,27 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('MainCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope', '$location', 'search',
-    function ($scope, cookies, agsServer, projectSearch, $rootScope, $location, search) {
-      //Set root scope as scope
-      var scope = $rootScope;
+  .controller('MainCtrl', ['$scope', 'agsServer', 'projectSearch', '$location', 'search', '$interval',
+    function ($scope, agsServer, projectSearch, $location, search, $interval) {
 
-      // $scope.project = {};
 
+      function rotatePlaceholder (){
+        var count = 0;
+        var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...' ];
+        $interval(function(){
+          count = count > 4 ? 0 : count;
+          // console.log(angular.element('#searchControl::-webkit-input-placeholder'));
+          // angular.element('#searchControl::-webkit-input-placeholder').addClass('animated pulse');
+          $scope.placeholder = options[count];
+          // angular.element('#searchControl::-webkit-input-placeholder').removeClass('animated pulse');
+          // angular.element('#searchControl::-moz-placeholder').addClass('animated slideInLeft');
+          // angular.element('#searchControl:-ms-input-placeholder').addClass('animated slideInLeft');
+          // angular.element('#searchControl:-moz-placeholder').addClass('animated slideInLeft');
+
+          count++;
+        }, 3000);
+      }
+      rotatePlaceholder();
       $scope.autoFillProjects = function (typed) {
         //Turns on the map resulsts table
         $scope.searchStatus = false;
@@ -27,7 +41,6 @@ angular.module('pumprApp')
               return $scope.projects;
             }
             else{
-
                 return results.map(function(item){
                   return item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID;
                 });
@@ -47,8 +60,7 @@ angular.module('pumprApp')
           return;
         }
         $location.url('/project/' + typed.split(':')[2]);
-        //Add projects to recent projects cookie
-        // cookies.addProjectCookie(typed)
+
       };
 
 

@@ -261,6 +261,27 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
   color: rgba(0,100,225,1);
 }
 
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+
 ::-webkit-scrollbar {
   width: 15px;
 }
