@@ -45,3 +45,9 @@ body {
 .main-alert{
   margin-top: 5px;
 }
+
+#searchControl {
+  background-color: rgba(143, 144, 141, 0.49);
+  border-color:#7a7c78;
+  color: white;
+}

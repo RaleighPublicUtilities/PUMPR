@@ -17,7 +17,8 @@ angular.module('pumprApp')
         $scope.projects = [];
 
         //Testing search factroy
-         return search.all(typed)
+        $scope.newProject = search.all(typed);
+         return $scope.newProject
           .then(function(res){
             var results = res[0].features.concat(res[1].features);
 
