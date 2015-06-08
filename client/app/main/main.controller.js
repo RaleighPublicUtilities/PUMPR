@@ -6,7 +6,7 @@ angular.module('pumprApp')
       //Set root scope as scope
       var scope = $rootScope;
 
-      $scope.project = {};
+      // $scope.project = {};
 
       $scope.autoFillProjects = function (typed) {
         //Turns on the map resulsts table
@@ -15,30 +15,42 @@ angular.module('pumprApp')
         $scope.projectError = false;
         //Uses the Project Search Servies
         $scope.projects = [];
-        $scope.newProject = projectSearch.autoFill(typed);
-        $scope.newProject.then(function(data){
-              data.features = projectSearch.getSet(data.features);
-              if (data.features.length === 0){
-                $scope.projects.push('Sorry Project Not Found...');
-              }
-              for (var i = 0, x = data.features.length; i < x; i++){
-                  if ($scope.projects.length < 5){
-                    $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
-                  }
-              }
-
-          }, function (err){
-            $scope.projectError = true;
-
-        });
+        // $scope.newProject = projectSearch.autoFill(typed);
+        // $scope.newProject.then(function(data){
+        //       data.features = projectSearch.getSet(data.features);
+        //       if (data.features.length === 0){
+        //         $scope.projects.push('Sorry Project Not Found...');
+        //       }
+        //       for (var i = 0, x = data.features.length; i < x; i++){
+        //           if ($scope.projects.length < 5){
+        //             $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
+        //           }
+        //       }
+        //
+        //   }, function (err){
+        //     $scope.projectError = true;
+        //
+        // });
 
         //Testing search factroy
-        search.addresses(typed)
+         return search.all(typed)
           .then(function(res){
-            console.log(res);
+            var results = res[0].features.concat(res[1].features);
+
+            if (results.length === 0){
+              $scope.projects.push('Sorry Project Not Found...');
+              return $scope.projects;
+            }
+            else{
+
+                return results.map(function(item){
+                  return item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID;
+                });
+            }
+
           })
           .catch(function(err){
-            console.error(err);
+            $scope.projectError = true;
           });
 
         //Adds the project to the recently searched cook
@@ -51,8 +63,8 @@ angular.module('pumprApp')
         }
         $location.url('/project/' + typed.split(':')[2]);
         //Add projects to recent projects cookie
-        // cookies.addProjectCookie(typed);
-
-
+        // cookies.addProjectCookie(typed)
       };
+
+
     }]);

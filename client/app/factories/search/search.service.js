@@ -20,7 +20,7 @@ angular.module('pumprApp')
 
         features = candidates.map(function(item){
           var rObj = turf.point([item.location.x, item.location.y], item.attributes),
-              buffered = turf.buffer(rObj, 0.5, 'miles');
+              buffered = turf.buffer(rObj, 0.25, 'miles');
               return buffered.features[0];
         });
 
@@ -110,7 +110,7 @@ angular.module('pumprApp')
 
             }
             else{
-              deferred.resolve([]);
+              deferred.resolve({features: []});
             }
           })
           .catch(function(err){
@@ -152,11 +152,11 @@ angular.module('pumprApp')
       //Searches all posible options returns promise when all resolve
       all: function(typed){
         //Generate promises for all search vectors
-        var project = this.projects(typed),
-            location = this.locations(typed),
-            permits = this.permits(typed);
+        var projects = this.projects(typed),
+            addresses = this.addresses(typed);
+            // permits = this.permits(typed);
 
-        return $q.all([projects, addresses, permits]);
+        return $q.all([projects, addresses]);
 
       }
 
