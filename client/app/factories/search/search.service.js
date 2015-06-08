@@ -21,7 +21,6 @@ angular.module('pumprApp')
       params: {
         f: 'json',
         outFields: 'CARTONAME',
-        text: typed,
         returnGeometry: false,
         orderByFields: 'CARTONAME ASC'
       }
@@ -78,7 +77,7 @@ angular.module('pumprApp')
       //Lookup Address
       addresses: function(typed){
         typed = clean4Ags(typed);
-        
+
         streetOptions.params.text = typed;
 
         return agsServer.streetsMs.request(streetOptions);
