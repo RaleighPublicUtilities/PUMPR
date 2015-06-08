@@ -31,6 +31,16 @@ angular.module('pumprApp')
             $scope.projectError = true;
 
         });
+
+        //Testing search factroy
+        search.addresses(typed)
+          .then(function(res){
+            console.log(res);
+          })
+          .catch(function(err){
+            console.error(err);
+          });
+
         //Adds the project to the recently searched cook
         scope.myrecent = $scope.projects;
       };

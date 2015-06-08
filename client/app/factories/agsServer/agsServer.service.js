@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('agsServer', ['Ags', function(Ags){
+  .factory('agsServer', ['Ags', '$q', '$http', function(Ags, $q, $http){
   //Create Server objects
 
   var mapstest = new Ags({host: 'mapststarcsvr1:6080'}),
@@ -32,6 +32,13 @@ angular.module('pumprApp')
       server: 'MapServer',
     }),
 
+    //Streets Service
+    addressesMs: maps.setService({
+      folder:'Addresses',
+      service: '',
+      server: 'MapServer',
+    }),
+
     //Reclaimed Map Server
     reclaimedMs: gis.setService({
       folder:'PublicUtility',
@@ -58,7 +65,23 @@ angular.module('pumprApp')
       folder:'',
       service: 'Parcels',
       server: 'MapServer'
-    })
+    }),
+
+    geocoder: function(options){
+      var endpoint = 'http://maps.raleighnc.gov/arcgis/rest/services/Locators/Composite/GeocodeServer/findAddressCandidates';
+        var deferred = $q.defer();
+         $http({
+           method: 'GET',
+           url: endpoint,
+           params: options,
+         }).success(function (data) {
+           deferred.resolve(data);
+         }).
+         error(function(data, status){
+           deferred.reject(data);
+         });
+         return deferred.promise;
+       }
 
   };
 
