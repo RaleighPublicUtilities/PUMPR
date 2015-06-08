@@ -15,22 +15,6 @@ angular.module('pumprApp')
         $scope.projectError = false;
         //Uses the Project Search Servies
         $scope.projects = [];
-        // $scope.newProject = projectSearch.autoFill(typed);
-        // $scope.newProject.then(function(data){
-        //       data.features = projectSearch.getSet(data.features);
-        //       if (data.features.length === 0){
-        //         $scope.projects.push('Sorry Project Not Found...');
-        //       }
-        //       for (var i = 0, x = data.features.length; i < x; i++){
-        //           if ($scope.projects.length < 5){
-        //             $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
-        //           }
-        //       }
-        //
-        //   }, function (err){
-        //     $scope.projectError = true;
-        //
-        // });
 
         //Testing search factroy
          return search.all(typed)

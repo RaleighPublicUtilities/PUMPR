@@ -15,7 +15,7 @@
       <autocomplete ng-model="searchData" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="startSearch" style="width:500px"></autocomplete>
       <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
       <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
-      <input type="text" ng-model="asyncSelected" placeholder="Find a project..." typeahead="project for project in autoFillProjects($viewValue)" typeahead-loading="loadingLocations" class="form-control" typeahead-wait-ms="500">
+      <input type="text" ng-model="asyncSelected" placeholder="Find a project..." typeahead="project for project in autoFillProjects($viewValue)" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500">
       <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
     </div>
   </div>
