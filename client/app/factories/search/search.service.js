@@ -1,15 +1,31 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('search', function (agsServer, $q) {
+  .factory('search', ['agsServer', '$q', function (agsServer, $q) {
     // Service logic
     // ...
+
+    //Clean data before searching in ArcGIS Server
     function clean4Ags(typed){
       typed = typed.toUpperCase();
       //Allows apostrophe (single quote) to be searched
       typed = typed.replace("'", "''");
       return typed;
     }
+
+    //Reused options for location and address search
+    var streetOptions = {
+      layer: 'Streets',
+      geojson: false,
+      actions: 'query',
+      params: {
+        f: 'json',
+        outFields: 'CARTONAME',
+        text: typed,
+        returnGeometry: false,
+        orderByFields: 'CARTONAME ASC'
+      }
+    };
 
     // Public API here
     var search = {
@@ -36,7 +52,21 @@ angular.module('pumprApp')
       },
 
       //Lookup project by location
-      locations: function(){
+      locations: function(typed){
+        typed = clean4Ags(typed);
+        var deferred = $q.defer();
+        streetOptions.params.text = typed;
+
+
+        agsServer.streetsMs.request(streetOptions).
+          success(function(data, status){
+            deferred.resolve(data);
+          }).
+          error(function(data, status){
+            deferred.reject(data);
+          });
+
+          return deferred.promise;
 
       },
 
@@ -48,19 +78,8 @@ angular.module('pumprApp')
       //Lookup Address
       addresses: function(typed){
         typed = clean4Ags(typed);
-
-        var streetOptions = {
-          layer: 'Streets',
-          geojson: false,
-          actions: 'query',
-          params: {
-            f: 'json',
-            outFields: 'CARTONAME',
-            text: typed,
-            returnGeometry: false,
-            orderByFields: 'CARTONAME ASC'
-          }
-        };
+        
+        streetOptions.params.text = typed;
 
         return agsServer.streetsMs.request(streetOptions);
 
@@ -83,5 +102,5 @@ angular.module('pumprApp')
 
     return (search);
 
-    };
-  });
+
+  }]);

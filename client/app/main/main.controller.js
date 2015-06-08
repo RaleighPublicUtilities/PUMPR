@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('MainCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope', '$location',
-    function ($scope, cookies, agsServer, projectSearch, $rootScope, $location) {
+  .controller('MainCtrl', ['$scope','cookies', 'agsServer', 'projectSearch', '$rootScope', '$location', 'search',
+    function ($scope, cookies, agsServer, projectSearch, $rootScope, $location, search) {
       //Set root scope as scope
       var scope = $rootScope;
 
