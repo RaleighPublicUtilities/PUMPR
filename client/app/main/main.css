@@ -50,8 +50,8 @@ body {
 }
 
 .main-logo{
-  height: 150px;
-  width: 150px;
+  display:block;
+  margin:auto;
 }
 
 .main-alert{
