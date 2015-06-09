@@ -8,7 +8,8 @@ angular.module('pumprApp')
     var scope = $rootScope;
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
-  $scope.searchStatus = false;
+    $scope.searchStatus = false;
+
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
       center: {
@@ -18,27 +19,28 @@ angular.module('pumprApp')
       },
       layers: {
             baselayers: {
-                xyz: {
-                  name: 'Death Star',
-                  url: 'https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png',
-                  type: 'xyz'
+                raleighTerrain: {
+                  name: 'Raleigh Terrain',
+                  url: 'https://{s}.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}',
+                  type: 'xyz',
+                  layerParams: {
+                    token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
+                    mapId: 'ctwhite.g8n5fjjp'
+                  },
+                },
+                raleighImagery: {
+                  name: 'Raleigh Imagery',
+                  url: 'http://api.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}',
+                  type: 'xyz',
+                  layerParams: {
+                    token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
+                    mapId: 'ctwhite.mdf6egjp'
+                  },
                 },
                 osm: {
                   name: 'Open Street Map',
                   url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
                   type: 'xyz'
-                },
-                raleigh:{
-
-                  name: 'Basic Base Map',
-                    type: 'dynamic',
-                    url: 'http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer',
-                    visible: false,
-                    layerOptions: {
-                        layers: ['*'],
-                          opacity: 0.5,
-                          attribution: 'Copyright:© 2014 City of Raleigh'
-                    }
                 }
             },
             overlays: {
