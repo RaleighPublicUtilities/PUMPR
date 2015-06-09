@@ -10,14 +10,7 @@ angular.module('pumprApp')
         var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...' ];
         $interval(function(){
           count = count > 4 ? 0 : count;
-          // console.log(angular.element('#searchControl::-webkit-input-placeholder'));
-          // angular.element('#searchControl::-webkit-input-placeholder').addClass('animated pulse');
           $scope.placeholder = options[count];
-          // angular.element('#searchControl::-webkit-input-placeholder').removeClass('animated pulse');
-          // angular.element('#searchControl::-moz-placeholder').addClass('animated slideInLeft');
-          // angular.element('#searchControl:-ms-input-placeholder').addClass('animated slideInLeft');
-          // angular.element('#searchControl:-moz-placeholder').addClass('animated slideInLeft');
-
           count++;
         }, 3000);
       }
