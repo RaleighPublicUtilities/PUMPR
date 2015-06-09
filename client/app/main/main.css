@@ -1,5 +1,7 @@
 body {
-  background: #fff url('/assets/images/clarify-assets/scaled-at-75/clarity.png') no-repeat center center fixed;
+  /*background: #fff url('/assets/images/clarify-assets/scaled-at-75/clarity.png') no-repeat center center fixed;*/
+  background: #fff url('/assets/images/clarify-assets-jpg/clarity.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
