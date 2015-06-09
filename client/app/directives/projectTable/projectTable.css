@@ -2,6 +2,7 @@
   background-color: rgba(116, 116, 116, 0.87);
   border-radius: 0;
   margin: 0 auto 20px auto;
+  color: #fff;
 }
 
 .pd-table thead{
@@ -12,4 +13,14 @@
 
 .pd-table thead th {
   background: #343232;
+}
+
+.pd-table tbody tr.ng-enter {
+    -webkit-transition: 1s;
+    transition: 1s;
+    opacity: 0;
+}
+
+.pd-table tbody tr.ng-enter-active {
+    opacity: 1;
 }

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'cookies', 'agsServer',
-    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, cookies, agsServer) {
+  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'search', 'agsServer', '$interval',
+    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, search, agsServer, $interval) {
 
     //Add root scope to set recent projects
     var scope = $rootScope;
@@ -182,7 +182,7 @@ function createPopup (feature, layer) {
 
 leafletData.getMap('map').then(function(map) {
 
-  //Adds timer to map
+  //Adds search bar to map
     var searchBar = L.Control.extend({
       options: {
         position: 'topcenter'
@@ -215,6 +215,40 @@ leafletData.getMap('map').then(function(map) {
   });
 
   map.addControl(new searchBar());
+
+  //Add Project Table
+  var projectTable = L.Control.extend({
+    options: {
+      position: 'topleftish'
+    },
+
+    onAdd: function (map) {
+      var $controlContainer = map._controlContainer,
+          nodes = $controlContainer.childNodes,
+          topleftish = false;
+
+      for (var i = 0, len = nodes.length; i < len; i++) {
+          var klass = nodes[i].className;
+          if (/leaflet-top/.test(klass) && /leaflet-leftish/.test(klass)) {
+              topleftish = true;
+              break;
+          }
+      }
+      if (!topleftish) {
+          var tc = document.createElement('div');
+          tc.className += 'leaflet-top leaflet-leftish';
+          $controlContainer.appendChild(tc);
+          map._controlCorners.topleftish = tc;
+      }
+      this._map = map;
+      this._container = L.DomUtil.get('mapTable');
+        // var container = L.DomUtil.get('searchBar');
+            // container.setPosition('searchBar', [0, 0]);
+        return this._container;
+    }
+});
+
+map.addControl(new projectTable());
 
   //Gets layer info from map
   map.on('click', function(e){
@@ -384,6 +418,18 @@ function removeEmptyFields (data) {
 }
 
 
+      function rotatePlaceholder (){
+        var count = 0;
+        var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...' ];
+        $interval(function(){
+          count = count > 4 ? 0 : count;
+          $scope.placeholder = options[count];
+          count++;
+        }, 3000);
+      }
+
+      rotatePlaceholder();
+
 $scope.autoFillProjects = function (typed) {
   //Turns on the map resulsts table
   $scope.searchStatus = false;
@@ -392,29 +438,31 @@ $scope.autoFillProjects = function (typed) {
   angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
   $scope.projects = [];
-  $scope.newProject = projectSearch.autoFill(typed)
-    .then(function(data){
-    if (data.features){
-      data.features = projectSearch.getSet(data.features);
-      for (var i = 0, x = data.features.length; i < x; i++){
-        if ($scope.projects.length < 5){
-          $scope.projects.push(data.features[i].attributes.PROJECTNAME + ':' + data.features[i].attributes.DEVPLANID + ':' + data.features[i].attributes.PROJECTID);
-        }
-      }
-    }
+  $scope.newProject = search.all(typed);
+   return $scope.newProject
+    .then(function(res){
+      var results = res[0].features.concat(res[1].features);
 
-  }, function (error){
-    $scope.projectError = true;
-  });
-  //Adds the project to the recently searched cook
-  scope.myrecent = $scope.projects;
+      if (results.length === 0){
+        $scope.projects.push('Sorry Project Not Found...');
+        return $scope.projects;
+      }
+      else{
+          return results.map(function(item){
+            return item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID;
+          });
+      }
+
+    })
+    .catch(function(err){
+      $scope.projectError = true;
+    });
 };
 
 $scope.searchControl = function (typed){
   console.log(typed);
 
-  //Add projects to recent projects cookie
-  cookies.addProjectCookie(typed);
+
   var selection = typed.split(':');
 
   var projectOptions = {
@@ -468,7 +516,7 @@ $scope.searchControl = function (typed){
         map.fitBounds(drawnItems.getBounds());
         //add project to map
         drawnItems.addTo(map);
-        console.log('made it');
+
       });
 
       //Get Document Information for carousel

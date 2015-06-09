@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('search', ['agsServer', '$q', function (agsServer, $q) {
+  .factory('search', ['agsServer', '$q', '$interval', function (agsServer, $q, $interval) {
     // Service logic
     // ...
 
