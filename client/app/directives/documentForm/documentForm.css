@@ -20,6 +20,7 @@ table tbody tr{
 .table-bold{
   font-weight: bold;
   font-size: larger;
+  background: #343232;
 }
 
 .table-view:last-child{

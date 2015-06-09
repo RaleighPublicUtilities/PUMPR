@@ -1,5 +1,5 @@
 body {
-  background: #fff url('/assets/images/bg.png') no-repeat center center fixed;
+  background: #fff url('/assets/images/clarify.JPG') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -24,21 +24,29 @@ body {
 .hero-unit {
     position: relative;
     padding: 30px 15px;
-    color: #F5F5F5;
+    color: #F5F5F5; /*dark*/
+    color: #018752; /*light*/
     /*text-align: center;*/
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    background: rgba(107, 107, 107, 0.81);
+    background: rgba(107, 107, 107, 0.81); /*dark*/
+    background: rgb(243, 243, 243);  /*light*/
 }
 
-/*.logotext {
-  vertical-align: middle;
-}*/
-
+.main-view{
+  background: rgba(35, 35, 35, 0.79);
+  margin: 10em auto 10em auto;
+  height:40em;
+  width: 100%
+}
 .footer {
     text-align: center;
     padding: 30px 0;
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
+    color: #fff;
+}
+.main-issues:link{
+    color: #2267AB;
 }
 
 .main-logo{
@@ -49,7 +57,9 @@ body {
 .main-alert{
   margin-top: 5px;
 }
-
+.sub-heading{
+  color: #CCB088;
+}
 #searchControl {
   background-color: rgba(107, 107, 107, 0.81);
   border-color:#cbcbcb;
@@ -72,7 +82,7 @@ body {
 }
 
 #searchControl:-ms-input-placeholder {
-  color: rgb(220, 220, 220); 
+  color: rgb(220, 220, 220);
 }
 
 #searchControl:focus::-webkit-input-placeholder {

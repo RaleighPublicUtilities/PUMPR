@@ -103,36 +103,9 @@ body {
   font-size: 11px;
 }
 
-.autocomplete input{
-  font-size: 1.2em;
-  width: 100%;
-  padding:0.4em;
-  background-color: rgba(143, 144, 141, 0.49);
-  border-color:#7a7c78;
-  color: white;
-  border-radius: 5px;
-}
-
-.autocomplete ul{
-  background: rgba(0,0,0, 0.7);
-  list-style-type: none;
-}
-.autocomplete li{
-  /*background-color: rgba(143, 144, 141, 0.80);
-  border-color:#7a7c78;
-  width: 100%;*/
-  background: rgba(0,0,0, 0.7);
-  padding: 4px 2px;
-
-}
-
-.autocomplete li:hover {
-  background: rgba(30, 136, 250, 0.5);
-  width: 100%;
-}
-
-.autocomplete .highlight {
-  background-color: rgba(239,255,6, 0.50);
+.small-dif{
+  color: #222;
+  /*color: #337ab7; blue*/
 }
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,

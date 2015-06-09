@@ -36,11 +36,6 @@ angular.module('pumprApp')
                     token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
                     mapId: 'ctwhite.mdf6egjp'
                   },
-                },
-                osm: {
-                  name: 'Open Street Map',
-                  url: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-                  type: 'xyz'
                 }
             },
             overlays: {
