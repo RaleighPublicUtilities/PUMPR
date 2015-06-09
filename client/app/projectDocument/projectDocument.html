@@ -8,18 +8,7 @@
   <!-- {{join}} -->
   <div class="row">
     <div class="col-md-3">
-      <table class="table pd-table">
-        <thead>
-          <th class="text-primary">Key</th>
-          <th class="text-primary">Value</th>
-        </thead>
-        <tbody>
-          <tr ng-repeat="(key, value) in documentDetails">
-            <td>{{key}}</td>
-            <td>{{value}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <project-table project="documentDetails"></project-table>
       <div class="row">
         <div class="col-md-12">
           <div class="btn-group btn-group-lg" role="group" aria-label="...">

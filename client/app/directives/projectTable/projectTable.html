@@ -1,9 +1,10 @@
-<table class="table mapTable" >
+<table class="table pd-table" >
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
+    <th></th>
   </thead>
-  <tbody class="mapTableBody">
+  <tbody>
     <tr ng-repeat="(key, value) in project">
       <td>{{key}}</td>
       <td ng-if="key !== 'CPLINK'">{{value}}</td>

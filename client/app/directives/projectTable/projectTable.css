@@ -1,0 +1,15 @@
+.pd-table{
+  background-color: rgba(116, 116, 116, 0.87);
+  border-radius: 0;
+  margin: 0 auto 20px auto;
+}
+
+.pd-table thead{
+  /*background: #343232;*/
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.pd-table thead th {
+  background: #343232;
+}
