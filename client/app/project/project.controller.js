@@ -84,9 +84,9 @@ var vis = d3.select('#tree').append('svg:svg')
     geojson: true
   };
   //Sets the basemap
-  leafletData.getMap('project-map').then(function(map) {
-    L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
-  });
+  // leafletData.getMap('project-map').then(function(map) {
+  //   L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
+  // });
   //Get project data from server
   agsServer.ptMs.request(searchOptions).then(function(res){
      console.log(res);

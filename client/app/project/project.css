@@ -15,6 +15,11 @@ path.link {
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+#project-map{
+  height: 20%;
+  width: 80%;
+}
 /*body {
   background: url(texture-noise.png);
   overflow: hidden;
@@ -60,7 +65,7 @@ rect {
   fill: none;
   pointer-events: all;
 }
-#line{
+#bar{
   height: 100%;
 }
 pre {
