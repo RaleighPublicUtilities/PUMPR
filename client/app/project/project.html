@@ -1,8 +1,8 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class='container-fluid'>
+<div class='container-fluid project-backgroud'>
   <div class="row">
     <div class="col-md-12">
-      <h1 class="page-header">{{projectname}} : <small class="small-dif">{{projectid}}</small></h1>
+      <h1 class="page-header">{{projectname}} : <small>{{projectid}}</small></h1>
     </div>
   </div>
   <div class='container'>
@@ -15,7 +15,7 @@
     </div>
   </div>
 </div>
-  <div ng-show="message.docs" class="row project-backgroud">
+  <div ng-show="message.docs" class="row">
     <div class="col-md-5">
       <leaflet id="project-map" height="350px"></leaflet>
       <h2>Document Breakdown</h2>
@@ -26,3 +26,4 @@
     </div>
   </div>
 </div>
+<div ng-include="'components/footer/footer.html'"></div>
