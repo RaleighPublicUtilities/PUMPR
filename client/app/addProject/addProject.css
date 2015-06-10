@@ -22,7 +22,7 @@
 
 .fullScreen {
   height: 100%;
-  padding-bottom: 5px;
+  padding: 0 0;
 }
 
 /*.leaflet-control-layers-list {

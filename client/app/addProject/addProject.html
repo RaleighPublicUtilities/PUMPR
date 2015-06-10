@@ -1,10 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container-fluid fullScreen">
-  <div class="row fullScreen">
-    <div class="col-sm-12 col-md-12 fullScreen">
-<!--Map Project Seach Bar and Table -->
-<!-- <div class="mapSearch"> -->
-  <!-- <autocomplete id="searchBar" class="mapSearch" ng-model="map.search" data="projects" on-type="autoFillProjects" on-select="searchControl" attr-placeholder="Find a project..." class="mapSearchStyle"></autocomplete> -->
+
   <div id="searchBar">
   <div class="inner-addon right-addon">
     <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control mapSearchStyle" typeahead-wait-ms="500">
@@ -14,11 +9,8 @@
   <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
   <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
 </div>
-  <!-- <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
-  <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div> -->
 
-<!-- </div> -->
-
+<!-- Project Table -->
 <project-table id="mapTable" project="project_info" ng-show="searchStatus"></project-table>
 
 <!-- Map -->
@@ -56,7 +48,4 @@
       </div>
     </div>
   </div>
-</div>
-</div>
-</div>
 </div>
