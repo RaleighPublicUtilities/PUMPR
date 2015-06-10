@@ -1,6 +1,9 @@
 .engview {
   background: rgba(12, 4, 4, 0.77);
   border: 1px solid #fff;
+  margin-top: 10em;
+  height: 30%
+  max-height:30%;
 }
 
 .engPad{
@@ -8,7 +11,8 @@
 }
 
 .eng-table {
-  max-height: 60em;
+  max-height: 10%;
+  height: 300px;
   overflow-y: auto;
   margin: 0 auto 3em auto;
 }
