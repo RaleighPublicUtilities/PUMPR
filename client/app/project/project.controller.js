@@ -50,7 +50,7 @@ var vis = d3.select('#tree').append('svg:svg')
      ];
 
 
-     $scope.labels = ['ACCEPTANCE LETTER', 'AS-BUILT DRAWING', 'CONSTRUCTION DRAWING', 'PERMIT', 'PLAT', 'STATEMENT OF COST', 'WAIVER', 'WARRENTY LETTER'];
+     $scope.labels = ['ACCEPTANCE LETTER', 'AS-BUILT DRAWING', 'CONSTRUCTION DRAWING', 'PERMIT', 'PLAT', 'STATEMENT OF COST', 'WAIVER', 'WARRANTY LETTER'];
      $scope.series = ['Document Types', 'Total Documents'];
      $scope.data = [
        [0,0,0,0,0,0,0,0],
