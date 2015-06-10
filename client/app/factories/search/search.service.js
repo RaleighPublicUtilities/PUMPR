@@ -50,6 +50,87 @@ angular.module('pumprApp')
       return agsServer.ptMs.request(projectOptions);
     }
 
+    //Converts utilities boolean from 0 - 1 to ture - false
+    function convertUtilities (data){
+      var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
+      utils.forEach(function(util){
+        data[util] = data[util] ? true : false;
+      });
+      return data;
+    }
+
+    //Remove null values from results
+    function removeEmptyFields (data) {
+        for (var a in data){
+          data[a] === 'Null' | null | '' | NaN ? delete data[a] : data[a];
+        }
+        console.log(data);
+        return data;
+      }
+
+    //Joins tables together based on field
+    //addFieldFromTable(table1, table2, joinField, addFiedl);
+    function addFieldFromTable (t1, t2, joinField, addField){
+       t1.map(function(t1Data){
+         t2.forEach(function(t2Data){
+           t1Data.attributes[addField] =  t1Data.attributes[joinField] === t2Data.attributes[joinField] ? t2Data.attributes[addField] : t1Data.attributes[addField];
+         });
+         convertUtilities(t1Data.attributes);
+       });
+       return t1;
+   }
+
+   //Get all helper tables to create view of doucments with real names
+   function getSupportTables (data){
+     var deferred = $q.defer();
+     var supportTables = [
+       {
+           name: 'engTypes',
+           id: 'RPUD.ENGINEERINGFIRM',
+           joinField: 'ENGID',
+           addField: 'SIMPLIFIEDNAME',
+       },
+       {
+           name: 'sheetTypes',
+           id: 'RPUD.SHEETTYPES',
+           joinField: 'SHEETTYPEID',
+           addField: 'SHEETTYPE',
+       },
+       {
+           name: 'docTypes',
+           id: 'RPUD.DOCUMENTTYPES',
+           joinField: 'DOCTYPEID',
+           addField: 'DOCUMENTTYPE',
+       }
+     ];
+
+      supportTables.forEach(function(table){
+        var name = table.name;
+
+        var options = {
+          layer: table.id,
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: '1=1',
+            outFields: '*',
+            orderByFields: table.addField + ' ASC',
+            returnGeometry: false
+          }
+        };
+        agsServer.ptFs.request(options).then(function(d){
+          table.data = d.features;
+          addFieldFromTable(data, table.data, table.joinField, table.addField);
+        })
+        .catch(function(err){
+          deferred.reject(err);
+        });
+        deferred.resolve(data);
+      }); //End loop
+
+      return deferred.promise;
+
+   }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public API here
@@ -76,6 +157,7 @@ angular.module('pumprApp')
 
       //Find projects documents
       documents: function (projectid){
+        var deferred = $q.defer();
         var options = {
           layer: 'RPUD.PTK_DOCUMENTS',
           actions: 'query',
@@ -88,7 +170,16 @@ angular.module('pumprApp')
           }
         };
 
-        return agsServer.ptFs.request(options);
+        agsServer.ptFs.request(options)
+        .then(function(documents){
+          deferred.resolve(getSupportTables(documents.features));
+        })
+        .catch(function(err){
+          deferred.reject(err);
+        });
+
+        return deferred.promise;
+
       },
 
       //Display project with proper engineering firms, document types and sheettypes
@@ -123,7 +214,7 @@ angular.module('pumprApp')
 
       //Search project by location
       addresses: function(typed){
-        var deferred;
+        var deferred = $q.defer();
         typed = clean4Ags(typed);
 
           var addressOptions  = {
@@ -134,8 +225,6 @@ angular.module('pumprApp')
               returnGeometry: true,
               maxLocations: 5
           };
-
-        deferred = $q.defer();
 
         agsServer.geocoder(addressOptions)
           .then(function(data){

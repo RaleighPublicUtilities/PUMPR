@@ -5,7 +5,10 @@ angular.module('pumprApp')
     // //Set up GET request options
     //
     $scope.isLoggedIn = Auth.isLoggedIn;
-
+    $scope.message = {
+       docs: true,
+       error: ''
+     };
     var m = [20, 120, 20, 120],
     w = 1000 - m[1] - m[3],
     h = 800 - m[0] - m[2],
@@ -28,28 +31,6 @@ var vis = d3.select('#tree').append('svg:svg')
     .attr('transform', 'translate(' + m[3] + ',' + m[0] + ')');
 
 
-    $scope.supportTables = [
-      {
-          name: 'engTypes',
-          id: 'RPUD.ENGINEERINGFIRM',
-          joinField: 'ENGID',
-          addField: 'SIMPLIFIEDNAME',
-      },
-      {
-          name: 'sheetTypes',
-          id: 'RPUD.SHEETTYPES',
-          joinField: 'SHEETTYPEID',
-          addField: 'SHEETTYPE',
-      },
-      {
-          name: 'docTypes',
-          id: 'RPUD.DOCUMENTTYPES',
-          joinField: 'DOCTYPEID',
-          addField: 'DOCUMENTTYPE',
-      }
-     ];
-
-
      $scope.labels = ['ACCEPTANCE LETTER', 'AS-BUILT DRAWING', 'CONSTRUCTION DRAWING', 'PERMIT', 'PLAT', 'STATEMENT OF COST', 'WAIVER', 'WARRANTY LETTER'];
      $scope.series = ['Document Types', 'Total Documents'];
      $scope.data = [
@@ -60,113 +41,79 @@ var vis = d3.select('#tree').append('svg:svg')
     $scope.projectid = $location.path().split('/')[2];
 
     $scope.projectname;
-
-  
-  //Sets the basemap
-  // leafletData.getMap('project-map').then(function(map) {
-  //   L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
-  // });
-  //Get project data from server
-  search.project($scope.projectid).then(function(res){
-     console.log(res);
-     $scope.projectname = res.features[0].properties['Project Name'];
-     $scope.projectInfo = res.features[0].properties;
-     $scope.projectInfo = removeEmptyFields($scope.projectInfo);
-     leafletData.getMap('project-map').then(function(map) {
-       L.geoJson(res, {
-         style: {
-           color: 'rgb(151, 187, 205)'
-         },
-         onEachFeature: function (feature, layer) {
-           map.fitBounds(layer.getBounds());
-         }
-       }).addTo(map);
-     });
-   },
-   function (err){
-       console.log(err);
-   });
-
-   $scope.message = {
-     docs: true,
-     error: ''
-   };
-    search.documents($scope.projectid).then(function(data){
-      if (data.error || (Array.isArray(data.features) && data.features.length === 0)){
+    search.display($scope.projectid).then(function(res){
+      console.log(res[0]);
+      console.log(res[1]);
+      var project = res[0];
+      var docs = res[1];
+      $scope.projectname = project.features[0].properties['Project Name'];
+      $scope.projectInfo = project.features[0].properties;
+      $scope.projectInfo = removeEmptyFields($scope.projectInfo);
+      if ((Array.isArray(docs) && docs.length === 0)){
         $scope.message = {
           docs: false,
           error: 'No Documents are currently loaded.'
         };
       }
       else {
+        $scope.message = {
+           docs: true,
+           error: ''
+         };
 
-        return data.features;
-      }
 
-    }, function(err){
-      console.log(err);
-    })
-    .then(function(data){
-      $scope.supportTables.forEach(function(table){
-        var name = table.name;
 
-        var options = {
-          layer: table.id,
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: '1=1',
-            outFields: '*',
-            orderByFields: table.addField + ' ASC',
-            returnGeometry: false
+
+      leafletData.getMap('project-map').then(function(map) {
+        L.geoJson(res, {
+          style: {
+            color: 'rgb(151, 187, 205)'
+          },
+          onEachFeature: function (feature, layer) {
+            map.fitBounds(layer.getBounds());
           }
-        };
-        agsServer.ptFs.request(options).then(function(d){
-          table.data = d.features;
-          agsServer.addFieldFromTable(data, table.data, table.joinField, table.addField);
-
-        });
+        }).addTo(map);
       });
-      return data;
-    }, function(err){
-      console.log('Issue joining tables');
-    })
-    .then(function(data){
-      $scope.docs = data;
-      $timeout(function(){
-      createGraph(data, function(graph){
-        generateGraph(data, graph, function(json){
-          root = json;
-          root.x0 = h / 2;
-          root.y0 = 0;
 
-          function toggleAll(d) {
-            if (d.children) {
-              d.children.forEach(toggleAll);
-              toggle(d);
+
+        $scope.docs = docs;
+        $timeout(function(){
+        createGraph(docs, function(graph){
+          generateGraph(docs, graph, function(json){
+            root = json;
+            root.x0 = h / 2;
+            root.y0 = 0;
+
+            function toggleAll(d) {
+              if (d.children) {
+                d.children.forEach(toggleAll);
+                toggle(d);
+              }
             }
-          }
 
-          // Initialize the display to show a few nodes.
-          root.children.forEach(toggleAll);
-
-
-          update(root);
-          getBarChartData($scope.labels, json);
+            update(root);
+            getBarChartData($scope.labels, json);
+          });
         });
-      });
-    }, 1000);
+      }, 1000);
+    }
     });
+
+  //Sets the basemap
+  // leafletData.getMap('project-map').then(function(map) {
+  //   L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
+  // });
+
 
   function getBarChartData (labels, graph){
     for (var a = 0, len = labels.length; a < len; a++){
       for (var i in graph.children){
         if (graph.children[i].name === labels[a]){
           var total = 0;
-          for (var q in graph.children[i]._children){
-            total+= graph.children[i]._children[q]._children.length;
+          for (var q in graph.children[i].children){
+            total+= graph.children[i].children[q].children.length;
           }
-          $scope.data[0].splice(a, 1, graph.children[i]._children.length);
+          $scope.data[0].splice(a, 1, graph.children[i].children.length);
           $scope.data[1].splice(a, 1, total);
           break;
         }
@@ -179,7 +126,6 @@ var vis = d3.select('#tree').append('svg:svg')
   $scope.onClick = function (points, evt) {
     console.log(points, evt);
   };
-
 
 
 function createGraph(data, cb){
@@ -247,7 +193,7 @@ function update(source) {
       .attr('r', 1e-6)
       .style('fill', function(d) { return d._children ? 'lightsteelblue' : '#fff'; });
 
-  console.log(nodeEnter);
+
   nodeEnter.append('svg:text')
       .attr('x', function(d) { return d.children || d._children ? 40 : 10; })
       .attr('dy', '2em')
@@ -334,11 +280,12 @@ function toggle(d) {
 
 function removeEmptyFields (data) {
     for (var a in data){
-      data[a] === 'Null' ? delete data[a] : data[a];
+      data[a] === 'Null' | null | '' ? delete data[a] : data[a];
     }
     console.log(data);
     return data;
   }
+
 
 
 
