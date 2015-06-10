@@ -1,14 +1,65 @@
-<table class="table pd-table" >
+
+<table ng-show="!isDocument" class="table pd-table" >
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
     <th></th>
   </thead>
-  <tbody>
+  <tbody ng-if="isDocument === false">
     <tr ng-repeat="(key, value) in project">
       <td>{{key}}</td>
       <td ng-if="key !== 'CPLINK'">{{value}}</td>
       <td ng-if="key === 'CPLINK'"><a id="doc-link" href="" ng-click="popup(value)">Link</a><td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table ng-show="isDocument" class="table pd-table" >
+  <thead>
+    <th class="text-primary">Key</th>
+    <th class="text-primary">Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Seal Date</td>
+      <td>{{project.SEALDATE | date : 'shortDate'}}</td>
+    </tr>
+    <tr>
+      <td>Document Type</td>
+      <td>{{project.DOCUMENTTYPE}}</td>
+    </tr>
+    <tr>
+      <td>Sheet Type</td>
+      <td>{{project.SHEETTYPE}}</td>
+    </tr>
+    <tr>
+      <td>Engineering Firm</td>
+      <td>{{project.SIMPLIFIEDNAME}}</td>
+    </tr>
+    <tr>
+      <td>Alias</td>
+      <td>{{project.ALIAS}}</td>
+    </tr>
+    <tr>
+      <td>Former Name</td>
+      <td>{{project.FORMERNAME}}</td>
+    </tr>
+    <tr>
+      <td>Water</td>
+      <td class="water">{{project.WATER}}</td>
+    </tr>
+    <tr>
+      <td>Sewer</td>
+      <td class="sewer">{{project.SEWER}}</td>
+    </tr>
+    <tr>
+      <td>Reuse</td>
+      <td class="reuse">{{project.REUSE}}</td>
+    </tr>
+    <tr>
+      <td>Storm</td>
+      <td class="strom">{{project.STORM}}</td>
     </tr>
   </tbody>
 </table>

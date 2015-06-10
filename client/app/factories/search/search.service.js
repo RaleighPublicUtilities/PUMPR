@@ -64,7 +64,6 @@ angular.module('pumprApp')
         for (var a in data){
           data[a] === 'Null' | null | '' | NaN ? delete data[a] : data[a];
         }
-        console.log(data);
         return data;
       }
 
@@ -155,7 +154,24 @@ angular.module('pumprApp')
 
       },
 
-      //Find projects documents
+      //Get details on a single document
+      getDocument: function (docid){
+        docid = docid.split('-');
+        var options = {
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: 'PROJECTID = ' + docid[0] + " AND DOCTYPEID = '" + docid[1] + "' AND DOCID = " + docid[2],
+            outFields: 'DOCID, WATER, SEWER, REUSE, STORM, PROJECTNAME, FORMERNAME, ALIAS, ENGID, DOCTYPEID, SHEETTYPEID',
+            returnGeometry: false
+          }
+        };
+
+        return agsServer.ptFs.request(options);
+      },
+
+      //Find all documents for a single project
       documents: function (projectid){
         var deferred = $q.defer();
         var options = {

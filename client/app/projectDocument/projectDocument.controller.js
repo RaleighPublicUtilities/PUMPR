@@ -1,43 +1,33 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', '$http', 'agsServer', 'Auth' , function ($scope, $location, $sce, $http, agsServer, Auth) {
-    $scope.isLoggedIn = Auth.isLoggedIn;
-    var documentid = $scope.documentid = $location.path().split('/')[3];
-    $scope.documentInfo = $scope.documentid.split('-');
-    $scope.projectname;
-    $scope.documentDetails;
-    $scope.testDate = Date.now();
-    var projectDocuments;
-    var projectid = $scope.projectid = $scope.documentInfo[0];
-    var docid = $scope.docid = parseInt($scope.documentInfo[2], 10);
-    var url = $scope.url = $sce.trustAsResourceUrl('/api/documents/' + projectid + '/' + documentid);
-    var options = {
-      layer: 'RPUD.PTK_DOCUMENTS',
-      actions: 'query',
-      params: {
-        f: 'json',
-        where: 'PROJECTID = ' + projectid, // + " AND DOCTYPEID = '" + $scope.documentInfo[1] + "' AND DOCID = " + $scope.documentInfo[2],
-        outFields: 'DOCID, WATER, SEWER, REUSE, STORM, PROJECTNAME, FORMERNAME, ALIAS, ENGID, DOCTYPEID, SHEETTYPEID',
-        returnGeometry: false
-      }
-    };
+  .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', 'search', 'Auth',
+    function ($scope, $location, $sce, search, Auth) {
+      $scope.isLoggedIn = Auth.isLoggedIn;
+      var documentid = $scope.documentid = $location.path().split('/')[3];
+      $scope.documentInfo = $scope.documentid.split('-');
+      $scope.projectname;
+      $scope.documentDetails;
+      $scope.testDate = Date.now();
+      var projectDocuments;
+      var projectid = $scope.projectid = $scope.documentInfo[0];
+      var docid = $scope.docid = parseInt($scope.documentInfo[2], 10);
+      var url = $scope.url = $sce.trustAsResourceUrl('/api/documents/' + projectid + '/' + documentid);
 
 
     //Request project documents from server
-    agsServer.ptFs.request(options)
+    search.documents(projectid)
       .then(function(res){
         if (res.error){
 
         }
         //Get list of project documents
-        projectDocuments = res.features;
+        projectDocuments = res;
 
         //Set page view
         projectDocuments.forEach(function(doc){
           if (doc.attributes.DOCID === docid){
             $scope.documentDetails = doc.attributes;
-            console.log($scope.documentDetails);
           }
         });
       })

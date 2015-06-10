@@ -15,6 +15,12 @@
   background: #343232;
 }
 
+.pd-table tbody{
+  /*background: #343232;*/
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
 .pd-table tbody tr.ng-enter {
     -webkit-transition: 1s;
     transition: 1s;
