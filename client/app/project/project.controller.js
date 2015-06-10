@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', 'leafletData', 'Auth', function ($scope, $location, $timeout, agsServer, leafletData,  Auth) {
+  .controller('ProjectCtrl', ['$scope', '$location', '$timeout', 'agsServer', 'leafletData', 'Auth', 'search', function ($scope, $location, $timeout, agsServer, leafletData,  Auth, search) {
     // //Set up GET request options
     //
     $scope.isLoggedIn = Auth.isLoggedIn;
@@ -58,37 +58,16 @@ var vis = d3.select('#tree').append('svg:svg')
      ];
 
     $scope.projectid = $location.path().split('/')[2];
-    $scope.projectname;
-    var options = {
-      layer: 'RPUD.PTK_DOCUMENTS',
-      actions: 'query',
-      params: {
-        f: 'json',
-        where: 'PROJECTID = ' + $scope.projectid,
-        outFields: '*',
-        orderByFields: 'DOCID ASC',
-        returnGeometry: false
-      }
-    };
 
-    //Options for search
-  var searchOptions = {
-    params: {
-      f: 'json',
-      searchText: $scope.projectid,
-      searchFields: 'PROJECTID',
-      layers: 'Project Tracking, RPUD.PTK_DOCUMENTS', //Use layer names or layer ids
-      sr: 4326
-    },
-    actions: 'find',
-    geojson: true
-  };
+    $scope.projectname;
+
+  
   //Sets the basemap
   // leafletData.getMap('project-map').then(function(map) {
   //   L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
   // });
   //Get project data from server
-  agsServer.ptMs.request(searchOptions).then(function(res){
+  search.project($scope.projectid).then(function(res){
      console.log(res);
      $scope.projectname = res.features[0].properties['Project Name'];
      $scope.projectInfo = res.features[0].properties;
@@ -112,7 +91,7 @@ var vis = d3.select('#tree').append('svg:svg')
      docs: true,
      error: ''
    };
-    agsServer.ptFs.request(options).then(function(data){
+    search.documents($scope.projectid).then(function(data){
       if (data.error || (Array.isArray(data.features) && data.features.length === 0)){
         $scope.message = {
           docs: false,

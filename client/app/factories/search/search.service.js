@@ -55,11 +55,47 @@ angular.module('pumprApp')
     // Public API here
     var search = {
 
+      //Find a single project
+      project: function (projectid){
+
+        var options = {
+          params: {
+            f: 'json',
+            searchText: projectid,
+            searchFields: 'PROJECTID',
+            layers: 'Project Tracking', //Use layer names or layer ids
+            sr: 4326
+          },
+          actions: 'find',
+          geojson: true
+        };
+
+        return agsServer.ptMs.request(options);
+
+      },
+
+      //Get a projects documents
+      documents: function (projectid){
+        var options = {
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: 'PROJECTID = ' + projectid,
+            outFields: '*',
+            orderByFields: 'DOCID ASC',
+            returnGeometry: false
+          }
+        };
+
+        return agsServer.ptFs.request(options);
+      },
+
       //Lookup Project by metadata
       projects: function (typed){
         typed = clean4Ags(typed);
 
-        var projectOptions = {
+        var options = {
           layer: 'Project Tracking',
           geojson: false,
           actions: 'query',
@@ -72,7 +108,7 @@ angular.module('pumprApp')
           }
         };
 
-        return agsServer.ptMs.request(projectOptions);
+        return agsServer.ptMs.request(options);
 
       },
 
@@ -131,7 +167,7 @@ angular.module('pumprApp')
         typed = clean4Ags(typed);
 
         //Reused options for location and address search
-        var streetOptions = {
+        var options = {
           layer: 'Streets',
           geojson: true,
           actions: 'query',
@@ -145,7 +181,7 @@ angular.module('pumprApp')
           }
         };
 
-        return agsServer.streetsMs.request(streetOptions);
+        return agsServer.streetsMs.request(options);
 
       },
 
