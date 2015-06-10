@@ -13,7 +13,7 @@ angular.module('pumprApp')
       return typed;
     }
 
-    //Takes array of addresses and buffers results by 0.5 mile returns esri json multipolygon
+    //Takes array of addresses and buffers results by 0.25 mile returns esri json multipolygon
     function createBuffer(data, callback){
       var fc, candidates, features, arcgisMultipolygon;
       candidates = data.candidates;
@@ -51,7 +51,7 @@ angular.module('pumprApp')
     }
 
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public API here
     var search = {
 
@@ -74,7 +74,7 @@ angular.module('pumprApp')
 
       },
 
-      //Get a projects documents
+      //Find projects documents
       documents: function (projectid){
         var options = {
           layer: 'RPUD.PTK_DOCUMENTS',
@@ -91,7 +91,16 @@ angular.module('pumprApp')
         return agsServer.ptFs.request(options);
       },
 
-      //Lookup Project by metadata
+      //Display project with proper engineering firms, document types and sheettypes
+      display: function(projectid){
+        //Generate promises for display
+        var project = this.project(projectid),
+            docs = this.documents(projectid);
+
+        return $q.all([project, docs]);
+      },
+
+      //Search for a Project by metadata
       projects: function (typed){
         typed = clean4Ags(typed);
 
@@ -112,7 +121,7 @@ angular.module('pumprApp')
 
       },
 
-      //Lookup project by location
+      //Search project by location
       addresses: function(typed){
         var deferred;
         typed = clean4Ags(typed);
