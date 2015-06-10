@@ -180,26 +180,26 @@ leafletData.getMap('map').then(function(map) {
   //Adds search bar to map
     var searchBar = L.Control.extend({
       options: {
-        position: 'topcenter'
+        position: 'topleftish'
       },
 
       onAdd: function (map) {
         var $controlContainer = map._controlContainer,
             nodes = $controlContainer.childNodes,
-            topCenter = false;
+            topleftish = false;
 
         for (var i = 0, len = nodes.length; i < len; i++) {
             var klass = nodes[i].className;
-            if (/leaflet-top/.test(klass) && /leaflet-center/.test(klass)) {
-                topCenter = true;
+            if (/leaflet-top/.test(klass) && /leaflet-leftish/.test(klass)) {
+              topleftish = true;
                 break;
             }
         }
-        if (!topCenter) {
+        if (!topleftish) {
             var tc = document.createElement('div');
-            tc.className += 'leaflet-top leaflet-center';
+            tc.className += 'leaflet-top leaflet-leftish';
             $controlContainer.appendChild(tc);
-            map._controlCorners.topcenter = tc;
+            map._controlCorners.topleftish = tc;
         }
         this._map = map;
         this._container = L.DomUtil.get('searchBar');

@@ -3,30 +3,11 @@
   height: 100%;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   z-index: 0;
-  /*margin: 1em;
-  background-color: rgba(107, 116, 109, 0.6);*/
-}
-
-.mapNavBar {
-  position:absolute;
-  top:1%;
-  left:60%;
-  width:28%;
-  height: 2%;
-  /*padding: 25px;*/
-  z-index: 1;
-  background-color: rgba(0,0,0, 0.70);
 }
 
 .leaflet-center {
   width: 100%;
-  /*width: 400px;*/
-  /*margin: 0 auto;*/
   left: 38%;
-  /*padding: 10px 10px;*/
-  /*border: 1px red solid;*/
-	/*margin-left: auto;
-	margin-right: auto;*/
 }
 
 .leaflet-leftish {
@@ -35,26 +16,14 @@
 
 }
 
+#searchBar{
+  width: 46%;
+}
+
 .fullScreen {
   height: 100%;
   padding-bottom: 5px;
 }
-.mapSearch {
-  width: 100%;
-}
-
-.mapDocs {
-  position:absolute;
-  top:7%;
-  left: 77%;
-  width:20%;
-  height: 4%;
-  z-index: 0;
-  background-color: rgba(0,0,0, 0.0);
-  border-radius: 0px;
-
-}
-
 
 /*.leaflet-control-layers-list {
   z-index: 1000;
