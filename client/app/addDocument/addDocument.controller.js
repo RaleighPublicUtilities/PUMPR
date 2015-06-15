@@ -9,6 +9,10 @@ angular.module('pumprApp')
       $scope.project = {};
       $scope.projectname;
 
+      $scope.reload = function(){
+        document.location.reload();
+      }
+
 //Checks if project is in path and set view to project
       if (path.split('/').length === 3){
         var projectid = path.split('/')[2];
@@ -24,33 +28,37 @@ angular.module('pumprApp')
           }
         };
 
-        agsServer.ptFs.request(options).then(function(data){
 
+        $scope.projectPromise = search.display(projectid).then(function(data){
+          var project = data[0];
+
+          data = data[1];
+      
           //If no project documents have been added get project name from db
-          if (!data.features.length){
-            options.layer = 'Project Tracking';
-            options.params.outFields = 'PROJECTNAME';
-            delete options.params.orderByFields;
-            agsServer.ptFs.request(options).then(function(data){
-              $scope.projectname = data.features[0].attributes.PROJECTNAME;
+          if (!data.length){
+              $scope.projectname = project.features[0].properties['Project Name'];
             //Prepare document to be added
             $scope.project = [{
               new: true,
               attributes: {
                 PROJECTID: projectid,
-                PROJECTNAME: data.features[0].attributes.PROJECTNAME
+                PROJECTNAME: project.features[0].properties['Project Name'],
+                DEVPLANID: project.features[0].properties['Development Plan ID']
               }
             }];
-          });
+
           }
           //If project documents have been added
           else {
-            $scope.projectname = data.features[0].attributes.PROJECTNAME;
-            $scope.project = data.features;
+            $scope.projectname = project.features[0].properties['Project Name'];
+            $scope.project = data;
           }
           //Activates table view
           $scope.searchStatus = true;
           $scope.project_docs = true;
+        })
+        .catch(function(error){
+          $scope.projectError = true;
         });
 
       }

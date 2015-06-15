@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('documentForm',  ['agsServer', 'DocumentFactory', 'streetSearch', '$timeout', '$filter', '$http', function (agsServer, DocumentFactory, streetSearch, $timeout, $filter, $http) {
+  .directive('documentForm',  ['agsServer', 'DocumentFactory', 'streetSearch', '$timeout', '$filter', '$http',
+    function (agsServer, DocumentFactory, streetSearch, $timeout, $filter, $http) {
     return {
       restrict: 'E',
       transclude: true,
@@ -10,7 +11,8 @@ angular.module('pumprApp')
       },
       templateUrl: 'app/directives/documentForm/documentForm.html',
       link: function (scope) {
-
+            scope.projects = [];
+            var baseproject;
             scope.supportTables = [
               {
                   name: 'engTypes',
@@ -52,10 +54,8 @@ angular.module('pumprApp')
                   }
                 };
                 agsServer.ptFs.request(options).then(function(d){
-
-                console.log(d);
                   table.data = d.features;
-                  agsServer.addFieldFromTable(project, table.data, table.joinField, table.addField);
+                  // agsServer.addFieldFromTable(project, table.data, table.joinField, table.addField);
                   switch (name){
                     case 'engTypes':
                       scope.engTypes = table.data;
@@ -83,20 +83,25 @@ angular.module('pumprApp')
                     data.upload.isSuccess = false;
                   },
                   function (error){
-                    console.log(error);
+                    console.error(error);
                   });
                   //Sets boolean values for utility options
                   for (var _i = 0, _len = utils.length; _i < _len; _i++){
                    data.attributes[utils[_i]] = data.attributes[utils[_i]] ? true : false;
                   }
+                  //Convert number to date object
+                  if (typeof data.attributes.SEALDATE === 'number' && !isNaN(data.attributes.SEALDATE)){
+                    data.attributes.SEALDATE = new Date(data.attributes.SEALDATE);
+                  }
+
                 });
             }
+            console.log(scope.project)
           };
 
           scope.$watchCollection('project',function(){
             //Checks if project exisits
             scope.refresh(scope.project);
-            // scope.project = newVal;
           });
 
         //Setup Boolean option for utilies options..could/should switch to service or provider
@@ -104,26 +109,6 @@ angular.module('pumprApp')
           bool: [{'name': 'true', 'id': 1}, {'name': 'false', 'id': 0}],
         };
 
-        //Auto fill function for street names
-        scope.autoFill = function (typed) {
-          scope.streets = [];
-          var newSearch = streetSearch.autoFill(typed);
-            newSearch.then(function(res){
-              var street;
-
-                for (var s in res.features){
-                  street = res.features[s].attributes.CARTONAME;
-                  if (scope.streets.indexOf(street) === -1 && scope.streets.length < 5){
-                    scope.streets.push(street);
-                  }
-                }
-
-              }, function (error){
-                  console.log(error);
-              });
-
-
-        };
 
         //Starts edit session on selected table row
         scope.edit = function (doc) {
@@ -138,24 +123,72 @@ angular.module('pumprApp')
             doc.edit = false;
           }, (60000 * 5));
         };
+
         //Add new document visibility controll
         scope.addDoc = true;
         scope.add = function(){
+          var firstRecord, engid;
           // scope.addDoc = false;
+          if (scope.project){
+            console.log(scope.project)
+            if (scope.project.length === 1){
+              firstRecord = scope.project[0].attributes
+              scope.newDocument = new DocumentFactory({
+                PROJECTNAME: firstRecord.PROJECTNAME,
+                PROJECTID: firstRecord.PROJECTID,
+                DEVPLANID: firstRecord.DEVPLANID || undefined,
+                DOCID: 1
+              });
 
-          scope.newDocument = new DocumentFactory({
-            PROJECTNAME: scope.project[0].attributes.PROJECTNAME,
-            PROJECTID: scope.project[0].attributes.PROJECTID,
-            DEVPLANID: scope.project[0].attributes.DEVPLANID || undefined,
-            ENGID: scope.project[0].attributes.ENGID || undefined,
-            DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1 || 1
-          });
+              scope.newDocument.postNewDoc();
+              scope.newDoc = scope.newDocument.getData();
+              scope.project.push({attributes: scope.newDoc, edit: false});
+            }
+            else {
+              var fillData = scope.project[scope.project.length -1].attributes,
+                  sealdate = fillData.SEALDATE;
 
-          //POSTS new document to AGS server
-          scope.newDocument.postNewDoc();
-          scope.newDoc = scope.newDocument.getData();
-          scope.project.push({attributes: scope.newDoc, edit: false});
-          // scope.addDoc = true;
+              //Convert date object to timestamp
+              if (sealdate instanceof Date){
+                sealdate = sealdate.getTime();
+              }
+
+              if (fillData.ENGID){
+                engid = {
+                  ENGID: fillData.ENGID,
+                  SIMPLIFIEDNAME: fillData.SIMPLIFIEDNAME
+                };
+              }
+              else{
+                engid = scope.project.length > 1 ? scope.project[1].ENGID.attributes : undefined;
+              }
+                // var engid = scope.project.length > 1 ? scope.project[1].ENGID.attributes : undefined;
+                console.log(engid, scope.project.length)
+
+              scope.newDocument = new DocumentFactory({
+                PROJECTNAME: fillData.PROJECTNAME,
+                PROJECTID: fillData.PROJECTID,
+                DEVPLANID: fillData.DEVPLANID || undefined,
+                ENGID: engid.ENGID || undefined,
+                SEALDATE: sealdate,
+                DOCID: scope.project[scope.project.length - 1].attributes.DOCID + 1 || 1
+              });
+
+              //POSTS new document to AGS server
+              scope.newDocument.postNewDoc();
+              scope.newDoc = scope.newDocument.getData();
+
+              // var sealdate = scope.newDoc.SEALDATE;
+              console.log(scope.newDoc);
+              //Set engineering firm for display
+              scope.newDoc.SIMPLIFIEDNAME = engid.SIMPLIFIEDNAME;
+              scope.project.push({attributes: scope.newDoc, edit: false});
+              // scope.addDoc = true;
+            }
+          }
+          else{
+            console.log('Please try again')
+          }
         };
 
 
@@ -167,6 +200,8 @@ angular.module('pumprApp')
         	else if (e.srcElement) targ = e.srcElement;
         	if (targ.nodeType == 3) // defeat Safari bug
         		targ = targ.parentNode;
+            angular.element(targ).removeClass('animated shake addDocFailure addDocSuccess');
+          console.log(data);
           //Sets updated values
           scope.updateDocument = new DocumentFactory(data).setValue(data);
           //Updates document on server

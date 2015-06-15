@@ -6,12 +6,13 @@
     <th>DOCUMENT TYPE</th>
     <th>SHEET DESCRIPTION</th>
     <th>ENGINEERING FIRM</th>
+    <th>SEAL DATE</td>
     <th>ALIAS</th>
     <th>WATER</th>
     <th>SEWER</th>
     <th>REUSE</th>
     <th>STORM</th>
-    <th>LINK</th>
+    <th>DOCUMENT</th>
   </thead>
   <tbody class="table-body">
     <!--table view -->
@@ -36,6 +37,9 @@
           <option value="">--Select--</option>
         </select>
       </td>
+      <td ng-hide="doc.edit" ng-if="doc.attributes.SEALDATE === 'Null'" ng-click="edit(doc)" ></td>
+      <td ng-hide="doc.edit" ng-if="doc.attributes.SEALDATE !== 'Null'" ng-click="edit(doc)" >{{doc.attributes.SEALDATE | date : 'shortDate'}}</td>
+      <td ng-show="doc.edit"><input ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SEALDATE': doc.attributes.SEALDATE})" class="form-control form-inputs" type="date" ng-model="doc.attributes.SEALDATE"/></td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.ALIAS}}</td>
       <td ng-show="doc.edit"><input ng-keyup="post({'OBJECTID': doc.attributes.OBJECTID, 'ALIAS': doc.attributes.ALIAS})" class="form-control form-inputs" type="text" ng-model="doc.attributes.ALIAS" placeholder="Alias..."/></td>
       <td class="water" ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.WATER.name || doc.attributes.WATER}}</td>

@@ -7,12 +7,15 @@ angular.module('pumprApp')
 
 
     function removeEmptyFields (data) {
+
         for (var a in data){
+
           if(data[a] ===  undefined){
             delete data[a];
           }
           data[a] = data[a] === 'false' ? 0 : data[a] === 'true' ? 1 : data[a];
         }
+
         return data;
     }
     //Options constructor
@@ -27,6 +30,7 @@ angular.module('pumprApp')
         STORM: data.STORM || 0,
         FORMERNAME: data.FORMERNAME || undefined,
         ALIAS: data.ALIAS || undefined,
+        SEALDATE: data.SEALDATE,
         DEVPLANID: data.DEVPLANID,
         NOTES: data.NOTES || undefined,
         ENGID: data.ENGID || undefined,
@@ -73,10 +77,15 @@ angular.module('pumprApp')
           });
       },
       updateDoc: function (){
+        //Converts Times
+        if(this.data.SEALDATE !== undefined){
+          this.data.SEALDATE = this.data.SEALDATE.getTime();
+        }
         //Removes faslsy values
         for (var _k in this.data){
           this.data[_k] ? this.data : delete this.data[_k];
         }
+
         console.log('Updated: ' + this.data.OBJECTID);
 
           var options = {
@@ -91,8 +100,6 @@ angular.module('pumprApp')
         return agsServer.ptFs.request(options);
       },
       deleteDoc: function (){
-
-        console.log('Deleted: ' + this.data.objectIds);
 
         var options = {
             layer: 'RPUD.PTK_DOCUMENTS',
@@ -109,7 +116,7 @@ angular.module('pumprApp')
               console.log(data.error);
             }
             else{
-              console.log(data);
+              console.log('Deleted: ', data);
             }
           },
           function(err){

@@ -1,10 +1,13 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="tint"></div>
+
+<div class="tint">
+</div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-12">
       <h1 class="page-header">Add Documents : <small>{{projectname}}</small><span class="glyphicon glyphicon-file pull-right" aria-hidden="true"></span></h1>
     </div>
+    <div cg-busy="{promise:projectPromise,message:'Loading Projects',backdrop:false}"></div>
     <div class="col-sm-5 col-md-4">
       <div class="inner-addon right-addon">
         <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500">
@@ -12,12 +15,14 @@
       </div>
       <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
       <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
-      <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
+      <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again. <button type="button" ng-click="reload()" class="btn btn-primary" aria-label="Left Align">
+  <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>Reload
+</button></div>
     </div>
   </div>
   <div class="row">
     <div ng-show="searchStatus" class="col-sm-12 col-md-12 docForm">
-    <document-form  project="project" class="animated fadeIn pulse"></document-form>
+    <document-form project="project" class="animated fadeIn pulse"></document-form>
   </div>
   </div>
 </div>
