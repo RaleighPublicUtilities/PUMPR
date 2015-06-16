@@ -271,6 +271,79 @@ angular.module('pumprApp')
 
       },
 
+      //Find documents by facilityid
+      facilityid: function (typed){
+        var sewerfids = [
+          {
+            tag: 'SNS',
+            name: 'Sewer Pump Stations'
+          },
+          {
+            tag: 'SMH',
+            name: 'Sewer Manhole'
+          },
+          {
+            tag: 'SFMN',
+            name: 'Force Main'
+          },
+          {
+            tag: 'SGMN',
+            name: 'Gravity Sewer'
+          },
+          {
+            tag: 'SLAT',
+            name: 'Lateral'
+          }
+        ];
+
+        var waterfids = [
+          {
+            tag: 'WHYD',
+            name: 'Water Hydrants'
+          },
+          {
+            tag: 'WSV',
+            name: 'Water System Valves'
+          },
+          {
+            tag: 'WFIT',
+            name: 'Water Fittings'
+          },
+          {
+            tag: 'WSC',
+            name: 'Water Service Connections'
+          },
+          {
+            tag: 'WSS',
+            name: 'Water Sampling Stations'
+          },
+          {
+            tag: 'WCV',
+            name: 'Water Control Valves'
+          },
+          {
+            tag: 'WNS',
+            name: 'Water Network Structures'
+          },
+          {
+            tag: 'WMN',
+            name: 'Water Pressure Mains'
+          },
+          {
+            tag: 'WGM',
+            name: 'Water Gravity Mains'
+          },
+          {
+            tag: 'WLAT',
+            name: 'Water Lateral Lines'
+          },
+        ];
+
+        sewerfids.forEach(function(item){
+            
+        });
+      },
+
       //Lookup project by permit #
       permits: function(){
 
