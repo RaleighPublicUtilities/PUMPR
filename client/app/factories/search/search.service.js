@@ -30,25 +30,33 @@ angular.module('pumprApp')
       }
 
     //Takes esri point json and coverts it to multipoint
-    function point2multipoint(points, callback){
-      var multipoint = points.map(function(point){
+    // function geomConversion(data, callback){
+    //   var geom, geomType, wkid, output, outgeom;
+    //   geom = data.features;
+    //   geomType = data.geometryType;
+    //   wkid = data.spatialReference.wkid,
+    //   output = {
+    //     spatialReference:{wkid : wkid}
+    //   };
+    //
+    //   switch(geomType){
+    //     case 'esriGeometryPoint':
+    //       outgeom = geom[0].geometry;
+    //       output.points = outgeom;
+    //       break;
+    //     case 'esriGeometryPolyline':
+    //       outgeom = geom[0].geometry;
+    //       output.paths = outgeom.paths;
+    //       break;
+    //     default:
+    //       callback(output, geomType);
+    //   }
+    //   callback(output, geomType);
+    // }
 
-      });
-
-      return multipoint;
-    }
-
-    //Takes esri polyline json and coverts it to multiline
-    function point2multipoint(points, callback){
-      var multipolyline = points.map(function(point){
-        
-      });
-
-      return multipolyline;
-    }
 
     //Takes esri json multipolygon and returns projects that intersect
-    function projectIntersect (data){
+    function projectIntersect (data, geomType){
       var projectOptions = {
         layer: 'Project Tracking',
         geojson: false,
@@ -60,8 +68,8 @@ angular.module('pumprApp')
           returnGeometry: false,
           orderByFields: 'PROJECTNAME ASC',
           inSR: 4326,
-          geometryType: 'esriGeometryPolygon',
-          geometry: data.geometry
+          geometryType: geomType,
+          geometry: data
         }
       };
 
@@ -266,13 +274,13 @@ angular.module('pumprApp')
             if (data.candidates.length > 0){
 
               createBuffer(data,function(buffer){
-                projectIntersect(buffer[0])
+                projectIntersect(buffer[0].geometry, 'esriGeometryPolygon')
                   .then(function(res){
                     deferred.resolve(res);
-                  },
-                  function(){
-                    deffer.reject('No projects found');
                   })
+                  .catch(function(err){
+                    deffer.reject(err);
+                  });
 
               });
 
@@ -291,12 +299,11 @@ angular.module('pumprApp')
 
       //Find documents by facilityid
       facilityids: function (typed){
-        console.log('Started facility id search')
-        var layer;
+        var layer, facidList, wfids, sfids, options, i, len;
         var deferred = $q.defer();
         typed = clean4Ags(typed);
 
-        var options = {
+        options = {
           geojson: false,
           actions: 'query',
           params: {
@@ -305,98 +312,128 @@ angular.module('pumprApp')
             where: "FACILITYID like '%" +typed + "%'",
             returnGeometry: true,
             orderByFields: 'FACILITYID ASC',
+            outSR: 4326
           }
         };
 
 
-        var fids = [
-          {
-            tag: /(SNS)\d*/,
-            name: 'Sewer Pump Stations'
-          },
-          {
-            tag: /(SMH)\d*/,
-            name: 'Sewer Manhole'
-          },
-          {
-            tag: /(SFMN)\d*/,
-            name: 'Force Main'
-          },
-          {
-            tag: /(SGMN)\d*/,
-            name: 'Gravity Sewer'
-          },
-          {
-            tag: /(SLAT)\d*/,
-            name: 'Lateral'
-          },
+        wfids = [
           {
             tag: /(WHYD)\d*/,
-            name: 'Water Hydrants'
+            name: 'Water Hydrants',
+            server: 'waterMs'
           },
           {
             tag: /(WSV)\d*/,
-            name: 'Water System Valves'
+            name: 'Water System Valves',
+            server: 'waterMs'
           },
           {
             tag: /(WFIT)\d*/,
-            name: 'Water Fittings'
+            name: 'Water Fittings',
+            server: 'waterMs'
           },
           {
             tag: /(WSC)\d*/,
-            name: 'Water Service Connections'
+            name: 'Water Service Connections',
+            server: 'waterMs'
           },
           {
             tag: /(WSS)\d*/,
-            name: 'Water Sampling Stations'
+            name: 'Water Sampling Stations',
+            server: 'waterMs'
           },
           {
             tag: /(WCV)\d*/,
-            name: 'Water Control Valves'
+            name: 'Water Control Valves',
+            server: 'waterMs'
           },
           {
             tag: /(WNS)\d*/,
-            name: 'Water Network Structures'
+            name: 'Water Network Structures',
+            server: 'waterMs'
           },
           {
             tag: /(WMN)\d*/,
-            name: 'Water Pressure Mains'
+            name: 'Water Pressure Mains',
+            server: 'waterMs'
           },
           {
             tag: /(WGM)\d*/,
-            name: 'Water Gravity Mains'
+            name: 'Water Gravity Mains',
+            server: 'waterMs'
           },
           {
             tag: /(WLAT)\d*/,
-            name: 'Water Lateral Lines'
+            name: 'Water Lateral Lines',
+            server: 'waterMs'
           }
         ];
 
+        sfids = [
+          {
+            tag: /(SNS)\d{4}/,
+            name: 'Sewer Pump Stations',
+            server: 'sewerMs'
+          },
+          {
+            tag: /(SMH)\d{6}/,
+            name: 'Sewer Manhole',
+            server: 'sewerMs'
+          },
+          {
+            tag: /(SFMN)\d{5}/,
+            name: 'Force Main',
+            server: 'sewerMs'
+          },
+          {
+            tag: /(SGMN)\d{6}/,
+            name: 'Gravity Sewer',
+            server: 'sewerMs'
+          },
+          {
+            tag: /(SLAT)\d{6}/,
+            name: 'Lateral',
+            server: 'sewerMs'
+          }
+        ];
 
+        //
+        if (typed.length > 6 && (typed[0] === 'S' || typed[0] === 'W')){
+          facidList = typed[0] === 'S' ? sfids : wfids;
+          len = facidList.length;
+          for (i = 0; i < len; i++){
+            if (typed.search(facidList[i].tag) === 0){
+              var facidList = facidList[i]
+              break;
+            }
+          }
+          if (!Array.isArray(facidList)){
+            options.layer = facidList.name;
+            agsServer[facidList.server].request(options)
+              .then(function(data){
 
-        if (typed.length > 2){
-          fids.forEach(function(i){
-            if (typed.search(i.tag) === 0){
-              options.layer = i.name;
-              if (typed[0] === 'S'){
-                agsServer.sewerMs.request(options)
-                  .then(function(data){
-                    console.log(data);
-                    var geom = data.features;
-                    deferred.resolve(data);
-                  })
-                  .catch(function(err){
-                    deferred.reject(err);
-                  });
-              }
-              else if (typed[0] === 'W') {
-                agsServer.waterMs.request(options);
-              }
+                if (data.features.length === 0){
+                  deferred.resolve({features: []});
+                }
+                else{
+                  projectIntersect(data.features[0].geometry, data.geometryType)
+                    .then(function(res){
+                      deferred.resolve(res);
+                    })
+                    .catch(function(err){
+                      deferred.reject(err);
+                    });
+                }
+
+              })
+              .catch(function(err){
+                deferred.reject(err);
+              });
             }
             else {
               deferred.resolve({features: []});
             }
-          });
         }
         else{
           deferred.resolve({features: []});

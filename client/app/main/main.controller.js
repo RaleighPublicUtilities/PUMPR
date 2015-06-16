@@ -28,7 +28,7 @@ angular.module('pumprApp')
          return $scope.newProject
           .then(function(res){
             console.log(res);
-            var results = res[0].features.concat(res[1].features);
+            var results = res[0].features.concat(res[1].features, res[2].features);
 
             if (results.length === 0){
               $scope.projects.push('Sorry Project Not Found...');
