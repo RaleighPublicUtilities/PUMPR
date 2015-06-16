@@ -33,7 +33,7 @@ angular.module('pumprApp')
           var project = data[0];
 
           data = data[1];
-      
+
           //If no project documents have been added get project name from db
           if (!data.length){
               $scope.projectname = project.features[0].properties['Project Name'];
@@ -67,7 +67,7 @@ angular.module('pumprApp')
 
       function rotatePlaceholder (){
         var count = 0;
-        var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...' ];
+        var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...', 'Search by Facility Id' ];
         $interval(function(){
           count = count > 4 ? 0 : count;
           $scope.placeholder = options[count];
@@ -88,7 +88,7 @@ angular.module('pumprApp')
         $scope.newProject = search.all(typed);
          return $scope.newProject
           .then(function(res){
-            var results = res[0].features.concat(res[1].features);
+            var results = res[0].features.concat(res[1].features, res[2].features);
 
             if (results.length === 0){
               $scope.projects.push('Sorry Project Not Found...');
