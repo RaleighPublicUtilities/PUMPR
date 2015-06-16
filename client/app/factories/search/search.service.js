@@ -29,6 +29,24 @@ angular.module('pumprApp')
         callback(arcgisMultipolygon);
       }
 
+    //Takes esri point json and coverts it to multipoint
+    function point2multipoint(points, callback){
+      var multipoint = points.map(function(point){
+
+      });
+
+      return multipoint;
+    }
+
+    //Takes esri polyline json and coverts it to multiline
+    function point2multipoint(points, callback){
+      var multipolyline = points.map(function(point){
+        
+      });
+
+      return multipolyline;
+    }
+
     //Takes esri json multipolygon and returns projects that intersect
     function projectIntersect (data){
       var projectOptions = {
@@ -272,76 +290,118 @@ angular.module('pumprApp')
       },
 
       //Find documents by facilityid
-      facilityid: function (typed){
-        var sewerfids = [
+      facilityids: function (typed){
+        console.log('Started facility id search')
+        var layer;
+        var deferred = $q.defer();
+        typed = clean4Ags(typed);
+
+        var options = {
+          geojson: false,
+          actions: 'query',
+          params: {
+            f: 'json',
+            outFields: 'FACILITYID',
+            where: "FACILITYID like '%" +typed + "%'",
+            returnGeometry: true,
+            orderByFields: 'FACILITYID ASC',
+          }
+        };
+
+
+        var fids = [
           {
-            tag: 'SNS',
+            tag: /(SNS)\d*/,
             name: 'Sewer Pump Stations'
           },
           {
-            tag: 'SMH',
+            tag: /(SMH)\d*/,
             name: 'Sewer Manhole'
           },
           {
-            tag: 'SFMN',
+            tag: /(SFMN)\d*/,
             name: 'Force Main'
           },
           {
-            tag: 'SGMN',
+            tag: /(SGMN)\d*/,
             name: 'Gravity Sewer'
           },
           {
-            tag: 'SLAT',
+            tag: /(SLAT)\d*/,
             name: 'Lateral'
-          }
-        ];
-
-        var waterfids = [
+          },
           {
-            tag: 'WHYD',
+            tag: /(WHYD)\d*/,
             name: 'Water Hydrants'
           },
           {
-            tag: 'WSV',
+            tag: /(WSV)\d*/,
             name: 'Water System Valves'
           },
           {
-            tag: 'WFIT',
+            tag: /(WFIT)\d*/,
             name: 'Water Fittings'
           },
           {
-            tag: 'WSC',
+            tag: /(WSC)\d*/,
             name: 'Water Service Connections'
           },
           {
-            tag: 'WSS',
+            tag: /(WSS)\d*/,
             name: 'Water Sampling Stations'
           },
           {
-            tag: 'WCV',
+            tag: /(WCV)\d*/,
             name: 'Water Control Valves'
           },
           {
-            tag: 'WNS',
+            tag: /(WNS)\d*/,
             name: 'Water Network Structures'
           },
           {
-            tag: 'WMN',
+            tag: /(WMN)\d*/,
             name: 'Water Pressure Mains'
           },
           {
-            tag: 'WGM',
+            tag: /(WGM)\d*/,
             name: 'Water Gravity Mains'
           },
           {
-            tag: 'WLAT',
+            tag: /(WLAT)\d*/,
             name: 'Water Lateral Lines'
-          },
+          }
         ];
 
-        sewerfids.forEach(function(item){
-            
-        });
+
+
+        if (typed.length > 2){
+          fids.forEach(function(i){
+            if (typed.search(i.tag) === 0){
+              options.layer = i.name;
+              if (typed[0] === 'S'){
+                agsServer.sewerMs.request(options)
+                  .then(function(data){
+                    console.log(data);
+                    var geom = data.features;
+                    deferred.resolve(data);
+                  })
+                  .catch(function(err){
+                    deferred.reject(err);
+                  });
+              }
+              else if (typed[0] === 'W') {
+                agsServer.waterMs.request(options);
+              }
+            }
+            else {
+              deferred.resolve({features: []});
+            }
+          });
+        }
+        else{
+          deferred.resolve({features: []});
+        }
+        return deferred.promise;
       },
 
       //Lookup project by permit #
@@ -376,10 +436,11 @@ angular.module('pumprApp')
       all: function(typed){
         //Generate promises for all search vectors
         var projects = this.projects(typed),
-            addresses = this.addresses(typed);
+            addresses = this.addresses(typed),
             // permits = this.permits(typed);
+            facilityids = this.facilityids(typed);
 
-        return $q.all([projects, addresses]);
+        return $q.all([projects, addresses, facilityids]);
 
       }
 

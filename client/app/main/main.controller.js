@@ -27,6 +27,7 @@ angular.module('pumprApp')
         $scope.newProject = search.all(typed);
          return $scope.newProject
           .then(function(res){
+            console.log(res);
             var results = res[0].features.concat(res[1].features);
 
             if (results.length === 0){
@@ -41,6 +42,7 @@ angular.module('pumprApp')
 
           })
           .catch(function(err){
+            console.log(err);
             $scope.projectError = true;
           });
 

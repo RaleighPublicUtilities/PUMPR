@@ -47,7 +47,7 @@ angular.module('pumprApp')
     }),
 
     //Water Map Server
-    waterMs: gis.setService({
+    waterMs: maps.setService({
       folder:'PublicUtility',
       service: 'WaterDistribution',
       server: 'MapServer'
