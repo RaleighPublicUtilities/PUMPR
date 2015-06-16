@@ -29,32 +29,6 @@ angular.module('pumprApp')
         callback(arcgisMultipolygon);
       }
 
-    //Takes esri point json and coverts it to multipoint
-    // function geomConversion(data, callback){
-    //   var geom, geomType, wkid, output, outgeom;
-    //   geom = data.features;
-    //   geomType = data.geometryType;
-    //   wkid = data.spatialReference.wkid,
-    //   output = {
-    //     spatialReference:{wkid : wkid}
-    //   };
-    //
-    //   switch(geomType){
-    //     case 'esriGeometryPoint':
-    //       outgeom = geom[0].geometry;
-    //       output.points = outgeom;
-    //       break;
-    //     case 'esriGeometryPolyline':
-    //       outgeom = geom[0].geometry;
-    //       output.paths = outgeom.paths;
-    //       break;
-    //     default:
-    //       callback(output, geomType);
-    //   }
-    //   callback(output, geomType);
-    // }
-
-
     //Takes esri json multipolygon and returns projects that intersect
     function projectIntersect (data, geomType){
       var projectOptions = {
@@ -103,7 +77,7 @@ angular.module('pumprApp')
          convertUtilities(t1Data.attributes);
        });
        return t1;
-   }
+     }
 
    //Get all helper tables to create view of doucments with real names
    function getSupportTables (data){
