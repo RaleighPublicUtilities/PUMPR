@@ -79,7 +79,7 @@ exports.send = function(req, res, next){
             fs.stat(path.join(dir, file), function(err, stats){
               if (err){
                 res.status(404);
-                res.json({'error': err, 'message':'Sorry, we cannot find that!'}).end();
+                res.json({'message':'Sorry, we cannot find that!'}).end();
               }
               else{
 
@@ -102,7 +102,7 @@ exports.send = function(req, res, next){
                 res.sendfile(file, options, function (err) {
                   if (err) {
                     console.log(err);
-                    res.json({'error': err, 'message':'Sorry, we cannot find that!'}).end();
+                    res.json({'message':'Sorry, we cannot find that!'}).end();
                     res.status(err.status).end();
                   }
                   else {
