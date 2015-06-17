@@ -18,19 +18,22 @@
 </div>
   <div ng-show="message.docs" class="row">
     <div class="col-md-5">
-      <leaflet id="project-map" height="350px"></leaflet>
-      <h2>Document Breakdown</h2>
+      <leaflet id="project-map" layers="layers" height="450px"></leaflet>
+      <project-table id="mapTable" project="projectInfo"></project-table>
+      <!-- <h2>Document Breakdown</h2>
+      <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
       <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas>
     </div>
     <div class="col-md-7">
       <tabset justified="true">
-    <tab heading="Details">
+    <!-- <tab heading="Details" select="controlViews()">
       <project-table id="mapTable" project="projectInfo"></project-table>
-    </tab>
-    <tab heading="Documents">Short Labeled Justified content</tab>
-    <tab heading="Stats">Long Labeled Justified content</tab>
+    </tab> -->
+    <tab heading="Documents" select="controlViews('tree')"><div id="tree"></div></tab>
+    <tab heading="Engineering Firm" select="controlViews('chart')"></tab>
   </tabset>
-      <div id="tree"></div>
+      <div ng-show="treeView" id="tree"></div>
+      <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas>
     </div>
   </div>
 </div>
