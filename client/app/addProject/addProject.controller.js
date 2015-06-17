@@ -1,15 +1,17 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'search', 'agsServer', '$interval',
-    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, search, agsServer, $interval) {
+  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'search', 'agsServer', '$interval', 'mapLayers',
+    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, search, agsServer, $interval, mapLayers) {
 
     //Add root scope to set recent projects
     var scope = $rootScope;
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
     $scope.searchStatus = false;
-
+    mapLayers.overlays.water.visible = false;
+    mapLayers.overlays.sewer.visible = false;
+    mapLayers.overlays.reuse.visible = false;
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
       center: {
@@ -17,105 +19,7 @@ angular.module('pumprApp')
         lng: -78.63945007324219,
         zoom: 13
       },
-      layers: {
-            baselayers: {
-                raleighTerrain: {
-                  name: 'Raleigh Terrain',
-                  url: 'https://{s}.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}',
-                  type: 'xyz',
-                  layerParams: {
-                    token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
-                    mapId: 'ctwhite.g8n5fjjp'
-                  },
-                },
-                raleighImagery: {
-                  name: 'Raleigh Imagery',
-                  url: 'http://api.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}',
-                  type: 'xyz',
-                  layerParams: {
-                    token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
-                    mapId: 'ctwhite.mdf6egjp'
-                  },
-                }
-            },
-            overlays: {
-              projects:{
-              name: 'Project Tracking',
-                type: 'dynamic',
-                url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
-                visible: false,
-                layerOptions: {
-                    layers: [1],
-                      opacity: 0.5,
-                      attribution: 'Copyright:© 2014 City of Raleigh',
-                      position: 'back'
-                },
-              },
-                sewer: {
-                name: 'Sewer Collection Network',
-                  type: 'dynamic',
-                  url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer',
-                  visible: false,
-                  layerOptions: {
-                      layers: [0,1,2,3,4],
-                        opacity: 1,
-                        attribution: 'Copyright:© 2014 City of Raleigh',
-                        position: 'back'
-                  }
-            },
-            water: {
-              name: 'Water Distribution Network',
-                type: 'dynamic',
-                url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer',
-                visible: false,
-                layerOptions: {
-                    layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
-                      opacity: 1,
-                      attribution: 'Copyright:© 2014 City of Raleigh',
-                      position: 'back'
-                }
-            },
-            reuse: {
-              name: 'Reuse Distribution Network',
-                type: 'dynamic',
-                url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer',
-                visible: false,
-                layerOptions: {
-                    layers: [0,1,2,3,4,5,6,7,8,9,10,11],
-                      opacity: 1,
-                      attribution: 'Copyright:© 2014 City of Raleigh',
-                      position: 'back'
-                }
-            },
-            detailsIntersections: {
-              name: 'Detailed Intersections',
-              type: 'dynamic',
-              url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
-              visible: false,
-              layerOptions: {
-                layers: [0],
-                opacity: 1,
-                attribution: 'Copyright:© 2014 City of Raleigh',
-                position: 'back'
-              }
-            },
-            parcels: {
-              name: 'Parcels',
-              type: 'dynamic',
-              url: 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer',
-              visible: false,
-              layerOptions: {
-                layers: ['*'],
-                opacity: 1,
-                attribution: 'Copyright:© 2014 City of Raleigh',
-                position: 'back'
-              }
-            }
-
-          }
-
-
-      },
+      layers: mapLayers
   });
 
 //Set up draw controls
