@@ -32,7 +32,7 @@ angular.module('pumprApp')
     }
 
     //Creates cache to store touch documents
-    var Doc = {
+    var Document = {
       //Find All
       find: function (data){
 
@@ -47,7 +47,7 @@ angular.module('pumprApp')
               }
             };
 
-        agsServer.ptFs.request(options)
+          return agsServer.ptFs.request(options);
       },
       update: function (data){
         var options = {
@@ -69,18 +69,18 @@ angular.module('pumprApp')
             actions: 'deleteFeatures',
             params: {
               f: 'json',
-              objectIds: data.objectid
+              objectIds: data.objectIds
             }
           };
 
-          agsServer.ptFs.request(options)
+          return agsServer.ptFs.request(options)
         },
         getTables: function (){
           var eng = addEngineeringFirm.getAll(),
               docs = documentTypes(),
               sheets = sheetTypes();
 
-          return $q.all([eng, docs, sheets]);
+          return $q.all([eng, sheets, docs]);
         }
       };
 

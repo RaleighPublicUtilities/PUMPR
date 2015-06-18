@@ -21,7 +21,7 @@
   </div>
   <div class="row">
     <div ng-show="searchStatus" class="col-sm-12 col-md-12 docForm">
-    <document-form project="project" class="animated fadeIn pulse"></document-form>
+    <document-form ng-if="project" project="project" class="animated fadeIn pulse"></document-form>
   </div>
   </div>
 </div>
