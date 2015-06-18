@@ -50,9 +50,13 @@ angular.module('pumprApp')
           return agsServer.ptFs.request(options);
       },
       update: function (data){
+        //Converts Times
+        if(data.SEALDATE !== undefined){
+          data.SEALDATE = data.SEALDATE.getTime();
+        }
         var options = {
             layer: 'RPUD.PTK_DOCUMENTS',
-            actions: 'addFeatures',
+            actions: 'updateFeatures',
             params: {
               f: 'json',
               features: [{attributes: data}]

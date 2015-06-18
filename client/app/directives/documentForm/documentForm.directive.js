@@ -190,15 +190,40 @@ angular.module('pumprApp')
           else{
             var count = data.length + 1,
                 index = count - 2,
-                fillData = {};
-                angular.copy(data[index].attributes, fillData);
+                fillData = data[index].attributes,
+                // angular.copy(data[index].attributes, fillData),
+                addData = {
+                  DOCID: count,
+                  DEVPLANID: fillData.DEVPLANID,
+                  PROJECTID: fillData.PROJECTID,
+                  PROJECTNAME: fillData.PROJECTNAME
+                };
 
-            angular.extend(fillData, {
-              DOCID: count,
-              ENGID: fillData.ENGID || undefined
-            });
-            console.log(fillData);
-            scope.project.push({attributes: fillData, edit: false});
+                if (fillData.ENGID){
+                  addData.ENGID = fillData.ENGID;
+                }
+                if (fillData.SEALDATE instanceof Date){
+                  addData.SEALDATE = fillData.SEALDATE.getTime();
+                }
+
+            console.log(addData);
+            DocumentFactory.add(addData)
+              .then(function(res){
+                console.log(res);
+                if (addData.ENGID){
+                  scope.engTypes.forEach(function(data){
+                    addData.SIMPLIFIEDNAME = addData.ENGID === data.attributes.ENGID ? data.attributes.SIMPLIFIEDNAME : addData.SIMPLIFIEDNAME;
+                  });
+                  scope.project.push({attributes: addData, edit: false});
+                }
+                else{
+                  scope.project.push({attributes: addData, edit: false});
+                }
+
+              })
+              .catch(function(err){
+                console.log(res);
+              });
           }
           // var firstRecord, engid;
           // // scope.addDoc = false;
@@ -274,23 +299,37 @@ angular.module('pumprApp')
         	if (targ.nodeType == 3) // defeat Safari bug
         		targ = targ.parentNode;
             angular.element(targ).removeClass('animated shake addDocFailure addDocSuccess');
+
           console.log(data);
-          //Sets updated values
-          scope.updateDocument = new DocumentFactory(data).setValue(data);
-          //Updates document on server
-          scope.updateDocument.updateDoc()
-          .then(function(data){
-            if (data.error){
-              console.log(data.error);
+
+          DocumentFactory.update(data)
+            .then(function(res){
+              if (res.error){
+                angular.element(targ).addClass('animated shake addDocFailure');
+              }
+              else{
+                angular.element(targ).addClass('addDocSuccess');
+              }
+            })
+            .catch(function(err){
               angular.element(targ).addClass('animated shake addDocFailure');
-            }
-            else{
-              angular.element(targ).addClass('addDocSuccess');
-            }
-          },
-          function(err){
-            angular.element(targ).addClass('animated shake addDocFailure');
-          });
+            });
+          //Sets updated values
+          // scope.updateDocument = new DocumentFactory(data).setValue(data);
+          //Updates document on server
+          // scope.updateDocument.updateDoc()
+          // .then(function(data){
+          //   if (data.error){
+          //     console.log(data.error);
+          //     angular.element(targ).addClass('animated shake addDocFailure');
+          //   }
+          //   else{
+          //     angular.element(targ).addClass('addDocSuccess');
+          //   }
+          // },
+          // function(err){
+          //   angular.element(targ).addClass('animated shake addDocFailure');
+          // });
         };
 
         scope.delete = function (index, data){
