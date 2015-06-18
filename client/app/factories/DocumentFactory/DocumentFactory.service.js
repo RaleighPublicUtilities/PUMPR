@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('DocumentFactory', ['agsServer', '$cacheFactory', 'Auth', function(agsServer, $cacheFactory, Auth){
+  .factory('DocumentFactory', ['agsServer', 'Auth', function(agsServer, Auth){
     //Creates cache to store touch documents
-    var cache = $cacheFactory('docId');
 
 
     function removeEmptyFields (data) {
@@ -67,9 +66,8 @@ angular.module('pumprApp')
               console.log(data.error);
             }
             else{
-              cache.put('newId', data.addResults[0].objectId);
+
               that.setValue({OBJECTID: data.addResults[0].objectId});
-              console.log(cache.get('newId'));
             }
           },
           function(err){
