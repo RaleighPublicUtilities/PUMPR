@@ -115,20 +115,33 @@ angular.module('pumprApp', [
             attribution: 'Copyright:© 2014 City of Raleigh',
             position: 'back'
           }
+        },
+      vehicles: {
+        name: 'Vehicles',
+        type: 'dynamic',
+        url: 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer',
+        visible: false,
+        layerOptions: {
+          layers: [0],
+          opacity: 1,
+          attribution: 'Copyright:© 2014 City of Raleigh',
+          position: 'back'
         }
       }
+    }
   })
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
     return {
       // Add authorization token to headers
       request: function (config) {
         //Check if request is for arcgis server and do not add bearer token if it is
-
         var re = new RegExp('http://[a-z]{3,8}.raleighnc.gov/arcgis/rest/services/');
         var re1 = new RegExp('http://mapststarcsvr1:6080/arcgis/rest/services/');
+        var re2 = new RegExp('http://geodevapplv1:6080/arcgis/rest/services/');
         var result = re.test(config.url);
         var result1 = re1.test(config.url);
-        if (result || result1){
+        var result2 = re2.test(config.url);
+        if (result || result1 || result2){
           delete config.headers.Authorization;
           return config;
         }

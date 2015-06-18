@@ -153,7 +153,8 @@ map.addControl(new projectTable());
   map.on('click', function(e){
     //Empties exisiting feature group
     selectedFeatures.clearLayers();
-
+      var size = map.getSize();
+      var imgSize = [size.x, size.y, 96].join();
     map.eachLayer(function(layer){
 
       if (layer.options !== undefined && layer.options.layers) {
@@ -162,15 +163,15 @@ map.addControl(new projectTable());
           f: 'json',
           geometry: {x: e.latlng.lng, y: e.latlng.lat},
           mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
-          tolerance: 2,
-          imageDisplay: '600, 550, 96',
+          tolerance: 5,
+          imageDisplay: imgSize,
           layers: layer.options.layers.toString(),
           sr: 4326
         },
         actions: 'identify',
         geojson: true
       };
-
+      console.log(layer.options.url)
       switch (layer.options.url){
         case 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/':
           agsServer.ptMs.request(onClickOptions)
@@ -220,6 +221,21 @@ map.addControl(new projectTable());
               style: selectionStyle
             });
             selectedFeatures.addLayer(selectedGeojson);
+          });
+          break;
+        case 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer/':
+          console.log('MadeIt')
+          agsServer.vechMs.request(onClickOptions)
+          .then(function(data){
+            console.log(data)
+            selectedGeojson = L.geoJson(data, {
+              onEachFeature: createPopup,
+              style: selectionStyle
+            });
+            selectedFeatures.addLayer(selectedGeojson);
+          })
+          .catch(function(err){
+            console.log(err);
           });
           break;
         default:

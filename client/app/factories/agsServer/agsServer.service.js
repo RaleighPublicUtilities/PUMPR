@@ -6,8 +6,8 @@ angular.module('pumprApp')
 
   var mapstest = new Ags({host: 'mapststarcsvr1:6080'}),
       maps = new Ags({host: 'maps.raleighnc.gov'}),
-      gis = new Ags({host: 'maps.raleighnc.gov'});
-
+      gis = new Ags({host: 'maps.raleighnc.gov'}),
+      dev = new Ags({host: 'geodevapplv1:6080'});
   //Create services
   var services = {
     //Project Tracking MapService
@@ -64,6 +64,13 @@ angular.module('pumprApp')
     parcelsMs: maps.setService({
       folder:'',
       service: 'Parcels',
+      server: 'MapServer'
+    }),
+
+    //GeoEvent Vehicles
+    vechMs: dev.setService({
+      folder:'Networkfleet',
+      service: '',
       server: 'MapServer'
     }),
 
