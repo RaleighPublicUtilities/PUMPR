@@ -1,12 +1,53 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('DocumentFactory', ['agsServer', 'Auth', function(agsServer, Auth){
+  .factory('DocumentFactory', ['agsServer', 'Auth', 'addEngineeringFirm', '$q', function(agsServer, Auth, addEngineeringFirm, $q){
+
+    function sheetTypes () {
+      var options = {
+        layer: 'RPUD.SHEETTYPES',
+        actions: 'query',
+        params: {
+          f: 'json',
+          where: '1 = 1',
+          outFields: 'SHEETTYPEID, SHEETTYPE'
+        }
+      };
+
+      return agsServer.ptFs.request(options);
+    }
+
+    function documentTypes () {
+      var options = {
+        layer: 'RPUD.DOCUMENTTYPES',
+        actions: 'query',
+        params: {
+          f: 'json',
+          where: '1 = 1',
+          outFields: 'DOCTYPEID, DOCUMENTTYPE'
+        }
+      };
+
+      return agsServer.ptFs.request(options);
+    }
+
     //Creates cache to store touch documents
     var Doc = {
       //Find All
       find: function (data){
 
+      },
+      add: function (data){
+        var options = {
+              layer: 'RPUD.PTK_DOCUMENTS',
+              actions: 'addFeatures',
+              params: {
+                f: 'json',
+                features: [{attributes: data}]
+              }
+            };
+
+        agsServer.ptFs.request(options)
       },
       update: function (data){
         var options = {
@@ -18,13 +59,28 @@ angular.module('pumprApp')
             }
           };
 
-          agsServer.ptFs.request(options)
-          .then(function(res){})
-          .catch(function(err){});
+          return agsServer.ptFs.request(options);
+
         },
-
+        //Delete data
         delete: function (data){
+          var options = {
+            layer: 'RPUD.PTK_DOCUMENTS',
+            actions: 'deleteFeatures',
+            params: {
+              f: 'json',
+              objectIds: data.objectid
+            }
+          };
 
+          agsServer.ptFs.request(options)
+        },
+        getTables: function (){
+          var eng = addEngineeringFirm.getAll(),
+              docs = documentTypes(),
+              sheets = sheetTypes();
+
+          return $q.all([eng, docs, sheets]);
         }
       };
 
