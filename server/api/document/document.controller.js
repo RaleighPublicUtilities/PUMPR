@@ -5,7 +5,7 @@ var Document = require('./document.model');
 var fs = require('fs');
 var path = require('path');
 
-exports.exisits = function(req, res){
+exports.exists = function(req, res){
   //Sets up response data
   var data = {
       filename: req.query.filename,

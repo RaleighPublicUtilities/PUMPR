@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('DocumentFactory', ['agsServer', 'Auth', 'addEngineeringFirm', '$q', function(agsServer, Auth, addEngineeringFirm, $q){
+  .factory('DocumentFactory', ['agsServer', 'Auth', 'addEngineeringFirm', '$http','$q', function(agsServer, Auth, addEngineeringFirm, $http, $q){
 
     function sheetTypes () {
       var options = {
@@ -85,7 +85,16 @@ angular.module('pumprApp')
               sheets = sheetTypes();
 
           return $q.all([eng, sheets, docs]);
+        },
+        exists: function (filename){
+          var config = {
+            params: {
+              filename: filename
+            }
+          };
+          return $http.get('/api/documents/exists', config);
         }
+
       };
 
     // function removeEmptyFields (data) {

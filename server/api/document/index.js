@@ -56,7 +56,7 @@ router.use(multer({
 
 }));
 
-  router.get('/', controller.exisits);
+  router.get('/exists', controller.exists);
   router.get('/download', controller.download);
   router.get('/:projectid/:documentid', controller.send);
   router.post('/', auth.isAuthenticated(), controller.upload);

@@ -42,7 +42,7 @@ angular.module('pumprApp')
                 //Sets all edit states to false
                 data.edit = false;
                 //Checks if file currently exisits
-                checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID)
+                DocumentFactory.exists(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID)
                   .then(function(res){
                     data.upload = res.data;
                     data.upload.isSuccess = false;
@@ -206,11 +206,11 @@ angular.module('pumprApp')
           scope.deletePromise = DocumentFactory.delete(data)
             .then(function(res){
               if (index === 0){
-                console.log(scope.project)
+
                 master.attributes.DEVPLANID = scope.project[0].attributes.DEVPLANID;
                 master.attributes.PROJECTID = scope.project[0].attributes.PROJECTID;
                 master.attributes.PROJECTNAME = scope.project[0].attributes.PROJECTNAME;
-                console.log(master)
+
                 scope.project.splice(0, 1, master);
               }
               else if (res.error){
@@ -228,15 +228,6 @@ angular.module('pumprApp')
               console.log(err);
             });
         };
-
-        function checkUpload (filename){
-          var config = {
-            params: {
-              filename: filename
-            }
-          };
-          return $http.get('/api/documents', config);
-        }
 
 
       }
