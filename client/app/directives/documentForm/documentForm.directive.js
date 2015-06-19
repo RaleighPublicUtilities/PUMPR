@@ -43,12 +43,13 @@ angular.module('pumprApp')
                 //Sets all edit states to false
                 data.edit = false;
                 //Checks if file currently exisits
-                checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID).then(function(res){
+                checkUpload(data.attributes.PROJECTID + '-' + data.attributes.DOCTYPEID + '-' + data.attributes.DOCID)
+                  .then(function(res){
                     data.upload = res.data;
                     data.upload.isSuccess = false;
-                },
-                function (error){
-                    console.error(error);
+                })
+                .catch(function (error){
+                    console.log(error);
                 });
 
                 //Convert number to date object
@@ -122,6 +123,7 @@ angular.module('pumprApp')
             DocumentFactory.add(addData)
               .then(function(res){
                 console.log(res);
+                addData.OBJECTID = res.addResults[0].objectId
                 if (addData.ENGID){
                   scope.engTypes.forEach(function(data){
                     addData.SIMPLIFIEDNAME = addData.ENGID === data.attributes.ENGID ? data.attributes.SIMPLIFIEDNAME : addData.SIMPLIFIEDNAME;
@@ -134,7 +136,7 @@ angular.module('pumprApp')
 
               })
               .catch(function(err){
-                console.log(res);
+                console.log(err);
               });
           }
 
