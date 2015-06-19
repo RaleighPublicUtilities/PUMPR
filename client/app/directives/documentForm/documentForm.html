@@ -92,7 +92,9 @@
   </tbody>
 </table>
 <div cg-busy="{promise:addPromise,message:'Adding document',backdrop:false}"></div>
+<div cg-busy="{promise:deletePromise,message:'Deleting document',backdrop:false}"></div>
 <!--Add new document button-->
 <div ng-click="add()" class="add-button">ADD DOCUMENT</div>
 
-<div ng-show="addError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
+<div ng-show="addError" class="alert alert-danger main-alert" role="alert">Sorry the server is not responding. Document not added.<br>Please try again.</div>
+<div ng-show="deleteError" class="alert alert-danger main-alert" role="alert">Sorry the server is not responding. Document not deleted.<br>Please try again.</div>

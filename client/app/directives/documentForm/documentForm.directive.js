@@ -117,7 +117,7 @@ angular.module('pumprApp')
                 // angular.copy(data[index].attributes, fillData),
 
                 addData = {
-                  DOCID: count,
+                  DOCID: fillData.DOCID + 1,
                   DEVPLANID: fillData.DEVPLANID,
                   PROJECTID: fillData.PROJECTID,
                   PROJECTNAME: fillData.PROJECTNAME,
@@ -202,7 +202,7 @@ angular.module('pumprApp')
             new: true,
             edit: false
           };
-
+          scope.deleteError = false;
           scope.deletePromise = DocumentFactory.delete(data)
             .then(function(res){
               if (index === 0){
@@ -215,6 +215,7 @@ angular.module('pumprApp')
               }
               else if (res.error){
                 console.log(res);
+                scope.deleteError = true;
               }
               else{
                 //Deletes document object from array
@@ -223,6 +224,7 @@ angular.module('pumprApp')
               console.log(res);
             })
             .catch(function(err){
+              scope.deleteError = true;
               console.log(err);
             });
         };
