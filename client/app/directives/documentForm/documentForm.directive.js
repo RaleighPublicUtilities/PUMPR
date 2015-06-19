@@ -21,7 +21,6 @@ angular.module('pumprApp')
           //Get pick lists for table
           var helperTables = DocumentFactory.getTables()
             .then(function(data){
-              console.log(data);
               scope.engTypes = data[0].features;
               scope.sheetTypes = data[1].features;
               scope.docTypes = data[2].features;
@@ -78,6 +77,7 @@ angular.module('pumprApp')
 
 
         scope.add = function(){
+          scope.addError = false;
           var data = scope.project;
           if (data.length === 1 && data[0].new){
             //Set first document id
@@ -86,18 +86,28 @@ angular.module('pumprApp')
               data[0].attributes[item] = 0;
             });
             //Add document
-            DocumentFactory.add(data[0].attributes)
+            scope.addPromise = DocumentFactory.add(data[0].attributes)
               .then(function(res){
                 console.log(res);
-                //Sets boolean values for utility options
-                utils.forEach(function(item){
-                  data[0].attributes[item] = false;
-                });
+                if (res.error){
+                  console.log(res.error);
+                  scope.addError = true;
+                }
+                else{
+                  //Set objectid
+                  data[0].attributes.OBJECTID = res.addResults[0].objectId;
+                  //Sets boolean values for utility options
+                  utils.forEach(function(item){
+                    data[0].attributes[item] = false;
+                  });
 
-                scope.project.splice(0, 1, {attributes: data[0].attributes, edit: false});
+                  scope.project.splice(0, 1, {attributes: data[0].attributes, edit: false});
+                }
+
               })
               .catch(function(err){
                 console.log(err);
+                scope.addError = true;
               });
           }
           else{
@@ -105,38 +115,56 @@ angular.module('pumprApp')
                 index = count - 2,
                 fillData = data[index].attributes,
                 // angular.copy(data[index].attributes, fillData),
+
                 addData = {
                   DOCID: count,
                   DEVPLANID: fillData.DEVPLANID,
                   PROJECTID: fillData.PROJECTID,
-                  PROJECTNAME: fillData.PROJECTNAME
+                  PROJECTNAME: fillData.PROJECTNAME,
+                  WATER: 0,
+                  SEWER: 0,
+                  REUSE: 0,
+                  STORM: 0
                 };
-
+                console.log(fillData);
                 if (fillData.ENGID){
-                  addData.ENGID = fillData.ENGID;
+                  addData.ENGID = fillData.ENGID.attributes ? fillData.ENGID.attributes.ENGID : fillData.ENGID;
                 }
                 if (fillData.SEALDATE instanceof Date){
                   addData.SEALDATE = fillData.SEALDATE.getTime();
                 }
 
             console.log(addData);
-            DocumentFactory.add(addData)
+            scope.addPromise = DocumentFactory.add(addData)
               .then(function(res){
                 console.log(res);
-                addData.OBJECTID = res.addResults[0].objectId
-                if (addData.ENGID){
-                  scope.engTypes.forEach(function(data){
-                    addData.SIMPLIFIEDNAME = addData.ENGID === data.attributes.ENGID ? data.attributes.SIMPLIFIEDNAME : addData.SIMPLIFIEDNAME;
-                  });
-                  scope.project.push({attributes: addData, edit: false});
+                if (res.error){
+                  console.log(res.error);
+                  scope.addError = true;
                 }
                 else{
-                  scope.project.push({attributes: addData, edit: false});
+                  angular.extend(addData, {
+                    OBJECTID: res.addResults[0].objectId,
+                    WATER: {'name': 'false', 'id': 0},
+                    SEWER: {'name': 'false', 'id': 0},
+                    REUSE: {'name': 'false', 'id': 0},
+                    STORM: {'name': 'false', 'id': 0}
+                  });
+                  addData.OBJECTID = res.addResults[0].objectId
+                  if (addData.ENGID){
+                    scope.engTypes.forEach(function(data){
+                      addData.SIMPLIFIEDNAME = addData.ENGID === data.attributes.ENGID ? data.attributes.SIMPLIFIEDNAME : addData.SIMPLIFIEDNAME;
+                    });
+                    scope.project.push({attributes: addData, edit: false});
+                  }
+                  else{
+                    scope.project.push({attributes: addData, edit: false});
+                  }
                 }
-
               })
               .catch(function(err){
                 console.log(err);
+                scope.addError = true;
               });
           }
 
@@ -152,8 +180,6 @@ angular.module('pumprApp')
         	if (targ.nodeType == 3) // defeat Safari bug
         		targ = targ.parentNode;
             angular.element(targ).removeClass('animated shake addDocFailure addDocSuccess');
-
-          console.log(data);
 
           DocumentFactory.update(data)
             .then(function(res){
@@ -172,20 +198,23 @@ angular.module('pumprApp')
 
         scope.delete = function (index, data){
           var master = {
-            attributes: {
-              DEVPLANID: '',
-              PROJECTID: '',
-              PROJECTNAME: ''
-            },
+            attributes: {},
             new: true,
             edit: false
           };
 
-          DocumentFactory.delete(data)
+          scope.deletePromise = DocumentFactory.delete(data)
             .then(function(res){
               if (index === 0){
-                angular.extend(master, scope.project[0]);
+                console.log(scope.project)
+                master.attributes.DEVPLANID = scope.project[0].attributes.DEVPLANID;
+                master.attributes.PROJECTID = scope.project[0].attributes.PROJECTID;
+                master.attributes.PROJECTNAME = scope.project[0].attributes.PROJECTNAME;
+                console.log(master)
                 scope.project.splice(0, 1, master);
+              }
+              else if (res.error){
+                console.log(res);
               }
               else{
                 //Deletes document object from array

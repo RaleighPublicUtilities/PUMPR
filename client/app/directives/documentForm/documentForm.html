@@ -19,21 +19,21 @@
     <tr ng-if="!doc.new" class="table-view" ng-repeat="doc in project">
       <td>{{doc.attributes.DOCID}}</td>
       <!--<td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="" ></td>-->
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.DOCTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.attributes.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.SHEETTYPEID.attributes.SHEETTYPE || doc.attributes.SHEETTYPE}}</td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.SHEETTYPEID.attributes.SHEETTYPE || doc.attributes.SHEETTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.SHEETTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.attributes.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.ENGID.attributes.SIMPLIFIEDNAME || doc.attributes.SIMPLIFIEDNAME}}</td>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.ENGID.attributes.SIMPLIFIEDNAME || doc.attributes.SIMPLIFIEDNAME}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.ENGID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.attributes.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
           <option value="">--Select--</option>
         </select>
       </td>
@@ -66,7 +66,7 @@
           <option value="">--Select--</option>
         </select>
       </td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" ng-href="/project/{{doc.attributes.PROJECTID}}/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" ng-href="/project/{{doc.attributes.PROJECTID}}/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
         <span ng-show="doc.upload.exisits || doc.upload.isSuccess" class="glyphicon glyphicon-ok checked" aria-hidden="true"></span>
         <span ng-show="!doc.upload.exisits && !doc.upload.isSuccess" class="glyphicon glyphicon-ban-circle nofile" aria-hidden="true"></span>
       </td>
@@ -74,7 +74,7 @@
       <td ng-show="doc.edit" ng-controller="UploadCtrl">
         {{doc.upload.isSuccess = uploadSuccess}}
         <form name="fileUploadForm">
-          <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + (doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID) + '-' + doc.attributes.DOCID}}" />
+          <input type="file" nv-file-select="" uploader="uploader" options="{formData: {newName: doc.attributes.PROJECTID + '-' + (doc.attributes.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID) + '-' + doc.attributes.DOCID}}" />
           <p ng-show="loadStatus.addFile.status">{{loadStatus.addFile.message}}</p>
           <div ng-repeat="item in uploader.queue">
             <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
@@ -91,5 +91,8 @@
     </tr>
   </tbody>
 </table>
+<div cg-busy="{promise:addPromise,message:'Adding document',backdrop:false}"></div>
 <!--Add new document button-->
 <div ng-click="add()" class="add-button">ADD DOCUMENT</div>
+
+<div ng-show="addError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
