@@ -38,7 +38,10 @@ body {
   height:20em;
   width: 100%;
 }
-
+.main-group{
+  height: inherit;
+  border: 1px rgba(255, 255, 255, 0) solid;
+}
 .main-issues:link{
     color: #2267AB;
 }
