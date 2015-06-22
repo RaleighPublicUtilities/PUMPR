@@ -60,7 +60,7 @@ var vis = d3.select('#tree').append('svg:svg')
     $scope.projectid = $location.path().split('/')[2];
 
     $scope.projectname;
-    search.display($scope.projectid).then(function(res){
+    $scope.searchPromise =search.display($scope.projectid).then(function(res){
       console.log(res[0]);
       console.log(res[1]);
       var project = res[0];
