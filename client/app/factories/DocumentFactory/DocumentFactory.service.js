@@ -7,6 +7,7 @@ angular.module('pumprApp')
       var options = {
         layer: 'RPUD.SHEETTYPES',
         actions: 'query',
+        timeout: 30000,
         params: {
           f: 'json',
           where: '1 = 1',
@@ -21,6 +22,7 @@ angular.module('pumprApp')
       var options = {
         layer: 'RPUD.DOCUMENTTYPES',
         actions: 'query',
+        timeout: 30000,
         params: {
           f: 'json',
           where: '1 = 1',
@@ -39,15 +41,16 @@ angular.module('pumprApp')
       },
       add: function (data){
         var options = {
-              layer: 'RPUD.PTK_DOCUMENTS',
-              actions: 'addFeatures',
-              params: {
-                f: 'json',
-                features: [{attributes: data}]
-              }
-            };
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'addFeatures',
+          timeout: 30000,
+          params: {
+            f: 'json',
+            features: [{attributes: data}]
+          }
+        };
 
-          return agsServer.ptFs.request(options);
+        return agsServer.ptFs.request(options);
       },
       update: function (data){
         //Converts Times
@@ -55,15 +58,16 @@ angular.module('pumprApp')
           data.SEALDATE = data.SEALDATE.getTime();
         }
         var options = {
-            layer: 'RPUD.PTK_DOCUMENTS',
-            actions: 'updateFeatures',
-            params: {
-              f: 'json',
-              features: [{attributes: data}]
-            }
-          };
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'updateFeatures',
+          timeout: 30000,
+          params: {
+            f: 'json',
+            features: [{attributes: data}]
+          }
+        };
 
-          return agsServer.ptFs.request(options);
+        return agsServer.ptFs.request(options);
 
         },
         //Delete data
@@ -71,6 +75,7 @@ angular.module('pumprApp')
           var options = {
             layer: 'RPUD.PTK_DOCUMENTS',
             actions: 'deleteFeatures',
+            timeout: 30000,
             params: {
               f: 'json',
               objectIds: data.objectIds
