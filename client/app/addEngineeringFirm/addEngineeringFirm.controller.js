@@ -61,7 +61,6 @@ angular.module('pumprApp')
       if(form.$valid && !$scope.engid.error) {
         agsServer.ptFs.request(options)
           .then(function(data){
-            console.log(data)
             $scope.success = {
               status: true,
               message: 'Add Engineering Firm: Success\nPlease Try Again'
@@ -83,5 +82,39 @@ angular.module('pumprApp')
       });
     });
 	};
+
+  $scope.findAddress = function (typed){
+    var typed = typed.toUpperCase();
+    var options = {
+      layer: 'Addresses',
+      geojson: false,
+      actions: 'query',
+      params: {
+        f: 'json',
+        outFields: 'ADDRESSU, CITY, STATE, ZIP',
+        where: "ADDRESSU like '%" +typed + "%'",
+        returnGeometry: false,
+        orderByFields: 'ADDRESSU ASC'
+      }
+    };
+    $scope.addressPromise = agsServer.addressesMs.request(options);
+    return $scope.addressPromise
+      .then(function(data){
+        if (data.error){}
+        else {
+          return data.features.map(function(item){
+            return item.attributes.ADDRESSU + ', ' +  item.attributes.CITY + ', ' +  item.attributes.STATE + ', ' +  item.attributes.ZIP;
+        });
+        }
+      })
+      .catch(function(err){
+
+      });
+  };
+
+  $scope.searchControl = function (item){
+    // var address = item.split(',')[0].trim();
+    $scope.eng.address = item;
+  }
 
   }]);
