@@ -39,6 +39,7 @@ angular.module('pumprApp')
       var options = {
         layer: 'RPUD.ENGINEERINGFIRM',
         actions: 'addFeatures',
+        timeout: 30000,
         params: {
           f: 'json',
           features: [{attributes:
@@ -63,7 +64,7 @@ angular.module('pumprApp')
           .then(function(data){
             $scope.success = {
               status: true,
-              message: 'Add Engineering Firm: Success\nPlease Try Again'
+              message: 'Engineering Firm added'
             };
           }, function(err){
             $scope.error = {
@@ -100,7 +101,9 @@ angular.module('pumprApp')
     $scope.addressPromise = agsServer.addressesMs.request(options);
     return $scope.addressPromise
       .then(function(data){
-        if (data.error){}
+        if (data.error){
+          console.log(data.error);
+        }
         else {
           return data.features.map(function(item){
             return item.attributes.ADDRESSU + ', ' +  item.attributes.CITY + ', ' +  item.attributes.STATE + ', ' +  item.attributes.ZIP;
@@ -108,7 +111,7 @@ angular.module('pumprApp')
         }
       })
       .catch(function(err){
-
+        console.log(err);
       });
   };
 
