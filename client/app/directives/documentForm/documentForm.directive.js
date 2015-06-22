@@ -26,7 +26,8 @@ angular.module('pumprApp')
               scope.docTypes = data[2].features;
             })
             .catch(function(err){
-              console.error(err);
+              console.log(err);
+              scope.pageLoadError = true;
             });
 
           //Setup Boolean option for utilies options..could/should switch to service or provider
@@ -35,7 +36,6 @@ angular.module('pumprApp')
           };
 
           scope.$watchCollection('project',function(newVal, oldVal){
-            console.log(newVal)
             scope.project = newVal;
             if (scope.project !== undefined && Array.isArray(scope.project)){
               scope.project.forEach(function(data){
