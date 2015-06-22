@@ -9,6 +9,11 @@ angular.module('pumprApp')
       status: false
     };
 
+    //Default radio button setting
+    $scope.eng = {
+      active: 1
+    };
+
     $scope.engtable = addEngineeringFirm.getAll()
       .then(function(res){
         addEngineeringFirm.setTable(res.features, function(tableData){
@@ -25,7 +30,7 @@ angular.module('pumprApp')
 
     //Add engineering firm to db
     $scope.addEngineeringFirm = function(form) {
-      
+
       addEngineeringFirm.generateId($scope.eng.name, function(engid){
         addEngineeringFirm.checkId(engid, function(eId){
           $scope.engid = eId;
@@ -40,7 +45,12 @@ angular.module('pumprApp')
             {
               FULLNAME: $scope.eng.name,
               SIMPLIFIEDNAME: $scope.eng.simp,
-              ENGID: $scope.engid
+              ENGID: $scope.engid,
+              ADDRESS: $scope.eng.address,
+              PHONE: $scope.eng.phone,
+              EMAIL: $scope.eng.email,
+              ACTIVE: $scope.eng.active,
+              URL: $scope.eng.url
             }
           }]
         }
