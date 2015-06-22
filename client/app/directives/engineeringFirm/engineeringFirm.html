@@ -3,9 +3,10 @@
     <div class="col-md-12">
       <address ng-repeat="eng in engs">
         <h1 class="page-header">{{eng.attributes.FULLNAME}} <small ng-switch="eng.attributes.ACTIVE">Active: <i ng-switch-when='0' class="">False</i><i ng-switch-when='1' class="sewer">True</i></small></h1>
-        <h3>phone: <small>{{eng.attributes.PHONE}}</small></h2>
-        <h3>email: <small><a ng-href="mailto:{{eng.attributes.EMAIL}}">{{eng.attributes.EMAIL}}</a></small></h2>
-        <h3>website: <small><a class="main-issues" ng-href="{{eng.attributes.URL}}" target="_blank">{{eng.attributes.URL}}</a></small></h2>
+        <h3>phone: <small>{{eng.attributes.PHONE}}</small></h3>
+        <h3>email: <small><a ng-href="mailto:{{eng.attributes.EMAIL}}">{{eng.attributes.EMAIL}}</a></small></h3>
+        <h3>website: <small><a class="main-issues" ng-href="{{eng.attributes.URL}}" target="_blank">{{eng.attributes.URL}}</a></small></h3>
+        <h3>address: <small>{{eng.attributes.ADDRESS}}</small></h3>
       </address>
     </div>
   </div>
