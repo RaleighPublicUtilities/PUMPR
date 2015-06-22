@@ -44,7 +44,7 @@ angular.module('pumprApp')
           params: {
             f: 'json',
             where: "ENGID = '" + search + "'",
-            outFields: 'ENGID, FULLNAME, SIMPLIFIEDNAME'
+            outFields: '*'
           }
         };
         return agsServer.ptFs.request(options);

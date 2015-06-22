@@ -2,9 +2,10 @@
   <div class="row">
     <div class="col-md-12">
       <address>
-        <strong class="page-header"></strong><br>
-        <abbr title="Phone">P:</abbr>
-        <a href="mailto:#">first.last@example.com</a>
+        <h1 class="page-header">{{eng.FULLNAME}} <small>Active: {{eng.ACTIVE}}</small></h1>
+        <h2>Phone: <small>{{eng.PHONE}}</small></h2>
+        <h2>E-Mail: <small><a ng-href="mailto:{{eng.EMAIL}}">{{eng.EMAIL}}</a></small></h2>
+        <h2>Website: <small><a ng-href="{{eng.URL}}">{{eng.URL}}</a></small></h2>
       </address>
     </div>
   </div>

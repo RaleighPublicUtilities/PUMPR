@@ -32,7 +32,9 @@
       <project-table id="mapTable" project="projectInfo"></project-table>
     </tab> -->
     <tab heading="Documents" select="controlViews('tree')"><div id="tree"></div></tab>
-    <tab heading="Engineering Firm" select="controlViews('chart')"></tab>
+    <tab heading="Engineering Firm" select="controlViews('chart')">
+      <engineering-firm firm="firm"></engineering-firm>
+    </tab>
   </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
