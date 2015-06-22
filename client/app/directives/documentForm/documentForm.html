@@ -29,19 +29,19 @@
       <!--<td ng-show="doc.edit"><input class="form-control form-inputs" type="number" ng-model="doc.attributes.DOCID" placeholder="" ></td>-->
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.DOCTYPEID.attributes.DOCUMENTTYPE || doc.attributes.DOCUMENTTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.attributes.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'DOCTYPEID': doc.attributes.DOCTYPEID.attributes.DOCTYPEID})" ng-options="dt.attributes.DOCUMENTTYPE for dt in docTypes | orderBy: 'attributes.DOCUMENTTYPE'" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.DOCTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.SHEETTYPEID.attributes.SHEETTYPE || doc.attributes.SHEETTYPE}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.attributes.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'SHEETTYPEID': doc.attributes.SHEETTYPEID.attributes.SHEETTYPEID})" ng-options="sheet.attributes.SHEETTYPE for sheet in sheetTypes | orderBy: 'attributes.SHEETTYPE'" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.SHEETTYPEID" >
           <option value="">--Select--</option>
         </select>
       </td>
       <td ng-hide="doc.edit" ng-click="edit(doc)" >{{doc.attributes.ENGID.attributes.SIMPLIFIEDNAME || doc.attributes.SIMPLIFIEDNAME}}</td>
       <td ng-show="doc.edit">
-        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.attributes.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
+        <select ng-change="post({'OBJECTID': doc.attributes.OBJECTID, 'ENGID': doc.attributes.ENGID.attributes.ENGID})" ng-options="eng.attributes.SIMPLIFIEDNAME for eng in engTypes | orderBy: 'attributes.SIMPLIFIEDNAME'" class="form-control form-inputs" id="info.name" ng-model="doc.attributes.ENGID" >
           <option value="">--Select--</option>
         </select>
       </td>
