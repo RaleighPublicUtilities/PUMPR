@@ -4,9 +4,10 @@
 </div>
 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
 <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
-<div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>
+<error-message error="projectError"></error-message>
+<!-- <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>
   Please try again.
    <button type="button" ng-click="reload()" class="btn btn-primary" aria-label="Left Align">
 <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reload
 </button>
-</div>
+</div> -->
