@@ -22,13 +22,7 @@
     <div class="col-lg-12 main-view">
       <div class="main-group">
         <h1 class="page-header">Find a Project:</h1>
-        <div class="inner-addon right-addon">
-          <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500">
-          <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
-        </div>
-        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-        <div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
-        <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
+        <search-bar view="main"></search-bar>
     </div>
   </div>
   </div>
