@@ -10,7 +10,7 @@ angular.module('pumprApp')
         error: '='
       },
       link: function (scope, element, attrs) {
-        console.log(scope.error);
+        
         scope.reload = function(){
           document.location.reload();
         }

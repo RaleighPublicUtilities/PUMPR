@@ -65,8 +65,10 @@ var vis = d3.select('#tree').append('svg:svg')
       console.log(res[1]);
       var project = res[0];
       var docs = res[1];
-      $scope.firm = docs[0].attributes.ENGID;
-      
+      $scope.firms = docs.map(function(item){
+        return item.attributes.ENGID;
+      });
+
       $scope.projectname = project.features[0].properties['Project Name'];
       $scope.projectInfo = project.features[0].properties;
       $scope.projectInfo = removeEmptyFields($scope.projectInfo);

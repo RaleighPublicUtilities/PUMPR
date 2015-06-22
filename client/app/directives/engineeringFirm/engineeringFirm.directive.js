@@ -7,16 +7,20 @@ angular.module('pumprApp')
       restrict: 'E',
       transclude: true,
       scope: {
-        firm: '='
+        firms: '='
       },
       link: function (scope, element, attrs) {
-        scope.$watch('firm', function(newVal){
-          if (scope.firm !== undefined){
+        scope.$watch('firms', function(newVal){
+          if (scope.firms !== undefined){
             console.log(scope.firm);
-            scope.engPromise = addEngineeringFirm.findOne(scope.firm)
+            scope.engPromise = addEngineeringFirm.getList(scope.firms)
               .then(function(data){
-                console.log(data.features[0]);
-                scope.eng = data.features[0].attributes;
+                console.log(Array.isArray(data.features), data.features.length);
+                if(Array.isArray(data.features) && data.features.length){
+                  scope.engs = data.features;
+                  console.log(scope.engs)
+                }
+
             //     if (data.error){
             //       scope.errorMessage = 'true';
             //     }

@@ -183,7 +183,9 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+.red {
+  color: #f80303;
+}
 .projectname {
   -webkit-transition: all  2s ease-out; /* For Safari 3.1 to 6.0 */
   -moz-transition: all 2s ease-out;
