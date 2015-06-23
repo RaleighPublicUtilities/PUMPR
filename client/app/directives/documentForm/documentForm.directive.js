@@ -135,7 +135,7 @@ angular.module('pumprApp')
                   addData.SEALDATE = fillData.SEALDATE.getTime();
                 }
 
-            console.log(addData);
+            
             scope.addPromise = DocumentFactory.add(addData)
               .then(function(res){
                 console.log(res);
