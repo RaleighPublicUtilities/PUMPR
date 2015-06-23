@@ -10,7 +10,7 @@ exports.exists = function(req, res){
   var data = {
       filename: req.query.filename,
       folder : req.query.filename.split('-')[0],
-      exisits: false
+      exists: false
     };
   //Checks if the file exisits
   console.log(path.join('public/documents', data.folder));
@@ -23,7 +23,7 @@ exports.exists = function(req, res){
       for (var i = 0, len = files.length; i < len; i++){
         file = files[i].split('.')[0];
         if(data.filename === file){
-          data.exisits = true;
+          data.exists = true;
           break;
         }
       }
@@ -36,6 +36,31 @@ exports.exists = function(req, res){
 //Used to upload images to server
 exports.upload = function(req, res){
   res.json(req.file);
+};
+
+exports.updateName = function(req, res){
+  var newId, originalId = req.params.documentid,
+      docType = req.body.params.docType,
+      split = originalId.split('-'),
+      dir = path.join('public/documents', split[0]),
+      oldPath = path.join(dir, originalId + '.pdf'),
+      newPath;
+      if (Array.isArray(split) && split.length === 3){
+        newId = [split[0], docType, split[2]].join('-');
+        newPath = path.join(dir, newId + '.pdf');
+        fs.rename(oldPath, newPath, function(err){
+          if (err) {
+            res.status(404).json({ message: 'Document not renamed', error: err}).end();
+          }
+          else {
+            res.status(200).json({update: newId, original: originalId}).end();
+          }
+        })
+      }
+      else {
+        res.status(404).json({ error: 'Document does not exist' }).end();
+      }
+
 };
 
 //Used to download

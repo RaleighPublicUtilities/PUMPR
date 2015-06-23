@@ -60,6 +60,7 @@ router.use(multer({
   router.get('/download', controller.download);
   router.get('/:projectid/:documentid', controller.send);
   router.post('/', auth.isAuthenticated(), controller.upload);
+  router.post('/update/:documentid', auth.isAuthenticated(), controller.updateName);
 // router.put('/:id', controller.update);
 // router.patch('/:id', controller.update);
 // router.delete('/:id', controller.destroy);

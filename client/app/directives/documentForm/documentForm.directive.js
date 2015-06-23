@@ -58,6 +58,7 @@ angular.module('pumprApp')
 
               });
             }
+            console.log(scope.project);
           });
 
 
@@ -187,7 +188,28 @@ angular.module('pumprApp')
                 angular.element(targ).addClass('animated shake addDocFailure');
               }
               else{
+                //Change document name
+                if(data.DOCTYPEID !== undefined){
+                  DocumentFactory.changeDocumentName(data)
+                    .then(function(res){
+
+                      if(res.exists !== false){
+                        scope.project.forEach(function(doc){
+                          if(doc.attributes.DOCID === data.DOCID){
+                            angular.extend(doc.upload, {
+                              exists: true,
+                              filename: res.data.update
+                            });
+                          }
+                        });
+                      }
+                    });
+                    // .catch(function(err){
+                    //   console.log(err)
+                    // });
+                }
                 angular.element(targ).addClass('addDocSuccess');
+
               }
             })
             .catch(function(err){
