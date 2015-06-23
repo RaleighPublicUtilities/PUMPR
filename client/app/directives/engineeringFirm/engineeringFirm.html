@@ -1,6 +1,8 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <div ng-show="noEngMessage" class="alert alert-warning" role="alert">No engineering firms are attached to this project</div>
+      <error-message error="errorMessage"></error-message>
       <address ng-repeat="eng in engs">
         <h1 class="page-header">{{eng.attributes.FULLNAME}} <small ng-switch="eng.attributes.ACTIVE">Active: <i ng-switch-when='0' class="">False</i><i ng-switch-when='1' class="sewer">True</i></small></h1>
         <h3>phone: <small>{{eng.attributes.PHONE}}</small></h3>

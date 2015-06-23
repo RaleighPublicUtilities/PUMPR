@@ -13,8 +13,8 @@ angular.module('pumprApp')
 
 
         (function rotatePlaceholder (){
-          var count = 0;
-          var options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...', 'Search by Facility Id'];
+          var count = 0,
+              options = ['Search by Project Name...', 'Search by Project id...', 'Search by Development Plan Id...', 'Search by Address...', 'Search by Street...', 'Search by Facility Id'];
           $interval(function(){
             count = count > 4 ? 0 : count;
             scope.placeholder = options[count];

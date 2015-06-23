@@ -1,11 +1,9 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$rootScope', '$http', '$filter', '$sce', 'leafletData', 'projectSearch', 'search', 'agsServer', '$interval', 'mapLayers',
-    function ($scope, $rootScope, $http, $filter, $sce, leafletData, projectSearch, search, agsServer, $interval, mapLayers) {
+  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers',
+    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers) {
 
-    //Add root scope to set recent projects
-    var scope = $rootScope;
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
     $scope.searchStatus = false;
@@ -466,96 +464,5 @@ $scope.searchControl = function (typed){
 };
 
 
-$scope.list1 = {title: 'AngularJS - Drag Me'};
-
-//Setting Up Printing Service
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var printTask = 'http://mapstest.raleighnc.gov/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task/execute';
-$scope.dpi = 90;
-$scope.print_format = 'PDF';
-$scope.exportSizes = [
-  {
-    size: [500, 500]
-  },
-  {
-    size: [700, 500]
-  },
-  {
-    size: [700, 1000]
-  }
-];
-$scope.printFormatList = ['PDF', 'PNG8', 'PNG32', 'JPG', 'GIF', 'EPS', 'SVG',  'SVGZ'];
-var web_map_specs = {
-  mapOptions:{ },
-  operationalLayers: [ ],
-  baseMap: [{
-    title: 'Basemap',
-    baseMapLayers:[
-      {
-          url: 'http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer',
-          opacity: 1
-      }
-    ]
-  }],
-  exportOptions: {
-      dpi: $scope.dpi,
-      outputSize: [700, 500] || $scope.output
-  }
-  // "layoutOptions": { }
-};
-
-leafletData.getMap('map').then(function(map) {
-    // web_map_specs.operationalLayers = [];
-    map.on('move', function(){
-      $scope.mapbounds = map.getBounds();
-      web_map_specs.mapOptions.extent = {
-        xmin: $scope.mapbounds._southWest.lat,
-        ymin: $scope.mapbounds._southWest.lng,
-        xmax: $scope.mapbounds._northEast.lat,
-        ymax: $scope.mapbounds._northEast.lng
-      };
-      web_map_specs.operationalLayers = [];
-        map.eachLayer(function (layer){
-          //console.log(layer);
-          //console.log(map.hasLayer(layer));
-
-          map.hasLayer(layer) ? web_map_specs.operationalLayers.push({url: layer.url}) : console.log('No layers added to print');
-        });
-    });
-    //Adds print control to map
-    var printer = L.control({position: 'bottomright'});
-    printer.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'info legend');
-        div.innerHTML = '<button class="btn btn-primary btn-sm mapPrint" data-toggle="modal" data-target="#myModal">Print</button>';
-        return div;
-      };
-printer.addTo(map);
-
-
-});
-
-$scope.print_params = {
-  Web_Map_as_JSON: web_map_specs,
-  format: $scope.print_format,
-  Layout_Template: 'MAP_ONLY',
-  f: 'json'
-};
-
-  $scope.$watch('print_params', function(newVal, oldVal){
-    // console.log($scope.print_params);
-}, true);
-
-$scope.printMap = function () {
-  $http.get(printTask, {
-    params: $scope.print_params,
-    headers: {
-      'Content-Type': 'text/plain'
-    }
-  })
-    .success(function(res){
-      console.log(res);
-    });
-};
 
   }]);

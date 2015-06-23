@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('documentForm',  ['agsServer', 'DocumentFactory', 'streetSearch', '$timeout', '$filter', '$http',
-    function (agsServer, DocumentFactory, streetSearch, $timeout, $filter, $http) {
+  .directive('documentForm',  ['DocumentFactory', '$timeout',
+    function (DocumentFactory, $timeout) {
     return {
       restrict: 'E',
       transclude: true,

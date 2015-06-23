@@ -11,24 +11,24 @@ angular.module('pumprApp')
       },
       link: function (scope, element, attrs) {
         scope.$watch('firms', function(newVal){
+          scope.errorMessage = false;
+          scope.noEngMessage = false;
           if (scope.firms !== undefined){
-            console.log(scope.firm);
             scope.engPromise = addEngineeringFirm.getList(scope.firms)
               .then(function(data){
-                console.log(Array.isArray(data.features), data.features.length);
-                if(Array.isArray(data.features) && data.features.length){
-                  scope.engs = data.features;
-                  console.log(scope.engs)
+                if (data.error){
+                  scope.errorMessage = true;
                 }
-
-            //     if (data.error){
-            //       scope.errorMessage = 'true';
-            //     }
-            //     scope.firm = data;
+                else if (Array.isArray(data.features) && data.features.length){
+                  scope.engs = data.features;
+                }
+                else {
+                  scope.noEngMessage = true;
+                }
               })
-            //   .catch(function(err){
-            //     scope.errorMessage = 'true';
-            //   });
+              .catch(function(err){
+                scope.errorMessage = true;
+              });
           }
 
         });

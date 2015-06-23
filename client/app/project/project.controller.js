@@ -12,11 +12,6 @@ angular.module('pumprApp')
      };
 
      angular.extend($scope, {
-        //  center: {
-        //    lat: 35.77882840327371,
-        //    lng: -78.63945007324219,
-        //    zoom: 13
-        //  },
          layers: mapLayers,
      });
 

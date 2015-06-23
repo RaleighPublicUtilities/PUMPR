@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddDocumentCtrl', ['$scope','$interval', 'agsServer', 'projectSearch', 'search', '$location',
-    function ($scope, $interval, agsServer, projectSearch, search, $location) {
+  .controller('AddDocumentCtrl', ['$scope', 'search', '$location',
+    function ($scope, search, $location) {
       //Set root scope as scope
 
       var path = $location.path();
