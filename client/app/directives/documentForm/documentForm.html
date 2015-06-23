@@ -82,7 +82,7 @@
           <option value="">--Select--</option>
         </select>
       </td>
-      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" ng-href="/project/{{doc.attributes.PROJECTID}}/{{doc.attributes.PROJECTID}}-{{doc.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
+      <td ng-hide="doc.edit" ng-click="edit(doc)" ><a id="doc-link" ng-href="/project/{{doc.attributes.PROJECTID}}/{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}">{{doc.attributes.PROJECTID}}-{{doc.attributes.DOCTYPEID.attributes.DOCTYPEID || doc.attributes.DOCTYPEID}}-{{doc.attributes.DOCID}}</a>
         <span ng-show="doc.upload.exists || doc.upload.isSuccess" class="glyphicon glyphicon-ok checked" aria-hidden="true"></span>
         <span ng-show="!doc.upload.exists && !doc.upload.isSuccess" class="glyphicon glyphicon-ban-circle nofile" aria-hidden="true"></span>
       </td>
