@@ -151,7 +151,7 @@ body {
     /*border-top: 1px solid #E5E5E5;*/
     color: #fff;
     background: #000;
-  
+
 }
 
 .foottext{
@@ -314,13 +314,14 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
         }
 
         .loader {
-          margin: 100px auto;
-          font-size: 25px;
+          /*position: relative;
+          margin: 20% auto;*/
+          font-size: 15px;
           width: 1em;
           height: 1em;
           border-radius: 50%;
-          position: relative;
           text-indent: -9999em;
+          z-index: 1;
           -webkit-animation: load5 1.1s infinite ease;
           animation: load5 1.1s infinite ease;
           -webkit-transform: translateZ(0);

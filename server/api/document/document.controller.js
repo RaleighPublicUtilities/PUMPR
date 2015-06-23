@@ -16,7 +16,7 @@ exports.exists = function(req, res){
   console.log(path.join('public/documents', data.folder));
   fs.readdir(path.join('public/documents', data.folder), function (err, files){
     if (err){
-      res.json(data);
+      res.status(404).json(data).end();
     }
     var file;
     if(Array.isArray(files) && files.length !== 0){
@@ -27,7 +27,7 @@ exports.exists = function(req, res){
           break;
         }
       }
-      res.json(data);
+      res.status(200).json(data).end();
     }
 
   });
@@ -38,13 +38,16 @@ exports.upload = function(req, res){
   res.json(req.file);
 };
 
+//Updates document name when doctypeid field is changed in table
 exports.updateName = function(req, res){
-  var newId, originalId = req.params.documentid,
+  var newId,
+      originalId = req.params.documentid,
       docType = req.body.params.docType,
       split = originalId.split('-'),
       dir = path.join('public/documents', split[0]),
       oldPath = path.join(dir, originalId + '.pdf'),
       newPath;
+
       if (Array.isArray(split) && split.length === 3){
         newId = [split[0], docType, split[2]].join('-');
         newPath = path.join(dir, newId + '.pdf');
@@ -55,7 +58,7 @@ exports.updateName = function(req, res){
           else {
             res.status(200).json({update: newId, original: originalId}).end();
           }
-        })
+        });
       }
       else {
         res.status(404).json({ error: 'Document does not exist' }).end();
