@@ -60,7 +60,7 @@ angular.module('pumprApp')
 
       $scope.submitted = true;
       if(form.$valid && !$scope.engid.error) {
-        agsServer.ptFs.request(options)
+        $scope.engPromise = agsServer.ptFs.request(options)
           .then(function(data){
             $scope.success = {
               status: true,

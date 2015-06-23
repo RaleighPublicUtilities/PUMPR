@@ -314,8 +314,8 @@ box-shadow: 0 5px 15px rgba(184, 183, 247, 0.5);
         }
 
         .loader {
-          /*position: relative;
-          margin: 20% auto;*/
+          position: relative;
+          margin: 50% auto;
           font-size: 15px;
           width: 1em;
           height: 1em;
