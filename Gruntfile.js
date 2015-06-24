@@ -150,7 +150,6 @@ module.exports = function (grunt) {
           src: [
             '.tmp',
             '<%= yeoman.dist %>/*',
-            // '!/server/public/**',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/.openshift',
             '!<%= yeoman.dist %>/Procfile'
@@ -226,7 +225,10 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/public/{,*/}*.js',
             '<%= yeoman.dist %>/public/{,*/}*.css',
             '<%= yeoman.dist %>/public/assets/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/public/assets/fonts/*'
+            '<%= yeoman.dist %>/public/assets/fonts/*',
+            '!<%= yeoman.dist %>/public/bower_components/Chart.js',
+            '!<%= yeoman.dist %>/public/bower_components/angular-chart.js',
+            '!<%= yeoman.dist %>/public/bower_components/animate.css'
           ]
         }
       }
@@ -245,8 +247,15 @@ module.exports = function (grunt) {
     // Performs rewrites based on rev and the useminPrepare configuration
     usemin: {
       html: ['<%= yeoman.dist %>/public/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/public/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/public/{,*/}*.js'],
+      css: [
+        '<%= yeoman.dist %>/public/{,*/}*.css',
+        '!<%= yeoman.dist %>/public/bower_components/animate.css'
+      ],
+      js: [
+        '<%= yeoman.dist %>/public/{,*/}*.js',
+        '!<%= yeoman.dist %>/public/bower_components/Chart.js',
+        '!<%= yeoman.dist %>/public/bower_components/angular-chart.js'
+      ],
       options: {
         assetsDirs: [
           '<%= yeoman.dist %>/public',
@@ -409,7 +418,7 @@ module.exports = function (grunt) {
       },
       dist: [
         'imagemin',
-        'svgmin'
+        // 'svgmin'
       ]
     },
 
@@ -591,7 +600,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     // 'env:prod',
-    // 'concurrent:dist',
+    'concurrent:dist',
     'injector',
     'wiredep',
     'useminPrepare',
