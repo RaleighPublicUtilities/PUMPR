@@ -600,7 +600,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     // 'env:prod',
-    'concurrent:dist',
+    // 'concurrent:dist',
     'injector',
     'wiredep',
     'useminPrepare',
