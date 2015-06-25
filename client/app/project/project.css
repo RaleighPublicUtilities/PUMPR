@@ -124,5 +124,9 @@ a:hover {
 
 .addNewProjectLink{
   text-align: center;
-  color: #b334f7;
+  color: #00a537;
+}
+
+.addNewProjectLink:hover{
+  color: #008928;
 }
