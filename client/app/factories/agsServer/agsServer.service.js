@@ -11,14 +11,14 @@ angular.module('pumprApp')
   //Create services
   var services = {
     //Project Tracking MapService
-    ptMs: maps.setService({
+    ptMs: mapstest.setService({
       folder:'PublicUtility',
       service: 'ProjectTracking',
       server: 'MapServer'
     }),
 
   //Project Tracking Feature Service
-    ptFs: maps.setService({
+    ptFs: mapstest.setService({
       folder:'PublicUtility',
       service: 'ProjectTracking',
       server: 'FeatureServer',
