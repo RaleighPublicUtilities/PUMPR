@@ -1,23 +1,44 @@
-.map-move-left {
+/*.map-move-left {
   transition:All 1s ease;
   -webkit-transition:All 1s ease;
   -moz-transition:All 1s ease;
   -o-transition:All 1s ease;
   width: 80%;
+}*/
+.leaflet-edit-layers-toggle{
+  opacity: .75;
+  background-image: url(images/icons-000000@2x.png);
+  background-repeat: no-repeat;
+  background-size: 26px 260px;
 }
-
 .map-edit-container {
-  display: block;
-  width: 14%;
-  height: 100%;
-  float: right;
-  position: fixed;
+  /*display: block;*/
+  color: #fff;
+  /*width: 100%;*/
+  /*float: right;*/
+  /*position: fixed;*/
   overflow-y: scroll;
-  top: 8%;
-  left: 84%;
-  padding-right: 10px;
+  /*top: 8%;
+  left: 84%;*/
+  /*padding-right: 10px;*/
+  padding: 2em 2em;
   background: rgba(10, 10, 10, 0.7);
   /*border: 2px solid red;*/
+}
+
+.map-edit-animation {
+  -webkit-animation: slideInRight 1s;
+    animation: slideInRight 1s;
+}
+.map-edit-animation.ng-hide-add.ng-hide-add-active,
+.map-edit-animation.ng-hide-remove.ng-hide-remove-active{
+  -webkit-animation: slideOutRight 1s;
+    animation: slideOutRight 1s;
+    /*display: block !important;*/
+}
+.map-edit-animation.ng-hide{
+  -webkit-animation: slideOutRight 1s;
+    animation: slideOutRight 1s;
 }
 
 .map-edit-container-move {

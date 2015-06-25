@@ -5,6 +5,7 @@ angular.module('pumprApp')
     function ($scope, $location, $timeout, agsServer, leafletData,  Auth, search, mapLayers) {
     // //Set up GET request options
     //
+    $scope.errorMessage = false;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.message = {
        docs: true,
@@ -54,7 +55,8 @@ var vis = d3.select('#tree').append('svg:svg')
 
     $scope.projectid = $location.path().split('/')[2];
     $scope.projectname;
-    $scope.searchPromise =search.display($scope.projectid).then(function(res){
+    $scope.searchPromise =search.display($scope.projectid)
+      .then(function(res){
       console.log(res[0]);
       console.log(res[1]);
       var project = res[0];
@@ -114,6 +116,9 @@ var vis = d3.select('#tree').append('svg:svg')
         });
       }, 500);
     }
+    })
+    .catch(function(err){
+      $scope.errorMessage = true;
     });
 
   //Sets the basemap

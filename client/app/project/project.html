@@ -18,7 +18,7 @@
     </div>
   </div>
 </div>
-  <div ng-show="message.docs" class="row">
+  <div ng-show="message.docs && !errorMessage" class="row">
     <div class="col-md-5">
       <leaflet id="project-map" layers="layers" height="450px"></leaflet>
       <project-table id="mapTable" project="projectInfo" type="project"></project-table>
@@ -38,6 +38,11 @@
   </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
+    </div>
+  </div>
+  <div class="row" ng-show="errorMessage">
+    <div class="col-md-12">
+      <error-message error="errorMessage"></error-message>
     </div>
   </div>
 </div>

@@ -1,59 +1,83 @@
-<div ng-show="active" class="map-edit-container">
-
-  <!-- Map -->
-  <leaflet geojson="geojson" height="200px" width="100%" id="mini-map"></leaflet></br>
-  <div ng-show="edit-form.PROJECTID.$error.required">
-    <span class="map-edit-error">PROJECTID Failed to be generated! Please try to regenerate the project id with the button below. If the problem continues there is most likely an issue with the server, so please try again later. Sorry for the inconvience.</span>
-    <input type="button" ng-click="generateProjectId()" class="generate-project-id-button" value="Generate Project Id" />
-  </div>
-  <!-- <div ng-show="spinner" ><h1>{{spinner}}</h1></div>
-  <div ng-activity-indicator></div> -->
-<form  name="form" class="map-edit-form" novalidate>
-  PROJECTID: <input name="PROJECTID" type="number" ng-model="update.PROJECTID" class="form-control form-inputs map-edit-disabled" min="6" required disabled/><br />
-  PROJECT NAME: <input name="PROJECTNAME" type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" ng-minlength="2" required/><br />
-  <span ng-show="edit-form.PROJECTNAME.$error.required" class="map-edit-error">Please Provide a Project Name</span>
-  <span ng-show="edit-form.PROJECTNAME.$error.minlength" class="map-edit-error">Please Provide a Project Name Greater than 2 Characters</span>
-  DEVELOPMENT PLAN ID: <input type="text" ng-model="update.DEVPLANID" name="DEVPLANID" class="form-control form-inputs" ng-pattern="/[A-Z]{1,2}-[0-9]*-[0-9]{4}/" placeholder="ex. SP-1-2015"/><br />
-  <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></span>
-  FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
-  ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
-  <div class="map-edit-radio">
-  CIP: <input type="radio" ng-model="update.CIP" value="1"  />True
-  <input type="radio" ng-model="update.CIP" value="0" />False<br />
-  WATER: <input type="radio" ng-model="update.WATER" value="1" />True
-  <input type="radio" ng-model="update.WATER" value="0" />False<br />
-  SEWER: <input type="radio" ng-model="update.SEWER" value="1" />True
-  <input type="radio" ng-model="update.SEWER" value="0" />False<br />
-  REUSE: <input type="radio" ng-model="update.REUSE" value="1" />True
-  <input type="radio" ng-model="update.REUSE" value="0" />False<br />
+<div ng-hide="active" class="map-edit-animation">
+  <button type="button" class="btn btn-default btn-sm" aria-label="Left Align" ng-click="active=true">
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </button>
 </div>
-  WATER UPDATED BY: <select ng-model="update.WATERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
-                      <option value="">-- choose editor --</option>
-                    </select><br />
-  WATER UPDATED WHEN: <input type="date" ng-model="update.WATERUPDATEDWHEN" class="form-control form-inputs"/><br />
-  SEWER UPDATED BY: <select ng-model="update.SEWERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
-                      <option value="">-- choose editor --</option>
-                    </select><br />
-  SEWER UPDATED WHEN: <input type="date" ng-model="update.SEWERUPDATEDWHEN" class="form-control form-inputs"/><br />
-  REUSE UPDATED BY: <select ng-model="update.REUSEUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
-                      <option value="">-- choose editor --</option>
-                    </select><br />
-  REUSE UPDATED WHEN: <input type="date" ng-model="update.REUSEUPDATEDWHEN" class="form-control form-inputs"/><br />
-  ACCEPTANCE DATE: <input type="date" ng-model="update.ACCEPTANCEDATE" class="form-control form-inputs"/><br />
-  WARRANTY END DATE: <input type="date" ng-model="update.WARRANTYENDDATE" class="form-control form-inputs"/><br />
-  DEVPLAN APPROVAL: <input type="date" ng-model="update.DEVPLAN_APPROVAL" class="form-control form-inputs"/><br />
-  TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
-  NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
-  <span ng-show="edit-form.DEVPLANID.$error.pattern" class="map-edit-error">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></span>
-  <span ng-show="edit-form.PROJECTNAME.$error.required" class="map-edit-error">Please Provide a Project Name</span>
-  <span ng-show="edit-form.PROJECTNAME.$error.minlength" class="map-edit-error">Please Provide a Project Name Greater than 2 Characters</span>
-  <div ng-show="edit-form.PROJECTID.$error.required">
-    <span class="map-edit-error">PROJECTID Failed to be generated! Please try to regenerate the project id with the button below. If the problem continues there is most likely an issue with the server, so please try again later. Sorry for the inconvience.</span>
-    <input type="button" ng-click="generateProjectId()" class="generate-project-id-button" value="Generate Project Id" />
+
+<div ng-show="active" class="container map-edit-container map-edit-animation">
+  <div class="row">
+    <div class="col-md-12">
+      <a ng-click="active=false" href="" class="pull-right">X</a>
+    </div>
   </div>
-  <input type="button" ng-click="reset(form)" class="btn btn-primary"  value="Reset" />
-  <input ng-show="form.$valid" type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-success"/>
-  <input type="button" ng-click="cancel(form)" class="btn btn-danger"  value="Cancel" />
-</form>
-<pre>form = {{update | json}}</pre>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Map -->
+      <leaflet geojson="geojson" height="200px" width="100%" id="mini-map"></leaflet></br>
+      <div ng-show="edit-form.PROJECTID.$error.required">
+        <span class="map-edit-error">PROJECTID Failed to be generated! Please try to regenerate the project id with the button below. If the problem continues there is most likely an issue with the server, so please try again later. Sorry for the inconvience.</span>
+        <input type="button" ng-click="generateProjectId()" class="generate-project-id-button" value="Generate Project Id" />
+      </div>
+    <!-- <div ng-show="spinner" ><h1>{{spinner}}</h1></div>
+    <div ng-activity-indicator></div> -->
+      <form  name="form" class="map-edit-form" novalidate>
+        PROJECTID: <input name="PROJECTID" type="number" ng-model="update.PROJECTID" class="form-control form-inputs map-edit-disabled" min="6" required disabled/><br />
+        PROJECT NAME: <input name="PROJECTNAME" type="text" ng-model="update.PROJECTNAME" class="form-control form-inputs" ng-minlength="2" required/><br />
+        <div ng-show="edit-form.PROJECTNAME.$error.required" class="alert alert-danger" role="alert">Please Provide a Project Name</div>
+        <div ng-show="edit-form.PROJECTNAME.$error.minlength" class="alert alert-danger" role="alert">Please Provide a Project Name Greater than 2 Characters</div>
+        DEVELOPMENT PLAN ID: <input type="text" ng-model="update.DEVPLANID" name="DEVPLANID" class="form-control form-inputs" ng-pattern="/[A-Z]{1,2}-[0-9]*-[0-9]{4}/" placeholder="ex. SP-1-2015"/><br />
+        <div ng-show="edit-form.DEVPLANID.$error.pattern" class="alert alert-danger" role="alert">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></div>
+        FORMERNAME: <input type="text" ng-model="update.FORMERNAME" class="form-control form-inputs"/><br />
+        ALIAS: <input type="text" ng-model="update.ALIAS" class="form-control form-inputs" /><br />
+        <div class="map-edit-radio">
+          CIP: <input type="radio" ng-model="update.CIP" value="1"  />True
+          <input type="radio" ng-model="update.CIP" value="0" />False<br />
+          WATER: <input type="radio" ng-model="update.WATER" value="1" />True
+          <input type="radio" ng-model="update.WATER" value="0" />False<br />
+          SEWER: <input type="radio" ng-model="update.SEWER" value="1" />True
+          <input type="radio" ng-model="update.SEWER" value="0" />False<br />
+          REUSE: <input type="radio" ng-model="update.REUSE" value="1" />True
+          <input type="radio" ng-model="update.REUSE" value="0" />False<br />
+        </div>
+      </div>
+      <div class="col-md-6">
+        WATER UPDATED BY: <select ng-model="update.WATERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                            <option value="">-- choose editor --</option>
+                          </select><br />
+        WATER UPDATED WHEN: <input type="date" ng-model="update.WATERUPDATEDWHEN" class="form-control form-inputs"/><br />
+        SEWER UPDATED BY: <select ng-model="update.SEWERUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                            <option value="">-- choose editor --</option>
+                          </select><br />
+        SEWER UPDATED WHEN: <input type="date" ng-model="update.SEWERUPDATEDWHEN" class="form-control form-inputs"/><br />
+        REUSE UPDATED BY: <select ng-model="update.REUSEUPDATEDBY" ng-options="editor for editor in editorList" class="form-control form-inputs">
+                            <option value="">-- choose editor --</option>
+                          </select><br />
+        REUSE UPDATED WHEN: <input type="date" ng-model="update.REUSEUPDATEDWHEN" class="form-control form-inputs"/><br />
+        ACCEPTANCE DATE: <input type="date" ng-model="update.ACCEPTANCEDATE" class="form-control form-inputs"/><br />
+        WARRANTY END DATE: <input type="date" ng-model="update.WARRANTYENDDATE" class="form-control form-inputs"/><br />
+        DEVPLAN APPROVAL: <input type="date" ng-model="update.DEVPLAN_APPROVAL" class="form-control form-inputs"/><br />
+        TAGS: <input type="text" ng-model="update.TAGS" class="form-control form-inputs"/><br />
+        NOTES: <input type="text" ng-model="update.NOTES" class="form-control form-inputs"/><br />
+      </form>
+      <div ng-show="!edit-form.$valid" class="alert alert-danger" role="alert">
+        <ul>
+          <li ng-if="edit-form.DEVPLANID.$error.pattern">Please Enter Development Plan Id Like <u>AB-2-2015</u> or <u>Leave Blank</u></li>
+          <li ng-if="edit-form.PROJECTNAME.$error.required">Please Provide a Project Name</li>
+          <li ng-if="edit-form.PROJECTNAME.$error.minlength">Please Provide a Project Name Greater than 2 Characters</li>
+          <!-- <li ng-if="edit-form.PROJECTID.$error.required">PROJECTID Failed to be generated! Please try to regenerate the project id with the button below. If the problem continues there is most likely an issue with the server, so please try again later. Sorry for the inconvience.</li> -->
+        </ul>
+      </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="pull-right">
+          <input type="button" ng-click="reset(form)" class="btn btn-primary"  value="Reset" />
+          <input ng-show="form.$valid" type="submit" ng-click="saveToMaster(update)" value="Save" class="btn btn-success"/>
+          <input type="button" ng-click="cancel(form)" class="btn btn-danger"  value="Cancel" />
+        </div>
+    </div>
+  </div>
+<!-- <pre>form = {{update | json}}</pre> -->
 </div>

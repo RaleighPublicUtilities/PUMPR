@@ -79,6 +79,8 @@ function createPopup (feature, layer) {
 
 leafletData.getMap('map').then(function(map) {
 
+
+//Add Custom Controls//////////////////////////////////////////////////////////////////////
   //Adds search bar to map
     var searchBar = L.Control.extend({
       options: {
@@ -147,6 +149,34 @@ leafletData.getMap('map').then(function(map) {
 
 map.addControl(new projectTable());
 
+
+//Add Map edit table
+var mapEdit = L.Control.extend({
+  options: {
+    position: 'topright'
+  },
+
+  onAdd: function (map) {
+    this._container = L.DomUtil.get('mapEdit');
+    // Disable dragging when user's cursor enters the element
+    this._container.addEventListener('mouseover', function () {
+        map.dragging.disable();
+    });
+
+    // Re-enable dragging when user's cursor leaves the element
+    this._container.addEventListener('mouseout', function () {
+        map.dragging.enable();
+    });
+      return this._container;
+  }
+});
+
+map.addControl(new mapEdit());
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
   //Gets layer info from map
   map.on('click', function(e){
     //Empties exisiting feature group
@@ -256,8 +286,8 @@ map.addControl(new projectTable());
     //Empties exisiting feature group
     $scope.project_docs = false;
     $scope.searchStatus = false;
-    angular.element('.angular-leaflet-map').removeClass('map-move');
-    angular.element('.map-edit-container').removeClass('map-edit-container-move');
+    // angular.element('.angular-leaflet-map').removeClass('map-move');
+    // angular.element('.map-edit-container').removeClass('map-edit-container-move');
     drawnItems.clearLayers();
   });
   map.on('draw:created', function (e) {
@@ -348,7 +378,7 @@ $scope.autoFillProjects = function (typed) {
   $scope.searchStatus = false;
   $scope.project_docs = false;
   $scope.projectError = false;
-  angular.element('.angular-leaflet-map').removeClass('map-move');
+  // angular.element('.angular-leaflet-map').removeClass('map-move');
   //Uses the Project Search Servies
   $scope.projects = [];
   $scope.newProject = search.all(typed);

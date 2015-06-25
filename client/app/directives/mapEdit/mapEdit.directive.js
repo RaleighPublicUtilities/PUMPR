@@ -125,7 +125,10 @@ angular.module('pumprApp')
             form.$setUntouched();
           }
           scope.update = angular.copy(scope.master);
+          // angular.element('.map-edit-container').addClass('animated slideOutRight');
           scope.active = false;
+
+          // angular.element('.angular-leaflet-map').removeClass('animated slideInLeft');
         };
 
 
@@ -136,7 +139,7 @@ angular.module('pumprApp')
 
 
         leafletData.getMap('mini-map').then(function(map) {
-          L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.3hqcl3di/{z}/{x}/{y}.png').addTo(map);
+          L.tileLayer('http://api.tiles.mapbox.com/v4/ctwhite.mdf6egjp/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ').addTo(map);
         });
 
 
@@ -159,10 +162,11 @@ angular.module('pumprApp')
 
         scope.$watchCollection('active', function(){
           if(scope.active){
-            angular.element('.angular-leaflet-map').addClass('map-move-left');
+            // angular.element('.angular-leaflet-map').addClass('animated slideInLeft');
           }
           else {
-            angular.element('.angular-leaflet-map').removeClass('map-move-left');
+            // angular.element('.angular-leaflet-map').addClass('animated slideOutLeft');
+            // angular.element('.angular-leaflet-map').removeClass('animated slideInLeft');
           }
         });
 
