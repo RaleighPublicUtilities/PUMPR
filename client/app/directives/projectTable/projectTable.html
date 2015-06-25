@@ -1,5 +1,5 @@
-
-<table ng-show="!isDocument" class="table pd-table" >
+<div ng-switch="type">
+<table ng-switch-when="map" class="table pd-table" >
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
@@ -15,7 +15,7 @@
 </table>
 
 
-<table ng-show="isDocument" class="table pd-table" >
+<table ng-switch-when="document" class="table pd-table" >
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
@@ -63,3 +63,71 @@
     </tr>
   </tbody>
 </table>
+
+
+<table ng-switch-when="project" class="table pd-table" >
+  <thead>
+    <th class="text-primary">Key</th>
+    <th class="text-primary">Value</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Project ID</td>
+      <td>{{project['Project ID']}}</td>
+    </tr>
+    <tr>
+      <td>Project Name</td>
+      <td>{{project['Project Name']}}</td>
+    </tr>
+    <tr>
+      <td>Development Plan ID</td>
+      <td>{{project['Development Plan ID']}}</td>
+    </tr>
+    <tr>
+      <td>DEVPLAN APPROVAL</td>
+      <td>{{project['DEVPLAN APPROVAL']}}</td>
+    </tr>
+    <tr ng-if="project['Warranty End Date']">
+      <td>Warranty End Date</td>
+      <td>{{project['Warranty End Date']}}</td>
+    </tr>
+    <tr ng-if="project.Alias">
+      <td>Alias</td>
+      <td>{{project.Alias}}</td>
+    </tr>
+    <tr ng-if="project['Former Name']">
+      <td>Former Name</td>
+      <td>{{project['Former Name']}}</td>
+    </tr>
+    <tr>
+      <td>Construction Plan Link</td>
+      <td><a class="cp-link" ng-click="popup(project['Construction Plan Link'])">Link</a></td>
+    </tr>
+    <tr>
+      <td>CIP</td>
+      <td>{{project.CIP}}</td>
+    </tr>
+    <tr>
+      <td>Water</td>
+      <td class="water">{{project.Water}}</td>
+    </tr>
+    <tr>
+      <td>Sewer</td>
+      <td class="sewer">{{project.Sewer}}</td>
+    </tr>
+    <tr>
+      <td>Reuse</td>
+      <td class="reuse">{{project.Reuse}}</td>
+    </tr>
+    <tr>
+      <td>Storm</td>
+      <td class="strom">{{project.Storm}}</td>
+    </tr>
+    <tr ng-if="project.Notes">
+      <td>Notes</td>
+      <td>{{project.Notes}}</td>
+    </tr>
+  </tbody>
+</table>
+
+</div>

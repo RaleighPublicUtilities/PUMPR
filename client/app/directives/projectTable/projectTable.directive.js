@@ -6,7 +6,8 @@ angular.module('pumprApp')
       restrict: 'E',
       transclude: true,
       scope: {
-        project: '='
+        project: '=',
+        type: '@'
       },
       templateUrl: 'app/directives/projectTable/projectTable.html',
       link: function (scope) {
@@ -20,13 +21,14 @@ angular.module('pumprApp')
               scope.isDocument = true;
             }
             else{
+              console.log(scope.project)
               scope.isDocument = false;
               url = 'http://devplansarchive.ci.raleigh.nc.us/documents/devplans/' + scope.project.DEVPLANID;
               scope.project.CPLINK = url;
             }
           }
         });
-      
+
 
         scope.popup = function (url){
           var newwindow=window.open(url,'name','height=500,width=500');

@@ -30,3 +30,23 @@
 .pd-table tbody tr.ng-enter-active {
     opacity: 1;
 }
+
+.cp-link{
+  color: #428bca;
+  text-decoration: none;
+}
+.cp-link:hover {
+  color: #4eaae7;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cp-link:active {
+    color: #87cfff;
+    text-decoration: none;
+}
+
+.cp-link:visited {
+    color: #00FF00;
+    text-decoration: none;
+}
