@@ -51,7 +51,7 @@ angular.module('pumprApp', [
             visible: false,
             layerOptions: {
                 layers: [1],
-                  opacity: 0.5,
+                  opacity: 0.4,
                   attribution: 'Copyright:© 2014 City of Raleigh',
                   position: 'back'
             }

@@ -45,6 +45,13 @@ border-color: rgba(0,0,0, 0.50);;
   background-color: rgba(70, 67, 67, 0.73);
 }*/
 
-/*.leaflet-popup-content-wrapper, .leaflet-popup-tip{
-  background: rgb(84, 79, 73);
-}*/
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+  background: rgba(58, 58, 57, 0.81);
+  padding: 0;
+  margin: 0;
+}
+
+.leaflet-popup-close-button+.leaflet-popup-content-wrapper .leaflet-popup-content{
+  padding: 10px 10px;
+  margin: 0;
+}

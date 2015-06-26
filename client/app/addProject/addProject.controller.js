@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers',
-    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers) {
+  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers', '$compile',
+    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers, $compile) {
 
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
@@ -67,12 +67,13 @@ var options = {
 
 //Ugly set popup hack, tried ng-repeat did work, so I am using this as a place holder
 function createPopup (feature, layer) {
-  var ele = '<ul>';
-  for (var i in feature.properties){
-    feature.properties[i] !== 'Null' && feature.properties[i] !== ''  ? ele+='<li><i>' + i + '</i>: ' + feature.properties[i] + '</li>' : ele;
-  }
-  ele+='</ul>';
-  layer.bindPopup(ele, {
+  var el = document.createElement('leaflet-pop'),
+      linkFunction = $compile(angular.element(el)),
+      newScope = $scope.$new();
+      newScope.features = feature.properties;
+      newScope.featuresGroup = selectedFeatures;
+  console.log(selectedFeatures);
+  layer.bindPopup(linkFunction(newScope)[0], {
     maxHeight: 300
   });
 }
