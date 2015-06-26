@@ -6,7 +6,7 @@ angular.module('pumprApp')
 
   var mapstest = new Ags({host: 'mapststarcsvr1:6080'}),
       maps = new Ags({host: 'maps.raleighnc.gov'}),
-      gis = new Ags({host: 'maps.raleighnc.gov'}),
+      gis = new Ags({host: 'gis.raleighnc.gov'}),
       dev = new Ags({host: 'geodevapplv1:6080'});
   //Create services
   var services = {
@@ -71,6 +71,12 @@ angular.module('pumprApp')
     vechMs: dev.setService({
       folder:'Networkfleet',
       service: '',
+      server: 'MapServer'
+    }),
+
+    cip: gis.setService({
+      folder:'PublicUtility',
+      service: 'RPUD_Projects',
       server: 'MapServer'
     }),
 

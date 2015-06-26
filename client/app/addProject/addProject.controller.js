@@ -252,6 +252,16 @@ map.addControl(new mapEdit());
             selectedFeatures.addLayer(selectedGeojson);
           });
           break;
+        case 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer/':
+            agsServer.cip.request(onClickOptions)
+            .then(function(data){
+              selectedGeojson = L.geoJson(data, {
+                onEachFeature: createPopup,
+                style: selectionStyle
+              });
+              selectedFeatures.addLayer(selectedGeojson);
+            });
+            break;
         case 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer/':
           console.log('MadeIt')
           agsServer.vechMs.request(onClickOptions)

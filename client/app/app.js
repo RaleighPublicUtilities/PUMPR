@@ -92,10 +92,22 @@ angular.module('pumprApp', [
                   position: 'back'
             }
         },
+        cip: {
+          name: 'Active CIP Projects',
+            type: 'dynamic',
+            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer',
+            visible: true,
+            layerOptions: {
+                layers: [0],
+                  opacity: 1,
+                  attribution: 'Copyright:© 2014 City of Raleigh',
+                  position: 'back'
+            }
+        },
         detailsIntersections: {
           name: 'Detailed Intersections',
           type: 'dynamic',
-          url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
+          url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
           visible: false,
           layerOptions: {
             layers: [0],
