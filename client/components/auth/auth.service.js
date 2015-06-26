@@ -40,12 +40,38 @@ angular.module('pumprApp')
       },
 
       /**
+       * Get ArcGis Online Access Token
+       *
+       * @return {Promise}
+       */
+      getAgolToken: function(callback) {
+        var cb = callback || angular.noop;
+        var deferred = $q.defer();
+
+        $http.post('/api/arcgis/getToken').
+        success(function(data) {
+          $cookieStore.put('agolToken', data.access_token);
+          // $cookieStore.put('agolTokenExp', data.expires_in);
+          deferred.resolve(data);
+          return cb();
+        }).
+        error(function(err) {
+          this.logout();
+          deferred.reject(err);
+          return cb(err);
+        }.bind(this));
+
+        return deferred.promise;
+      },
+
+      /**
        * Delete access token and user info
        *
        * @param  {Function}
        */
       logout: function() {
         $cookieStore.remove('token');
+        $cookieStore.remove('agolToken');
         currentUser = {};
       },
 

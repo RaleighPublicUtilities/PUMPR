@@ -147,23 +147,30 @@ angular.module('pumprApp', [
       // Add authorization token to headers
       request: function (config) {
         //Check if request is for arcgis server and do not add bearer token if it is
-        var re = new RegExp('http://[a-z]{3,8}.raleighnc.gov/arcgis/rest/services/');
-        var re1 = new RegExp('http://mapststarcsvr1:6080/arcgis/rest/services/');
-        var re2 = new RegExp('http://geodevapplv1:6080/arcgis/rest/services/');
-        var result = re.test(config.url);
-        var result1 = re1.test(config.url);
-        var result2 = re2.test(config.url);
-        if (result || result1 || result2){
-          delete config.headers.Authorization;
-          return config;
-        }
-        else {
-          config.headers = config.headers || {};
-          if ($cookieStore.get('token')) {
-            config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+
+
+        var re = /\/arcgis\/rest\/services\//.test(config.url);
+        var water = 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer';
+
+        if (water === config.url){
+            delete config.headers.Authorization;
+            if ($cookieStore.get('agolToken')) {
+              config.params.token = $cookieStore.get('agolToken');
+            }
+            console.log(config)
+            return config;
           }
-          return config;
-        }
+          else if (re){
+            delete config.headers.Authorization;
+            return config;
+          }
+          else {
+            config.headers = config.headers || {};
+            if ($cookieStore.get('token')) {
+              config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+            }
+            return config;
+          }
       },
 
       // Intercept 401s and redirect you to login
