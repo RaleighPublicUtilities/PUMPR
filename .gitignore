@@ -6,3 +6,4 @@ client/bower_components
 dist
 /server/config/local.env.js
 documents
+/server/api/arcgisToken/arcgisToken.local.js
