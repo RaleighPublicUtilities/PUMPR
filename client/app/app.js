@@ -157,7 +157,6 @@ angular.module('pumprApp', [
             if ($cookieStore.get('agolToken')) {
               config.params.token = $cookieStore.get('agolToken');
             }
-            console.log(config)
             return config;
           }
           else if (re){

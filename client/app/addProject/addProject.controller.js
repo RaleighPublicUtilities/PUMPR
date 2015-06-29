@@ -78,7 +78,6 @@ function createPopup (feature, layer) {
       newScope = $scope.$new();
       newScope.features = feature.properties;
       newScope.featuresGroup = selectedFeatures;
-  console.log(selectedFeatures);
   layer.bindPopup(linkFunction(newScope)[0], {
     maxHeight: 300
   });
@@ -206,7 +205,6 @@ map.addControl(new mapEdit());
         actions: 'identify',
         geojson: true
       };
-      console.log(layer.options.url)
       switch (layer.options.url){
         case 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/':
           agsServer.ptMs.request(onClickOptions)
