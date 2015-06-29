@@ -369,12 +369,6 @@ function action (feature, layer){
 }
 
 
-function removeEmptyFields (data) {
-    for (var a in data){
-      data[a] !== null || undefined || NaN ? data[a] : delete data[a];
-    }
-}
-
 
       function rotatePlaceholder (){
         var count = 0;
@@ -423,38 +417,14 @@ $scope.searchControl = function (typed){
 
   var selection = typed.split(':');
 
-  var projectOptions = {
-    layer: 'Project Tracking',
-    geojson: true,
-    actions: 'query',
-    params: {
-      f: 'json',
-      outFields: '*',
-      where: "PROJECTID =  '" + selection[2] + "'",
-      outSR: 4326,
-      returnGeometry: true
-    }
-  };
-
-  var documentOptions = {
-    layer: 'RPUD.PTK_DOCUMENTS',
-    actions: 'query',
-    params: {
-      f: 'json',
-      outFields: '*',
-      where: "PROJECTID =  '" + selection[2] + "'",
-    }
-  };
-
-  agsServer.ptFs.request(projectOptions)
+  search.display(selection[2])
+  // agsServer.ptFs.request(projectOptions)
     .then(function(data){
       console.log(data);
+      var project = data[0];
+      var proDocs = data[1];
       //Prepare Results Table
-      $scope.project_info = data.features[0].properties;
-      $scope.project_info.CREATEDON = $filter('date')($scope.project_info.CREATEDON, 'MM/dd/yyyy');
-      $scope.project_info.DEVPLAN_APPROVAL = $filter('date')($scope.project_info.DEVPLAN_APPROVAL, 'MM/dd/yyyy');
-      $scope.project_info.EDITEDON = $filter('date')($scope.project_info.EDITEDON, 'MM/dd/yyyy');
-      removeEmptyFields($scope.project_info);
+      $scope.project_info = project.features[0].properties;
 
       //Turns on the map resulsts table
       $scope.searchStatus = true;
