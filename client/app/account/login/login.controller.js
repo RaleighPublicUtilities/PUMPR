@@ -14,7 +14,7 @@ angular.module('pumprApp')
           password: $scope.user.password
         })
         .then( function() {
-          Auth.getAgolToken().then(function(){
+          Auth.agolToken().then(function(){
             // Logged in, redirect to home
             $location.path('/');
           })

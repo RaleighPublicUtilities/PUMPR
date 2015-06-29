@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers', '$compile', '$cookieStore',
-    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers, $compile, $cookieStore) {
+  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers', '$compile', 'Auth',
+    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers, $compile, Auth) {
 
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
 
     //Set defaults
-    $scope.agsToken = $cookieStore.get('agolToken');
+    $scope.agsToken = Auth.getAgolToken();
     $scope.searchStatus = false;
     mapLayers.overlays.water.visible = false;
     mapLayers.overlays.water.layerParams = {

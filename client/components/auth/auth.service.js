@@ -44,7 +44,7 @@ angular.module('pumprApp')
        *
        * @return {Promise}
        */
-      getAgolToken: function(callback) {
+      agolToken: function(callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
 
@@ -52,7 +52,6 @@ angular.module('pumprApp')
         success(function(data) {
           $cookieStore.put('agolToken', data.token);
           // $cookieStore.put('agolTokenExp', data.expires_in);
-          console.log(data);
           deferred.resolve(data);
           return cb();
         }).
@@ -197,6 +196,13 @@ angular.module('pumprApp')
        */
       getToken: function() {
         return $cookieStore.get('token');
+      },
+
+      /**
+       * Get auth token
+       */
+      getAgolToken: function() {
+        return $cookieStore.get('agolToken');
       },
       /**
        *Checks sets authorization header
