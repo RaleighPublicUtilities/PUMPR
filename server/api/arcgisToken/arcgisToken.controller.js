@@ -8,7 +8,8 @@ var local = require('./arcgisToken.local');
 // generate a token with your client id and client secret
 exports.getToken = function (req, res){
   request.post({
-    url: 'https://www.arcgis.com/sharing/rest/oauth2/token/',
+    // url: 'https://www.arcgis.com/sharing/rest/oauth2/token/',
+    url: 'http://maps.raleighnc.gov/arcgis/tokens/',
     json:true,
     form: local
   }, function(error, response, body){

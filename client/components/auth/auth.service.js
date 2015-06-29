@@ -50,8 +50,9 @@ angular.module('pumprApp')
 
         $http.post('/api/arcgis/getToken').
         success(function(data) {
-          $cookieStore.put('agolToken', data.access_token);
+          $cookieStore.put('agolToken', data.token);
           // $cookieStore.put('agolTokenExp', data.expires_in);
+          console.log(data);
           deferred.resolve(data);
           return cb();
         }).

@@ -1,13 +1,19 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers', '$compile',
-    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers, $compile) {
+  .controller('AddProjectCtrl', ['$scope', '$filter', '$sce', 'leafletData', 'search', 'agsServer', '$interval', 'mapLayers', '$compile', '$cookieStore',
+    function ($scope, $filter, $sce, leafletData, search, agsServer, $interval, mapLayers, $compile, $cookieStore) {
 
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
+
+    //Set defaults
+    $scope.agsToken = $cookieStore.get('agolToken');
     $scope.searchStatus = false;
     mapLayers.overlays.water.visible = false;
+    mapLayers.overlays.water.layerParams = {
+        token: $scope.agsToken
+    },
     mapLayers.overlays.sewer.visible = false;
     mapLayers.overlays.reuse.visible = false;
   //create a map in the "map" div, set the view to a given place and zoom
@@ -222,7 +228,7 @@ map.addControl(new mapEdit());
             selectedFeatures.addLayer(selectedGeojson);
           });
           break;
-        case 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/':
+        case 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/':
           agsServer.waterMs.request(onClickOptions)
           .then(function(data){
             selectedGeojson = L.geoJson(data, {

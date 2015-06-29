@@ -46,97 +46,97 @@ angular.module('pumprApp', [
         overlays: {
           projects:{
             name: 'Project Tracking',
-            type: 'dynamic',
+            type: 'agsDynamic',
             url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
             visible: false,
             layerOptions: {
                 layers: [1],
                   opacity: 0.4,
-                  attribution: 'Copyright:© 2014 City of Raleigh',
+                  attribution: 'Copyright:© 2015 City of Raleigh',
                   position: 'back'
             }
           },
             sewer: {
               name: 'Sewer Collection Network',
-              type: 'dynamic',
+              type: 'agsDynamic',
               url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer',
               visible: true,
               layerOptions: {
                   layers: [0,1,2,3,4],
                     opacity: 1,
-                    attribution: 'Copyright:© 2014 City of Raleigh',
+                    attribution: 'Copyright:© 2015 City of Raleigh',
                     position: 'back'
               }
         },
         water: {
           name: 'Water Distribution Network',
-            type: 'dynamic',
-            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer',
+            type: 'agsDynamic',
+            url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer',
             visible: true,
             layerOptions: {
                 layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
                   opacity: 1,
-                  attribution: 'Copyright:© 2014 City of Raleigh',
+                  attribution: 'Copyright:© 2015 City of Raleigh',
                   position: 'back'
             }
         },
         reuse: {
           name: 'Reuse Distribution Network',
-            type: 'dynamic',
+            type: 'agsDynamic',
             url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer',
             visible: true,
             layerOptions: {
                 layers: [0,1,2,3,4,5,6,7,8,9,10,11],
                   opacity: 1,
-                  attribution: 'Copyright:© 2014 City of Raleigh',
+                  attribution: 'Copyright:© 2015 City of Raleigh',
                   position: 'back'
             }
         },
         cip: {
           name: 'Active CIP Projects',
-            type: 'dynamic',
+            type: 'agsDynamic',
             url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer',
-            visible: true,
+            visible: false,
             layerOptions: {
                 layers: [0],
                   opacity: 1,
-                  attribution: 'Copyright:© 2014 City of Raleigh',
+                  attribution: 'Copyright:© 2015 City of Raleigh',
                   position: 'back'
             }
         },
         detailsIntersections: {
           name: 'Detailed Intersections',
-          type: 'dynamic',
+          type: 'agsDynamic',
           url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
           visible: false,
           layerOptions: {
             layers: [0],
             opacity: 1,
-            attribution: 'Copyright:© 2014 City of Raleigh',
+            attribution: 'Copyright:© 2015 City of Raleigh',
             position: 'back'
           }
         },
         parcels: {
           name: 'Parcels',
-          type: 'dynamic',
+          type: 'agsDynamic',
           url: 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer',
           visible: false,
           layerOptions: {
             layers: ['*'],
             opacity: 1,
-            attribution: 'Copyright:© 2014 City of Raleigh',
+            attribution: 'Copyright:© 2015 City of Raleigh',
             position: 'back'
           }
         },
       vehicles: {
         name: 'Vehicles',
-        type: 'dynamic',
+        type: 'agsDynamic',
         url: 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer',
         visible: false,
         layerOptions: {
           layers: [0],
           opacity: 1,
-          attribution: 'Copyright:© 2014 City of Raleigh',
+          attribution: 'Copyright:© 2015 City of Raleigh',
           position: 'back'
         }
       }
@@ -150,9 +150,9 @@ angular.module('pumprApp', [
 
 
         var re = /\/arcgis\/rest\/services\//.test(config.url);
-        var water = 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer';
+        var water = /maps.raleighnc.gov\/arcgis\/rest\/services\//;
 
-        if (water === config.url){
+        if (water.test(config.url)){
             delete config.headers.Authorization;
             if ($cookieStore.get('agolToken')) {
               config.params.token = $cookieStore.get('agolToken');
