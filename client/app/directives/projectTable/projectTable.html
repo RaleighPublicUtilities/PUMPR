@@ -1,5 +1,5 @@
 <div ng-switch="type">
-<table ng-switch-when="map" class="table pd-table" >
+<table ng-switch-when="popup" class="table pd-table" >
   <thead>
     <th class="text-primary">Key</th>
     <th class="text-primary">Value</th>
@@ -8,8 +8,8 @@
   <tbody ng-if="isDocument === false">
     <tr ng-repeat="(key, value) in project">
       <td>{{key}}</td>
-      <td ng-if="key !== 'CPLINK'">{{value}}</td>
-      <td ng-if="key === 'CPLINK'"><a id="doc-link" href="" ng-click="popup(value)">Link</a><td>
+      <td ng-if="key !== 'HYPERLINK'">{{value}}</td>
+      <td ng-if="key === 'HYPERLINK'"><a id="doc-link" href="" ng-click="popup(value)">Link</a><td>
     </tr>
   </tbody>
 </table>

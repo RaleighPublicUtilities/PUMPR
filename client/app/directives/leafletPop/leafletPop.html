@@ -1,30 +1,9 @@
-<!-- <div class="tint"></div> -->
-<!-- <div class="container popbody">
-  <div class="row">
-    <div class="col-md-12">
-      <h1 class="water">Hello</h1>
-      <ul>
-        <li ng-repeat="(key, value) in props">{{key}}: {{value}}</li>
-      </ul>
-  </div>
-</div> -->
 <div ng-if="choice">
   <h1 ng-if="props['Project Name']" class="popbody">{{props['Project Name']}}</h1>
   <project-table id="mapTable" project="props" type="project"></project-table>
 </div>
 <div ng-if="!choice">
-  <h1 ng-if="props['Facility Identifier']" class="popbody">{{props['Facility Identifier']}}</h1>
-<table  ng-if="!choice" class="table pd-table" >
-  <thead>
-    <th class="text-primary">Key</th>
-    <th class="text-primary">Value</th>
-    <th></th>
-  </thead>
-  <tbody>
-    <tr ng-repeat="(key, value) in props">
-      <td>{{key}}</td>
-      <td>{{value}}</td>
-    </tr>
-  </tbody>
-</table>
+  <h1 ng-if="props['Facility Identifier']" class="popbody">{{props['Facility Identifier'] || props.Address}}</h1>
+  <h1 ng-if="props.Address" class="popbody">{{props.Address}}</h1>
+  <project-table id="mapTable" project="props" type="popup"></project-table>
 </div>

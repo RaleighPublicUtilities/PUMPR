@@ -412,15 +412,11 @@ $scope.autoFillProjects = function (typed) {
 };
 
 $scope.searchControl = function (typed){
-  console.log(typed);
-
 
   var selection = typed.split(':');
 
   search.display(selection[2])
-  // agsServer.ptFs.request(projectOptions)
     .then(function(data){
-      console.log(data);
       var project = data[0];
       var proDocs = data[1];
       //Prepare Results Table
@@ -434,7 +430,12 @@ $scope.searchControl = function (typed){
 
       //Sets geojson object and adds each layer to featureGroup as a layer, so it can be edited
       L.geoJson(data, {
+        style: {
+          color: 'rgb(151, 187, 205)'
+        },
         onEachFeature: function (feature, layer) {
+          var ele = '<a href="/project/'+ selection[2] +'">View Project</a>'
+          layer.bindPopup(ele);
           drawnItems.addLayer(layer);
         }
       });

@@ -21,10 +21,10 @@ angular.module('pumprApp')
               scope.isDocument = true;
             }
             else{
-              console.log(scope.project)
-              scope.isDocument = false;
-              url = 'http://devplansarchive.ci.raleigh.nc.us/documents/devplans/' + scope.project.DEVPLANID;
-              scope.project.CPLINK = url;
+              scope.type = 'project';
+              url = 'http://devplansarchive.ci.raleigh.nc.us/documents/devplans/' + scope.project['Development Plan ID'];
+              // console.log(scope.project)
+              scope.project['Construction Plan Link'] = url;
             }
           }
         });
