@@ -49,9 +49,13 @@ border-color: rgba(0,0,0, 0.50);;
   background: rgba(58, 58, 57, 0.81);
   padding: 0;
   margin: 0;
+  border: #fff solid 1px;
+
 }
 
 .leaflet-popup-close-button+.leaflet-popup-content-wrapper .leaflet-popup-content{
   padding: 10px 10px;
   margin: 0;
+  border: #fff solid 1px;
+
 }
