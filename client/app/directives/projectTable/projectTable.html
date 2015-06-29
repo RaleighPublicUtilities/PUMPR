@@ -5,7 +5,7 @@
     <th class="text-primary">Value</th>
     <th></th>
   </thead>
-  <tbody ng-if="isDocument === false">
+  <tbody>
     <tr ng-repeat="(key, value) in project">
       <td>{{key}}</td>
       <td ng-if="key !== 'HYPERLINK'">{{value}}</td>

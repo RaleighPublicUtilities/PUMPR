@@ -17,16 +17,14 @@ angular.module('pumprApp')
         // scope.isDocument = true;
         scope.$watchCollection('project', function(){
           if (scope.project){
-            if(scope.project.DOCID){
-              scope.isDocument = true;
+              if (scope.type === 'project'){
+                url = 'http://devplansarchive.ci.raleigh.nc.us/documents/devplans/' + scope.project['Development Plan ID'];
+                // console.log(scope.project)
+                scope.project['Construction Plan Link'] = url;
+              }
+
             }
-            else{
-              scope.type = 'project';
-              url = 'http://devplansarchive.ci.raleigh.nc.us/documents/devplans/' + scope.project['Development Plan ID'];
-              // console.log(scope.project)
-              scope.project['Construction Plan Link'] = url;
-            }
-          }
+
         });
 
 

@@ -2,8 +2,9 @@
   <h1 ng-if="props['Project Name']" class="popbody">{{props['Project Name']}}</h1>
   <project-table id="mapTable" project="props" type="project"></project-table>
 </div>
+
 <div ng-if="!choice">
-  <h1 ng-if="props['Facility Identifier']" class="popbody">{{props['Facility Identifier'] || props.Address}}</h1>
+  <h1 ng-if="props['Facility Identifier']" class="popbody">{{props['Facility Identifier']}}</h1>
   <h1 ng-if="props.Address" class="popbody">{{props.Address}}</h1>
   <project-table id="mapTable" project="props" type="popup"></project-table>
 </div>

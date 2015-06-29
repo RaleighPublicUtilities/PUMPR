@@ -12,12 +12,10 @@ angular.module('pumprApp')
       link: function (scope, element, attrs) {
         scope.props = scope.$parent.features;
         scope.fg = scope.$parent.featuresGroup;
-        console.log(scope.fg.toGeoJSON());
-        
+        // console.log(scope.fg.toGeoJSON());
         scope.choice = scope.props['Project ID'] ? true : false;
-        // scope.$watch('features', function(){
-        //
-        // });
+
+
       }
     };
   });
