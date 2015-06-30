@@ -5,6 +5,13 @@ angular.module('pumprApp')
     function ($scope, $location, $timeout, agsServer, leafletData,  Auth, search, mapLayers) {
     // //Set up GET request options
     //
+    $scope.agsToken = Auth.getAgolToken();
+    mapLayers.overlays.sewer.visible = true;
+    mapLayers.overlays.reuse.visible = true;
+    mapLayers.overlays.water.visible = true;
+    mapLayers.overlays.water.layerParams = {
+        token: $scope.agsToken
+    },
     $scope.errorMessage = false;
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.message = {
