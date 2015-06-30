@@ -26,11 +26,11 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'pumpr-secret'
+    session: process.env.PUMPR_SECRET || 'pumpr-secret'
   },
 
   // List of user roles
-  userRoles: ['guest', 'user', 'admin'],
+  userRoles: ['guest', 'user', 'superuser', 'admin'],
 
   // MongoDB connection options
   mongo: {
