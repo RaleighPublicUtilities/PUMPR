@@ -7,6 +7,9 @@ angular.module('pumprApp')
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
 
+    //Set up draw controls
+    var drawnItems = new L.FeatureGroup();
+
     //Set defaults
     $scope.agsToken = Auth.getAgolToken();
     $scope.searchStatus = false;
@@ -16,6 +19,15 @@ angular.module('pumprApp')
     },
     mapLayers.overlays.sewer.visible = false;
     mapLayers.overlays.reuse.visible = false;
+
+    mapLayers.overlays.draw = {
+      name: 'draw',
+      type: 'group',
+      visible: true,
+      layerParams: {
+        showOnSelector: false
+      }
+    };
   //create a map in the "map" div, set the view to a given place and zoom
   angular.extend($scope, {
       center: {
@@ -23,37 +35,30 @@ angular.module('pumprApp')
         lng: -78.63945007324219,
         zoom: 13
       },
+      //Define map controls
+      controls: {
+        draw: {
+          edit: {
+            featureGroup: drawnItems
+          },
+          draw: {
+            polygon: {
+              shapeOptions: {
+                color: 'blue'
+              },
+              repeatMode: false,
+              allowIntersection: false
+            },
+            marker: false,
+            circle: false,
+            polyline: false,
+            rectangle: false
+          }
+         }
+      },
+      //Add map base layers and overlays
       layers: mapLayers
   });
-
-//Set up draw controls
-var drawnItems = new L.FeatureGroup();
-var options = {
-  edit: {
-    featureGroup: drawnItems
-  },
-  draw: {
-    polygon: {
-      shapeOptions: {
-        color: 'blue'
-      },
-      repeatMode: false,
-      allowIntersection: false
-    },
-    marker: false,
-    circle: false,
-    polyline: false,
-    rectangle: false
-  }
- };
- var drawControl = new L.Control.Draw(options);
- angular.extend($scope, {
-   controls: {
-     custom: [drawControl]
-   }
- }
- );
-
 
  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  //////////////Identify Features on map/////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +89,6 @@ function createPopup (feature, layer) {
 }
 
 leafletData.getMap('map').then(function(map) {
-
 
 //Add Custom Controls//////////////////////////////////////////////////////////////////////
   //Adds search bar to map
