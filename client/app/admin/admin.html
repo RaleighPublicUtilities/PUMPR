@@ -1,9 +1,11 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <p>The delete user and user index api routes are restricted to users with the 'admin' role.</p>
+  <br>
+  Search: <input type="text" class="form-control" ng-model="searchText"/>
+  <br>
   <ul class="list-group admin">
-    <li class="list-group-item admin" ng-repeat="user in users">
+    <li class="list-group-item admin" ng-repeat="user in users | filter: searchText">
         <strong>{{user.name}}</strong><br>
         <span class="text-muted blue">{{user.email}}</span>
         <select class="pull-right role" ng-model="selectedRole" ng-options="role.role for role in roles" ng-change="changeRole(user, selectedRole.role)">
