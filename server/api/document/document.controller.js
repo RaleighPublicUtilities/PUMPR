@@ -113,46 +113,34 @@ exports.send = function(req, res, next){
       fileInfo,
       options;
 
-      // res.sendfile(path.join(dir, file));
+      fs.stat(path.join(dir, file), function(err, stats){
+        if (err){
+          res.status(404);
+          res.json({'message':'Sorry, we cannot find that!'}).end();
+        }
+        else{
+          options = {
+            root: path.join(__dirname, '../../', dir),
+            dotfiles: 'deny',
+            headers: {
+              'Content-Type': 'application/pdf',
+              'Content-Length': stats.size
+            }
+          };
+
+          res.sendfile(file, options, function (err) {
+            if (err) {
+              res.json({'message':'Sorry, we cannot find that!'}).end();
+              res.status(err.status).end();
+            }
+            else {
+              console.log('IP:', req.ip, 'Sent:', file);
+            }
+          });
+        }
 
 
-            fs.stat(path.join(dir, file), function(err, stats){
-              if (err){
-                res.status(404);
-                res.json({'message':'Sorry, we cannot find that!'}).end();
-              }
-              else{
-
-                // console.log(stats);
-                // console.log(__dirname);
-                // console.log(path.join(__dirname, '../../../', dir, file));
-                options = {
-                  root: path.join(__dirname, '../../', dir),
-                  dotfiles: 'deny',
-                  headers: {
-                    'Content-Type': 'application/pdf',
-                    'Content-Length': stats.size,
-                    // 'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    // Pragma: 'no-cache',
-                    // Expires: 1
-                      // 'Accept-Ranges': 'bytes=0-' + stats.size
-                  }
-                };
-
-                res.sendfile(file, options, function (err) {
-                  if (err) {
-                    console.log(err);
-                    res.json({'message':'Sorry, we cannot find that!'}).end();
-                    res.status(err.status).end();
-                  }
-                  else {
-                    console.log('IP:', req.ip, 'Sent:', file);
-                  }
-                  });
-              }
-
-
-            });
+      });
 
 
 };

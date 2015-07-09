@@ -117,22 +117,50 @@ describe('GET /api/documents/download', function() {
 
 
 });
-//
-//
-// describe('GET /api/documents/:projectid/:documentid', function() {
-//
-//   it('should respond with JSON array', function(done) {
-//     request(app)
-//       .get('/api/documents')
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end(function(err, res) {
-//         if (err) return done(err);
-//         res.body.should.be.instanceof(Array);
-//         done();
-//       });
-//   });
-// });
+
+
+describe('GET /api/documents/:projectid/:documentid', function() {
+
+  it('should respond with JSON', function(done) {
+    request(app)
+      .get('/api/documents/106387/106387-AB-1')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('message', 'Sorry, we cannot find that!');
+        // res.body.should.be.instanceof(Array);
+        done();
+      });
+  });
+
+
+  it('should respond 404 with JSON', function(done) {
+    request(app)
+      .get('/api/documents/10/106387-AB-1')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('message', 'Sorry, we cannot find that!');
+        // res.body.should.be.instanceof(Array);
+        done();
+      });
+  });
+
+  it('should respond 404 with HTML', function(done) {
+    request(app)
+      .post('/api/documents/10/106387-AB-1')
+      .expect(404)
+      .expect('Content-Type', /html/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        done();
+      });
+  });
+});
 //
 //
 // describe('POST /api/documents', function() {
