@@ -73,29 +73,36 @@ exports.updateName = function(req, res){
 
 //Used to download
 exports.download = function(req, res){
+  var file, dir, data, i, len;
+  if (req.query.filename === undefined){
+    res.status(404).json({'error': 'File Not Found', 'exists': false}).end();
+  }
+  else {
   //Sets up response data
-  var data = {
+   data = {
       filename: req.query.filename,
       folder : req.query.filename.split('-')[0],
-      exisits: false
+      exists: false
     };
 
-  var dir = path.join('public/documents', data.folder);
+   dir = path.join('public/documents', data.folder);
 
     fs.readdir(dir, function (err, files){
       if (err){
-        res.json(data);
+        res.status(200).json(data).end();
       }
-      var file;
-      for (var i = 0, len = files.length; i < len; i++){
-        file = files[i].split('.')[0];
-        if(data.filename === file){
-          res.download(path.join(dir, files[i]));
+      else {
+
+        for (i = 0, len = files.length; i < len; i++){
+          file = files[i].split('.')[0];
+          if(data.filename === file){
+            res.download(path.join(dir, files[i]));
+          }
         }
       }
-
     });
 
+  }
 };
 
 exports.send = function(req, res, next){

@@ -71,20 +71,52 @@ describe('GET /api/documents/exists', function() {
 
 
 
-// describe('GET /api/documents/download', function() {
-//
-//   it('should respond with JSON array', function(done) {
-//     request(app)
-//       .get('/api/documents')
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end(function(err, res) {
-//         if (err) return done(err);
-//         res.body.should.be.instanceof(Array);
-//         done();
-//       });
-//   });
-// });
+describe('GET /api/documents/download', function() {
+
+  it('should respond with 200 JSON exists false', function(done) {
+    request(app)
+      .get('/api/documents/download?filename=1000')
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.instanceof(Object);
+        res.body.should.have.property('filename', '1000');
+        res.body.should.have.property('folder', 1000);
+        res.body.should.have.property('exists', false);
+        done();
+      });
+  });
+
+  it('should respond 404 Not Found', function(done) {
+    request(app)
+      .get('/api/documents/download?duck=goose')
+      .expect(404)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.body.should.be.an.instanceOf(Object);
+        res.body.should.have.property('error', 'File Not Found');
+        res.body.should.have.property('exists', false);
+        done();
+      });
+  });
+
+  it('should respond 200 file sent', function(done) {
+    request(app)
+      .get('/api/documents/download?filename=106387-AB-1')
+      .expect(200)
+      .expect('Content-Type', /pdf/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        res.header.should.be.an.instanceOf(Object);
+        res.header.should.have.property('content-length', 850629);
+        done();
+      });
+  });
+
+
+});
 //
 //
 // describe('GET /api/documents/:projectid/:documentid', function() {
