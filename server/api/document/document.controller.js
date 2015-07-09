@@ -6,6 +6,11 @@ var fs = require('fs');
 var path = require('path');
 
 exports.exists = function(req, res){
+
+  if (req.query.filename === undefined){
+    res.status(404).json({'error': 'File Not Found', 'exists': false}).end();
+  }
+  else {
   //Sets up response data
   var data = {
       filename: req.query.filename,
@@ -13,10 +18,9 @@ exports.exists = function(req, res){
       exists: false
     };
   //Checks if the file exisits
-  console.log(path.join('public/documents', data.folder));
   fs.readdir(path.join('public/documents', data.folder), function (err, files){
     if (err){
-      res.status(404).json(data).end();
+      res.status(200).json(data).end();
     }
     var file;
     if(Array.isArray(files) && files.length !== 0){
@@ -31,6 +35,7 @@ exports.exists = function(req, res){
     }
 
   });
+  }
 };
 
 //Used to upload images to server
