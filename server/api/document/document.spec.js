@@ -3,6 +3,8 @@
 var should = require('should');
 var app = require('../../app');
 var request = require('supertest');
+var fs = require('fs');
+var path = require('path');
 
 describe('GET /api/documents/exists', function() {
 
@@ -69,8 +71,6 @@ describe('GET /api/documents/exists', function() {
 });
 
 
-
-
 describe('GET /api/documents/download', function() {
 
   it('should respond with 200 JSON exists false', function(done) {
@@ -130,7 +130,6 @@ describe('GET /api/documents/:projectid/:documentid', function() {
         if (err) return done(err);
         res.body.should.be.an.instanceOf(Object);
         res.body.should.have.property('message', 'Sorry, we cannot find that!');
-        // res.body.should.be.instanceof(Array);
         done();
       });
   });
@@ -145,7 +144,6 @@ describe('GET /api/documents/:projectid/:documentid', function() {
         if (err) return done(err);
         res.body.should.be.an.instanceOf(Object);
         res.body.should.have.property('message', 'Sorry, we cannot find that!');
-        // res.body.should.be.instanceof(Array);
         done();
       });
   });
@@ -160,23 +158,48 @@ describe('GET /api/documents/:projectid/:documentid', function() {
         done();
       });
   });
+
+
 });
-//
-//
-// describe('POST /api/documents', function() {
-//
-//   it('should respond with JSON array', function(done) {
-//     request(app)
-//       .post('/api/documents')
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end(function(err, res) {
-//         if (err) return done(err);
-//         res.body.should.be.instanceof(Array);
-//         done();
-//       });
-//   });
-// });
+
+
+describe('POST /api/documents', function() {
+
+  it('should respond with 401 with html', function(done) {
+    request(app)
+      .post('/api/documents')
+      .expect(401)
+      .expect('Content-Type', /html/)
+      .end(function(err, res) {
+        if (err) return done(err);
+        done();
+      });
+  });
+
+  // it('should upload PDF with 200 json response', function(done) {
+  //   var inputDir = path.resolve(__dirname, '../../../', 'public', 'documents', '102566', '102566-CP-1.pdf');
+  //   console.log(inputDir);
+  //
+  //   var formData = {
+  //     my_file: fs.createReadStream(inputDir)
+  //   }
+  //
+  //   request(app)
+  //     .post({url:'/api/documents', formData: formData},
+  //       function optionalCallback(err, httpResponse, body) {
+  //         if (err) {
+  //           return console.error('upload failed:', err);
+  //         }
+  //         console.log('Upload successful!  Server responded with:', body);
+  //     })
+  //     .expect(200)
+  //     // .expect('Content-Type', /json/)
+  //     .end(function(err, res) {
+  //       if (err) return done(err);
+  //       done();
+  //     });
+  // });
+});
 //
 //
 // describe('POST /api/documents/update/:documentid', function() {
