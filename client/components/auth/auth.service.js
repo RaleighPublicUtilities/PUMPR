@@ -127,7 +127,6 @@ angular.module('pumprApp')
        */
       changeRole: function(user, callback) {
         var cb = callback || angular.noop;
-        console.log(user);
         return User.changeRole({ id: user._id }, {
           newRole: user.newRole
         }, function(user) {
@@ -189,6 +188,24 @@ angular.module('pumprApp')
        */
       isSuperuser: function() {
         return currentUser.role === 'superuser' || currentUser.role === 'admin';
+      },
+
+      /**
+       * Check if a user is a engineering firm
+       *
+       * @return {Boolean}
+       */
+      isEng: function() {
+        return currentUser.role === 'eng' || currentUser.role === 'fireflow' || currentUser.role === 'admin';
+      },
+
+      /**
+       * Check if a user is a fireflow
+       *
+       * @return {Boolean}
+       */
+      isFireflow: function() {
+        return currentUser.role === 'fireflow' || currentUser.role === 'admin';
       },
 
       /**

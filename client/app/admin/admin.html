@@ -8,7 +8,7 @@
     <li class="list-group-item admin" ng-repeat="user in users | filter: searchText">
         <strong>{{user.name}}</strong><br>
         <span class="text-muted blue">{{user.email}}</span>
-        <select class="pull-right role" ng-model="selectedRole" ng-options="role.role for role in roles" ng-change="changeRole(user, selectedRole.role)">
+        <select class="pull-right role" ng-model="selectedRole" ng-options="role.role for role in roles | orderBy: 'role'" ng-change="changeRole(user, selectedRole.role)">
           <option value="">{{user.role}}</option>
         </select>
         <a ng-click="delete(user)" class="trash pull-right"><span class="glyphicon glyphicon-trash"></span></a>

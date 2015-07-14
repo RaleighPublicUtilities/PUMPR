@@ -5,7 +5,7 @@ angular.module('pumprApp')
 
     // Use the User $resource to fetch all users
     $scope.users = User.query();
-  
+
     $scope.delete = function(user) {
       User.remove({ id: user._id });
       angular.forEach($scope.users, function(u, i) {
@@ -15,7 +15,13 @@ angular.module('pumprApp')
       });
     };
 
-    $scope.roles = [{role: 'admin'}, {role:'superuser'}, {role:'user'}];
+    $scope.roles = [
+      {role: 'admin'},
+      {role:'superuser'},
+      {role: 'eng'},
+      {role: 'fireflow'},
+      {role:'user'}
+    ];
     // $scope.selectedRole;
 
     $scope.changeRole = function(user, role){
