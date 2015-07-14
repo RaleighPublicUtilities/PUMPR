@@ -373,7 +373,7 @@ angular.module('pumprApp')
         ];
 
         //
-        if (typed.length > 6 && (typed[0] === 'S' || typed[0] === 'W')){
+        if (typed.length > 4 && (typed[0] === 'S' || typed[0] === 'W')){
           facidList = typed[0] === 'S' ? sfids : wfids;
           len = facidList.length;
           for (i = 0; i < len; i++){

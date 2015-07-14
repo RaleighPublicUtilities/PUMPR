@@ -28,14 +28,12 @@
     </div>
     <div class="col-md-7">
       <tabset justified="true">
-    <!-- <tab heading="Details" select="controlViews()">
-      <project-table id="mapTable" project="projectInfo"></project-table>
-    </tab> -->
-    <tab heading="Documents" select="controlViews('tree')"><div id="tree"></div></tab>
-    <tab heading="Engineering Firms" select="controlViews('chart')">
-      <engineering-firm firms="firms"></engineering-firm>
-    </tab>
-  </tabset>
+        <tab heading="Documents" select="controlViews('tree')"><div id="tree"></div></tab>
+        <tab heading="Engineering Firms" select="controlViews('chart')">
+          <engineering-firm firms="firms"></engineering-firm>
+        </tab>
+        <tab heading="IT Pipes"><iframe height="800px" width="100%" src="http://telepipeprdapp1.ci.raleigh.nc.us/Asset/Asset?assetType=ML&assetID=467"></iframe></tab>
+      </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
     </div>
