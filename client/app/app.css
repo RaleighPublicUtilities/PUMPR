@@ -68,8 +68,7 @@ body {
   background-size: cover;
 }
 
-.row
-{
+.row {
     height: 100%;
 }
 
@@ -111,6 +110,9 @@ body {
   background-color: rgba(107, 116, 109, 0.73);
 }*/
 
+.page-header{
+  margin: 10px 10px;
+}
 
 .form-inputs {
   background-color: rgba(143, 144, 141, 0.49);

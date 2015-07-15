@@ -4,6 +4,10 @@ angular.module('pumprApp')
   .controller('ProjectDocumentCtrl', ['$scope', '$location', '$sce', 'search', 'Auth',
     function ($scope, $location, $sce, search, Auth) {
       $scope.isLoggedIn = Auth.isLoggedIn;
+      // angular.element('body').find('.container-fluid .row .col-md-9').addClass('pdfContainer');
+      var offsetHeight = document.getElementById('pageHeightRef').clientHeight;
+      console.log(offsetHeight)
+      document.getElementById("pdfPageView").style.height = (offsetHeight - 200) + 'px';
       var documentid = $scope.documentid = $location.path().split('/')[3];
       $scope.documentInfo = $scope.documentid.split('-');
       $scope.projectname;

@@ -1,9 +1,9 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="tint"></div>
+<div id="pageHeightRef" class="tint"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h1 class="page-header">{{documentid}} : <small>{{documentDetails.DOCUMENTTYPE}} {{documentDetails.PROJECTNAME}}</small></h1>
+      <h1 class="page-header">{{documentid}} : <small>{{documentDetails.DOCUMENTTYPE}}</small></h1>
     </div>
   </div>
   <!-- {{join}} -->
@@ -22,8 +22,8 @@
       </div>
     </div>
 
-    <div class="col-md-9">
-      <iframe id="iframePdf" name="{{testDate}}" width="100%" height="800px"  src="{{url}}"></iframe>
+    <div id="pdfPageView" class="col-md-9">
+      <iframe id="iframePdf" name="{{testDate}}" width="100%" height="100%"  src="{{url}}"></iframe>
     </div>
   </div>
 </div>

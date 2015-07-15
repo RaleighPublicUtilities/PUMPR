@@ -2,7 +2,7 @@
 <div class="tint">
   <div class="centerPage" cg-busy="{promise:searchPromise,message:'Loading Projects',backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
 </div>
-<div class='container-fluid'>
+<div class='container-fluid test-marg'>
   <div class="row">
     <div class="col-md-12">
       <h1 class="page-header">{{projectname}} : <small>{{projectid}}</small><span class="glyphicon glyphicon-globe pull-right" aria-hidden="true"></span></h1>
@@ -19,20 +19,20 @@
   </div>
 </div>
   <div ng-show="message.docs && !errorMessage" class="row">
-    <div class="col-md-5">
+    <div class="col-md-4">
       <leaflet id="project-map" layers="layers" height="450px"></leaflet>
       <project-table id="mapTable" project="projectInfo" type="project"></project-table>
       <!-- <h2>Document Breakdown</h2>
       <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
       <!-- <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
     </div>
-    <div class="col-md-7">
+    <div class="col-md-8">
       <tabset justified="true">
-        <tab heading="Documents" select="controlViews('tree')"><div id="tree"></div></tab>
-        <tab heading="Engineering Firms" select="controlViews('chart')">
+        <tab heading="Documents" select="controlViews('tree')"></tab>
+        <tab heading="Engineering Firms" select="controlViews('eng')">
           <engineering-firm firms="firms"></engineering-firm>
         </tab>
-        <tab heading="IT Pipes"><iframe height="800px" width="100%" src="http://telepipeprdapp1.ci.raleigh.nc.us/Asset/Asset?assetType=ML&assetID=467"></iframe></tab>
+        <tab heading="IT Pipes" select="controlViews('itpipes')"><iframe height="800px" width="100%" src="http://telepipeprdapp1.ci.raleigh.nc.us/Asset/Asset?assetType=ML&assetID=467"></iframe></tab>
       </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->

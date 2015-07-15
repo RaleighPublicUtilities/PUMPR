@@ -136,14 +136,19 @@ $scope.controlViews = function (view){
   switch(view){
     case 'tree':
       $scope.treeView = true;
-      $scope.chartView = false;
+      // $scope.chartView = false;
       break;
-    case 'chart':
+    case 'eng':
       $scope.treeView = false;
-      $scope.chartView = true;
+      // $scope.chartView = true;
+      break;
+    case 'itpipes':
+      $scope.treeView = false;
+      // $scope.chartView = false;
+      break;
     default:
       $scope.treeView = false;
-      $scope.chartView = false;
+      // $scope.chartView = false;
   }
 
 }
