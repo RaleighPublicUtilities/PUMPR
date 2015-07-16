@@ -245,7 +245,7 @@ angular.module('pumprApp')
         agsServer.geocoder(addressOptions)
           .then(function(data){
 
-            if (data.candidates.length > 0){
+            if (Array.isArray(data.candidates) && data.candidates.length > 0){
 
               createBuffer(data,function(buffer){
                 projectIntersect(buffer[0].geometry, 'esriGeometryPolygon')
@@ -387,7 +387,7 @@ angular.module('pumprApp')
             agsServer[facidList.server].request(options)
               .then(function(data){
 
-                if (data.features.length === 0){
+                if (Array.isArray(data.features) && data.features.length === 0){
                   deferred.resolve({features: []});
                 }
                 else{
