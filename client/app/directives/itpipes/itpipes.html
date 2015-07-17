@@ -98,11 +98,27 @@
     </div>
     <div class="col-md-6">
       <tabset justified="true">
-        <tab heading="Images" select=""></tab>
-        <tab heading="Video" select=""></tab>
+        <tab heading="Images" select="">
+          <img class="img-responsive img-thumbnail" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{imgs[0].Image}}" alt="img.File_Type"/>
+        </tab>
+        <tab heading="Video" select="">
+          {{vids[0]}}
+          <!-- <video width="320" height="240" controls>
+            <source ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{vids[0].Video}}" type="video/mp4">
+                Your browser does not support the video tag.
+          </video> -->
+        </tab>
       </tabset>
       <div class="row">
-        <div class="col-md-12"></div>
+        <div class="col-md-12">
+          <ul class="list-inline list-unstyled">
+            <li ng-repeat="img in imgs">
+              <a href="#" class="thumbnail">
+                <img class="itpipes-img" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{img.Image}}" alt="img.File_Type"/>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -121,17 +137,17 @@
               <th>Jnt</th>
             </thead>
             <tbody>
-              <tr>
-                <td>Pipe Segment:</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>City:</td>
-                <td></td>
-              </tr>
-              <tr>
-                <td>Street:</td>
-                <td></td>
+              <tr ng-repeat="img in imgs">
+                <td>{{img.Dist}}</td>
+                <td>{{img.Code}}</td>
+                <td>{{img.Description}}</td>
+                <td>{{img.Remarks}}</td>
+                <td>{{img.Grd}}</td>
+                <td>{{img.Clock}}</td>
+                <td>{{img['%']}}</td>
+                <td>{{img.V1}}</td>
+                <td>{{img.V2}}</td>
+                <td>{{img.Jnt}}</td>
               </tr>
             </tbody>
           </table>

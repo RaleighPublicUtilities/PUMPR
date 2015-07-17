@@ -10,7 +10,7 @@ angular.module('pumprApp')
         facid: '='
       },
       link: function (scope, element, attrs) {
-        search.itpipes('SGMN166276').then(function(res){
+        search.itpipes('SGMN114157').then(function(res){
           scope.vids = res.data.videos;
           // console.log(data)
           scope.imgs = res.data.images;

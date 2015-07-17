@@ -1,0 +1,28 @@
+/*.itpipes-category {
+position:relative;
+display: inline-block;
+float:left;
+padding:10px;
+}
+
+
+.itpipes-category img {
+  height: 100px;
+
+}*/
+
+.imageScroll {
+  overflow-y: hidden;
+  height: 100px;
+  margin: 5px 0;
+}
+
+.imageThumb {
+  display: block;
+  margin: 2px;
+}
+
+.itpipes-img {
+  height: 100px;
+  width: 125px;
+}

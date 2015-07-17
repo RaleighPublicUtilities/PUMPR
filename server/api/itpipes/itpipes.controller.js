@@ -165,4 +165,7 @@ exports.find = function(req, res){
       }); //end Prepare Error
     } //end else
   } //end if
+  else {
+    res.status(500).json({error: 'Lost Connection'}).end();
+  }
 }; //end find
