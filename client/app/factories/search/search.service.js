@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('search', ['agsServer', '$q', '$interval', function (agsServer, $q, $interval) {
+  .factory('search', ['agsServer', '$q', '$interval', '$http', function (agsServer, $q, $interval, $http) {
     // Service logic
     // ...
 
@@ -441,6 +441,19 @@ angular.module('pumprApp')
 
         return agsServer.streetsMs.request(options);
 
+      },
+
+      //Gets itpipes date for a given sewer gravity main or force main
+      itpipes: function (facid){
+
+        var req = {
+          method: 'GET',
+          url: '/api/itpipes',
+          params: { id: facid }
+        };
+
+        return $http(req);
+        
       },
 
       //Searches all posible options returns promise when all resolve
