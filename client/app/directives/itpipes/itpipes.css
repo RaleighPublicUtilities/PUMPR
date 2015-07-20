@@ -10,6 +10,12 @@ padding:10px;
   height: 100px;
 
 }*/
+#itpipes-asset{
+    margin-top: 1em;
+}
+.itpipes-margin{
+    margin-top: 1em;
+}
 
 .imageScroll {
   overflow-y: hidden;
@@ -25,4 +31,13 @@ padding:10px;
 .itpipes-img {
   height: 100px;
   width: 125px;
+}
+
+.itpipes-link.thumbnail:hover{
+  border: 1px solid #428bca;
+  background: #428bca;
+}
+
+.itpipes-sm-img{
+  margin-top: 1em;
 }

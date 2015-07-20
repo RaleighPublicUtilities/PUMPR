@@ -8,7 +8,7 @@ var path = require('path');
 exports.exists = function(req, res){
 
   if (req.query.filename === undefined){
-    res.status(404).json({'error': 'File Not Found', 'exists': false}).end();
+    res.status(200).json({'message': 'File Not Found', 'exists': false}).end();
   }
   else {
   //Sets up response data

@@ -56,12 +56,12 @@ describe('GET /api/documents/exists', function() {
   it('should respond 404 Not Found', function(done) {
     request(app)
       .get('/api/documents/exists?duck=goose')
-      .expect(404)
+      .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err);
         res.body.should.be.an.instanceOf(Object);
-        res.body.should.have.property('error', 'File Not Found');
+        res.body.should.have.property('message', 'File Not Found');
         res.body.should.have.property('exists', false);
         done();
       });

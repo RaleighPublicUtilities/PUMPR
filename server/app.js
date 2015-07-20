@@ -15,11 +15,10 @@ var config = require('./config/environment');
 
 
 // Connect to database
-mssql.connect(local.SQLSERVER)
+mssql.connect(local.ITPIPES)
   .then(function(){
     mssql.isConnected = true;
-  })
-  .catch(function(err){
+  }).catch(function(err){
     console.log('Connect err: ' + err); return;
   });
 

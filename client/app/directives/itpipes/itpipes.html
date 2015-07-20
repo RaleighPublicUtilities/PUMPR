@@ -3,9 +3,9 @@
     <div class="col-md-4">
       <tabset justified="true">
         <tab ng-repeat="vid in vids" heading="{{vid.Date | date: 'short'}}" select="">
-          <table>
-            <thead>
-              <th>Asset:</th>
+          <table id="itpipes-asset" class="table pd-table">
+            <thead class="text-primary">
+              <th colspan="2">Asset:</th>
             </thead>
             <tbody>
               <tr>
@@ -54,9 +54,9 @@
               </tr>
             </tbody>
           </table>
-          <table>
-            <thead>
-              <th>Inspection:</th>
+          <table class="table pd-table">
+            <thead class="text-primary">
+              <th colspan="2">Inspection:</th>
             </thead>
             <tbody>
               <tr>
@@ -103,27 +103,26 @@
           </table>
         </tab>
       </tabset>
-
-
     </div>
     <div class="col-md-6">
       <tabset justified="true">
         <tab heading="Images" select="">
-          <img class="img-responsive img-thumbnail" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{imgs[0].Image}}" alt="img.File_Type"/>
+          <img class="img-responsive img-thumbnail itpipes-margin" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{imgs[0].Image}}" alt="img.File_Type"/>
         </tab>
         <tab heading="Video" select="">
-          {{vids[0]}}
-          <!-- <video width="320" height="240" controls>
-            <source ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{vids[0].Video}}" type="video/mp4">
-                Your browser does not support the video tag.
-          </video> -->
+          <object class="itpipes-margin" type="video/x-ms-wmv" data="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/Mainline/SMH116624SMH112324/2014.09.26_0935/Videos/1_SMH116624_SMH112324.wmv" width="574" height="430" z-index:1="" title="undefined">
+            <param name="autostart" value="false">
+            <param name="sound" value="false">
+            <param name="controller" value="true">
+            <param name="wmode" value="transparent">
+          </object>
         </tab>
       </tabset>
       <div class="row">
         <div class="col-md-12">
           <ul class="list-inline list-unstyled">
-            <li ng-repeat="img in imgs">
-              <a href="#" class="thumbnail">
+            <li class="itpipes-sm-img" ng-repeat="img in imgs">
+              <a href="#" class="itpipes-link thumbnail">
                 <img class="itpipes-img" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{img.Image}}" alt="img.File_Type"/>
               </a>
             </li>
@@ -132,8 +131,8 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <table>
-            <thead>
+          <table class="table pd-table">
+            <thead class="text-primary">
               <th>Dist</th>
               <th>Code</th>
               <th>Description</th>
