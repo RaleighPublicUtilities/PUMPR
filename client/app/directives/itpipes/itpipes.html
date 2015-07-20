@@ -1,100 +1,110 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-      <table>
-        <thead>
-          <th>Asset:</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Pipe Segment:</td>
-            <td>{{vids[0].ML_Name}}</td>
-          </tr>
-          <tr>
-            <td>City:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Street:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Sewer Use:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>US Manhole:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>DS Manhole:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Material:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Width:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Total Length:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>GIS Change:</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
-      <table>
-        <thead>
-          <th>Inspection:</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Surveyed By:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Certificate #:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Date:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Purpose:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Pre-Cleaning:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Direction:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Weather:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Length Surveyed:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>Time:</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>End Time:</td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <tabset justified="true">
+        <tab ng-repeat="vid in vids" heading="{{vid.Date | date: 'short'}}" select="">
+          <table>
+            <thead>
+              <th>Asset:</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Pipe Segment:</td>
+                <td>{{vid.ML_Name}}</td>
+              </tr>
+              <tr>
+                <td>City:</td>
+                <td>{{vid.City}}</td>
+              </tr>
+              <tr>
+                <td>Street:</td>
+                <td>{{vid.Street}}</td>
+              </tr>
+              <tr>
+                <td>Sewer Use:</td>
+                <td>{{vid['Sewer Use']}}</td>
+              </tr>
+              <tr>
+                <td>US Manhole:</td>
+                <td>{{vid['US Manhole']}}</td>
+              </tr>
+              <tr>
+                <td>DS Manhole:</td>
+                <td>{{vid['DS Manhole']}}</td>
+              </tr>
+              <tr>
+                <td>Material:</td>
+                <td>{{vid.Material}}</td>
+              </tr>
+              <tr>
+                <td>Heigth:</td>
+                <td>{{vid.Height}}</td>
+              </tr>
+              <tr>
+                <td>Width:</td>
+                <td>{{vid.Width}}</td>
+              </tr>
+              <tr>
+                <td>Total Length:</td>
+                <td>{{vid.Section_Length | number:2}}</td>
+              </tr>
+              <tr>
+                <td>GIS Change:</td>
+                <td>{{vid.GIS_Change}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <table>
+            <thead>
+              <th>Inspection:</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Surveyed By:</td>
+                <td>{{vid['Surveyed By']}}</td>
+              </tr>
+              <tr>
+                <td>Certificate #:</td>
+                <td>{{vid['Certificate Number']}}</td>
+              </tr>
+              <tr>
+                <td>Date:</td>
+                <td>{{vid.Date | date: 'short'}}</td>
+              </tr>
+              <tr>
+                <td>Purpose:</td>
+                <td>{{vid.Purpose}}</td>
+              </tr>
+              <tr>
+                <td>Pre-Cleaning:</td>
+                <td>{{vid['Pre-Cleaning']}}</td>
+              </tr>
+              <tr>
+                <td>Direction:</td>
+                <td>{{vid.Direction}}</td>
+              </tr>
+              <tr>
+                <td>Weather:</td>
+                <td>{{vid.Weather}}</td>
+              </tr>
+              <tr>
+                <td>Length Surveyed:</td>
+                <td>{{vid['Length Surveyed'] | number:2}}</td>
+              </tr>
+              <tr>
+                <td>Time:</td>
+                <td>{{vid.Time | date: 'short'}}</td>
+              </tr>
+              <tr>
+                <td>End Time:</td>
+                <td>{{vid['End Time'] | date: 'short'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </tab>
+      </tabset>
+
+
     </div>
     <div class="col-md-6">
       <tabset justified="true">
@@ -138,7 +148,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="img in imgs">
-                <td>{{img.Dist}}</td>
+                <td>{{img.Dist | number:2}}</td>
                 <td>{{img.Code}}</td>
                 <td>{{img.Description}}</td>
                 <td>{{img.Remarks}}</td>

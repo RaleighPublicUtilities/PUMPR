@@ -27,13 +27,12 @@
       <!-- <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
     </div>
     <div class="col-md-8">
-      <itpipes></itpipes>
       <tabset justified="true">
         <tab heading="Documents" select="controlViews('tree')"></tab>
         <tab heading="Engineering Firms" select="controlViews('eng')">
           <engineering-firm firms="firms"></engineering-firm>
         </tab>
-        <tab heading="IT Pipes" select="controlViews('itpipes')"><iframe height="800px" width="100%" src="http://telepipeprdapp1.ci.raleigh.nc.us/Asset/Asset?assetType=ML&assetID=467"></iframe></tab>
+        <tab heading="IT Pipes" select="controlViews('itpipes')"><itpipes></itpipes></tab>
       </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
