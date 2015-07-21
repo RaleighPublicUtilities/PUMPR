@@ -32,7 +32,10 @@
         <tab heading="Engineering Firms" select="controlViews('eng')">
           <engineering-firm firms="firms"></engineering-firm>
         </tab>
-        <tab heading="IT Pipes" select="controlViews('itpipes')"><itpipes></itpipes></tab>
+        <tab heading="IT Pipes" select="controlViews('itpipes')">
+          <h2>Click on a sewer main on the map to find ITPipes footage</h2>
+          <itpipes></itpipes>
+        </tab>
       </tabset>
       <div ng-show="treeView" id="tree"></div>
       <!-- <canvas ng-show="chartView" id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->

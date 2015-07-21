@@ -15,7 +15,7 @@ var config = require('./config/environment');
 
 
 // Connect to database
-mssql.connect(local.ITPIPES)
+mssql.connect(local.SQLSERVER)
   .then(function(){
     mssql.isConnected = true;
   }).catch(function(err){

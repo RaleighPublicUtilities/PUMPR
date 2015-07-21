@@ -91,6 +91,36 @@ var vis = d3.select('#tree').append('svg:svg')
 
 
       leafletData.getMap('project-map').then(function(map) {
+        //
+        // map.on('click', function(e){
+        //   console.log(e);
+        //   var onClickOptions = {
+        //     params: {
+        //       f: 'json',
+        //       geometry: {x: e.latlng.lng, y: e.latlng.lat},
+        //       mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
+        //       tolerance: 5,
+        //       imageDisplay: imgSize,
+        //       layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
+        //       sr: 4326
+        //     },
+        //     actions: 'identify',
+        //     geojson: true
+        //   };
+        //
+        //   agsServer.sewerMs.request(onClickOptions)
+        //     .then(function(data){
+        //       selectedGeojson = L.geoJson(data, {
+        //         onEachFeature: createPopup,
+        //         style: selectionStyle
+        //       });
+        //       map.addLayer(selectedGeojson);
+        //     });
+        //
+        //
+        //
+        // });
+
         L.geoJson(res, {
           style: {
             color: 'rgb(151, 187, 205)'
@@ -335,9 +365,7 @@ function removeEmptyFields (data) {
     return data;
   }
 
-function buildTree(){
 
-}
 
 
 
