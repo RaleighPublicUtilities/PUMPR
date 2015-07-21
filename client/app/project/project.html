@@ -32,7 +32,7 @@
         <tab heading="Engineering Firms" select="controlViews('eng')">
           <engineering-firm class="animated fadeIn" firms="firms"></engineering-firm>
         </tab>
-        <tab heading="IT Pipes" select="controlViews('itpipes')">
+        <tab ng-show="isLoggedIn()" heading="IT Pipes" select="controlViews('itpipes')">
           <div class="centerParent" cg-busy="{promise:itpipesPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
             <h2 ng-hide="itpipesView.status" class="text-center itpipes-center animated fadeIn">Click on a sewer main in the map to find ITPipes footage</h2>
             <h2 ng-show="itpipesView.error" class="text-center centerParent">{{itpipesView.message}}</h2>

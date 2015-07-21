@@ -110,7 +110,7 @@ exports.find = function(req, res){
   if(mssql.isConnected){
     id = req.query.id;
     //Check inpput
-    re = /SGMN\d{6}/.test(id);
+    re = /(SGMN|SFMN)\d{5,6}/.test(id);
     if (id === undefined || !re){
       res.status(200).json({message:'Asset Not Found'}).end();
       return;

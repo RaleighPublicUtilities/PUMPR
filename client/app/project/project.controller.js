@@ -7,7 +7,7 @@ angular.module('pumprApp')
     //
     $scope.agsToken = Auth.getAgolToken();
     mapLayers.overlays.sewer.visible = true;
-    mapLayers.overlays.sewer.layerOptions.position = 'front'
+    mapLayers.overlays.sewer.layerOptions.position = 'front';
     mapLayers.overlays.reuse.visible = true;
     mapLayers.overlays.water.visible = true;
     mapLayers.overlays.water.layerParams = {
@@ -24,6 +24,8 @@ angular.module('pumprApp')
          layers: mapLayers,
      });
 
+     //Highlight for itpipes selection
+     var selectedFeatures = new L.FeatureGroup();
 
      $scope.itpipesView = {status: false, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
      $scope.treeView = false;
@@ -90,51 +92,8 @@ var vis = d3.select('#tree').append('svg:svg')
 
 
 
-      var selectedFeatures = new L.FeatureGroup();
+
       leafletData.getMap('project-map').then(function(map) {
-
-        map.on('click', function(e){
-          //reset for search
-          console.log(e)
-          $scope.itpipesView = {status: true, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
-          selectedFeatures.clearLayers();
-          var size = map.getSize();
-          var imgSize = [size.x, size.y, 96].join();
-          var onClickOptions = {
-            params: {
-              f: 'json',
-              geometry: {x: e.latlng.lng, y: e.latlng.lat},
-              mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
-              tolerance: 1,
-              imageDisplay: imgSize,
-              layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
-              sr: 4326
-            },
-            actions: 'identify',
-            geojson: true
-          };
-
-          $scope.itpipesPromise = agsServer.sewerMs.request(onClickOptions)
-            .then(function(data){
-              var selectedGeojson = L.geoJson(data, {
-                style: {
-                  color: 'rgb(0, 255, 29)'
-                }
-              });
-              selectedFeatures.addLayer(selectedGeojson);
-              selectedFeatures.addTo(map);
-              selectedFeatures.bringToFront();
-              $scope.itpipesView.status = true;
-              if (Array.isArray(data.features) && data.features.length > 0){
-                $scope.itpipesView.facid = data.features[0].properties['Facility Identifier'];
-              }
-            })
-            .catch(function(err){
-              $scope.itpipesView.status = false;
-              $scope.itpipesView.error = true;
-            });
-        });
-
         L.geoJson(res, {
           style: {
             color: 'rgb(151, 187, 205)'
@@ -188,11 +147,52 @@ $scope.controlViews = function (view){
       break;
     case 'itpipes':
       $scope.treeView = false;
-      // $scope.chartView = false;
+      leafletData.getMap('project-map').then(function(map) {
+
+        map.on('click', function(e){
+          //reset for search
+          $scope.itpipesView = {status: true, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
+          selectedFeatures.clearLayers();
+          var size = map.getSize();
+          var imgSize = [size.x, size.y, 96].join();
+          var onClickOptions = {
+            params: {
+              f: 'json',
+              geometry: {x: e.latlng.lng, y: e.latlng.lat},
+              mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
+              tolerance: 1,
+              imageDisplay: imgSize,
+              layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
+              sr: 4326
+            },
+            actions: 'identify',
+            geojson: true
+          };
+
+          $scope.itpipesPromise = agsServer.sewerMs.request(onClickOptions)
+            .then(function(data){
+              var selectedGeojson = L.geoJson(data, {
+                style: {
+                  color: 'rgb(0, 255, 29)'
+                }
+              });
+              selectedFeatures.addLayer(selectedGeojson);
+              selectedFeatures.addTo(map);
+              selectedFeatures.bringToFront();
+              $scope.itpipesView.status = true;
+              if (Array.isArray(data.features) && data.features.length > 0){
+                $scope.itpipesView.facid = data.features[0].properties['Facility Identifier'];
+              }
+            })
+            .catch(function(err){
+              $scope.itpipesView.status = false;
+              $scope.itpipesView.error = true;
+            });
+        });
+      });
       break;
     default:
       $scope.treeView = false;
-      // $scope.chartView = false;
   }
 
 }
