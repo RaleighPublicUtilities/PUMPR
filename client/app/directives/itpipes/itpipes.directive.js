@@ -10,11 +10,28 @@ angular.module('pumprApp')
         facid: '='
       },
       link: function (scope, element, attrs) {
-        search.itpipes('SGMN114157').then(function(res){
-          scope.vids = res.data.videos;
-          // console.log(data)
-          scope.imgs = res.data.images;
-        });
+
+        scope.$watch('facid', function(){
+          if (scope.facid){
+            search.itpipes(scope.facid).then(function(res){
+              if (res.data.message){
+                scope.message = res.data.message;
+                scope.status = false;
+              }
+              else{
+                scope.status = true;
+                scope.vids = res.data.videos;
+                scope.imgs = res.data.images;
+              }
+
+            })
+            .catch(function(err){
+              console.log(err);
+            });
+          }
+
+        })
+
       }
     };
   });

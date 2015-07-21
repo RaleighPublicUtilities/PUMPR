@@ -24,7 +24,7 @@ angular.module('pumprApp')
      });
 
 
-
+     $scope.itpipesView = {status: false, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
      $scope.treeView = false;
      $scope.chartView = true;
     var m = [20, 120, 20, 120],
@@ -89,37 +89,48 @@ var vis = d3.select('#tree').append('svg:svg')
 
 
 
-
+      var selectedFeatures = new L.FeatureGroup();
       leafletData.getMap('project-map').then(function(map) {
-        //
-        // map.on('click', function(e){
-        //   console.log(e);
-        //   var onClickOptions = {
-        //     params: {
-        //       f: 'json',
-        //       geometry: {x: e.latlng.lng, y: e.latlng.lat},
-        //       mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
-        //       tolerance: 5,
-        //       imageDisplay: imgSize,
-        //       layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
-        //       sr: 4326
-        //     },
-        //     actions: 'identify',
-        //     geojson: true
-        //   };
-        //
-        //   agsServer.sewerMs.request(onClickOptions)
-        //     .then(function(data){
-        //       selectedGeojson = L.geoJson(data, {
-        //         onEachFeature: createPopup,
-        //         style: selectionStyle
-        //       });
-        //       map.addLayer(selectedGeojson);
-        //     });
-        //
-        //
-        //
-        // });
+
+        map.on('click', function(e){
+          console.log(e);
+          selectedFeatures.clearLayers();
+          var size = map.getSize();
+          var imgSize = [size.x, size.y, 96].join();
+          var onClickOptions = {
+            params: {
+              f: 'json',
+              geometry: {x: e.latlng.lng, y: e.latlng.lat},
+              mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
+              tolerance: 1,
+              imageDisplay: imgSize,
+              layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
+              sr: 4326
+            },
+            actions: 'identify',
+            geojson: true
+          };
+
+          agsServer.sewerMs.request(onClickOptions)
+            .then(function(data){
+              var selectedGeojson = L.geoJson(data, {
+                style: {
+                  color: 'rgb(0, 255, 29)'
+                }
+              });
+              selectedFeatures.addLayer(selectedGeojson);
+              selectedFeatures.addTo(map);
+              selectedFeatures.bringToFront();
+              $scope.itpipesView.status = true;
+              if (Array.isArray(data.features) && data.features.length > 0){
+                $scope.itpipesView.facid = data.features[0].properties['Facility Identifier'];
+              }
+            })
+            .catch(function(err){
+              $scope.itpipesView.status = false;
+              $scope.itpipesView.error = true;
+            });
+        });
 
         L.geoJson(res, {
           style: {

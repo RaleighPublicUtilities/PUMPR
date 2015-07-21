@@ -33,8 +33,11 @@
           <engineering-firm firms="firms"></engineering-firm>
         </tab>
         <tab heading="IT Pipes" select="controlViews('itpipes')">
-          <h2>Click on a sewer main on the map to find ITPipes footage</h2>
-          <itpipes></itpipes>
+
+            <h2 ng-hide="itpipesView.status" class="text-center">Click on a sewer main on the map to find ITPipes footage</h2>
+            <h2 ng-show="itpipesView.error" class="text-center">{{itpipesView.message}}</h2>
+
+          <itpipes facid="itpipesView.facid" ng-show="itpipesView.status"></itpipes>
         </tab>
       </tabset>
       <div ng-show="treeView" id="tree"></div>

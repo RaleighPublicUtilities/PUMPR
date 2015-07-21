@@ -110,7 +110,8 @@ exports.find = function(req, res){
   if(mssql.isConnected){
     id = req.query.id;
     if (req.query.id === undefined){
-      res.status(404).send({message:'Asset Not Found'}).end();
+      res.status(200).json({message:'Asset Not Found'}).end();
+      return;
     }
     else {
       //Call prepared statments
@@ -119,16 +120,17 @@ exports.find = function(req, res){
 
       psVid.prepare().then(function(){
         psVid.execute({param: id}).then(function(vids){
-
-          if (vids.length === 0){
-            res.status(404).send({message:'Asset Not Found'}).end();
-          }
-
           psVid.unprepare(function(err) {
             if(err){console.log(err)};
           });
 
-          return vids
+
+          if (vids.length === 0){
+            res.status(200).json({message:'Asset Not Found'}).end();
+            return;
+          }
+
+          return vids;
 
         }) // end psVid execute
         .then(function(vids){
