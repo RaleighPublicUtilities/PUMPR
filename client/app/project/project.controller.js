@@ -7,6 +7,7 @@ angular.module('pumprApp')
     //
     $scope.agsToken = Auth.getAgolToken();
     mapLayers.overlays.sewer.visible = true;
+    mapLayers.overlays.sewer.layerOptions.position = 'front'
     mapLayers.overlays.reuse.visible = true;
     mapLayers.overlays.water.visible = true;
     mapLayers.overlays.water.layerParams = {
@@ -94,6 +95,7 @@ var vis = d3.select('#tree').append('svg:svg')
 
         map.on('click', function(e){
           //reset for search
+          console.log(e)
           $scope.itpipesView = {status: true, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
           selectedFeatures.clearLayers();
           var size = map.getSize();
