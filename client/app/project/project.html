@@ -4,13 +4,13 @@
 </div>
 <div class='container-fluid test-marg'>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12">
       <h1 class="page-header">{{projectname}} : <small>{{projectid}}</small><span class="glyphicon glyphicon-globe pull-right" aria-hidden="true"></span></h1>
     </div>
   </div>
   <div class='container'>
   <div ng-hide="message.docs" class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 col-xs-12">
       <div class="alert alert-info" role="alert">
         <h2 class="text-center">{{message.error}}</h2>
         <a ng-show="isLoggedIn()" class="addNewProjectLink" ng-href="/addDocument/{{projectid}}"><h2 class="animated pulse infinite addNewProjectLink">Add Documents</h2></a>
@@ -19,24 +19,23 @@
   </div>
 </div>
   <div ng-show="message.docs && !errorMessage" class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 col-xs-12">
       <leaflet id="project-map" layers="layers" height="450px"></leaflet>
       <project-table id="mapTable" project="projectInfo" type="project"></project-table>
       <!-- <h2>Document Breakdown</h2>
       <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
       <!-- <canvas id="bar" class="chart chart-bar" data="data" labels="labels" height="300" series="series" click="onClick"></canvas> -->
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 col-xs-12">
       <tabset justified="true">
         <tab heading="Documents" select="controlViews('tree')"></tab>
         <tab heading="Engineering Firms" select="controlViews('eng')">
-          <engineering-firm firms="firms"></engineering-firm>
+          <engineering-firm class="animated fadeIn" firms="firms"></engineering-firm>
         </tab>
         <tab heading="IT Pipes" select="controlViews('itpipes')">
           <div class="centerParent" cg-busy="{promise:itpipesPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
-            <h2 ng-hide="itpipesView.status" class="text-center">Click on a sewer main on the map to find ITPipes footage</h2>
-            <h2 ng-show="itpipesView.error" class="text-center">{{itpipesView.message}}</h2>
-
+            <h2 ng-hide="itpipesView.status" class="text-center itpipes-center animated fadeIn">Click on a sewer main in the map to find ITPipes footage</h2>
+            <h2 ng-show="itpipesView.error" class="text-center centerParent">{{itpipesView.message}}</h2>
           <itpipes facid="itpipesView.facid" ng-show="itpipesView.status"></itpipes>
         </tab>
       </tabset>

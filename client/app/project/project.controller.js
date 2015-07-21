@@ -93,7 +93,8 @@ var vis = d3.select('#tree').append('svg:svg')
       leafletData.getMap('project-map').then(function(map) {
 
         map.on('click', function(e){
-          $scope.itpipesView = {status: false, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
+          //reset for search
+          $scope.itpipesView = {status: true, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
           selectedFeatures.clearLayers();
           var size = map.getSize();
           var imgSize = [size.x, size.y, 96].join();

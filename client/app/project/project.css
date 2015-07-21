@@ -130,7 +130,9 @@ a:hover {
 .addNewProjectLink:hover{
   color: #008928;
 }
-
+.itpipes-center{
+margin-top: 200px;
+}
 .test-marg{
   margin-bottom: 50px;
 }
