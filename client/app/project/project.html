@@ -1,6 +1,6 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="tint">
-  <div class="centerPage" cg-busy="{promise:searchPromise,message:'Loading Projects',backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
+  <div class="centerPage" cg-busy="{promise:searchPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
 </div>
 <div class='container-fluid test-marg'>
   <div class="row">
@@ -33,7 +33,7 @@
           <engineering-firm firms="firms"></engineering-firm>
         </tab>
         <tab heading="IT Pipes" select="controlViews('itpipes')">
-
+          <div class="centerParent" cg-busy="{promise:itpipesPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div>
             <h2 ng-hide="itpipesView.status" class="text-center">Click on a sewer main on the map to find ITPipes footage</h2>
             <h2 ng-show="itpipesView.error" class="text-center">{{itpipesView.message}}</h2>
 

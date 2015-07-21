@@ -93,7 +93,7 @@ var vis = d3.select('#tree').append('svg:svg')
       leafletData.getMap('project-map').then(function(map) {
 
         map.on('click', function(e){
-          console.log(e);
+          $scope.itpipesView = {status: false, facid: undefined, message: 'Unable to identify sewer gravity or force main', error: false};
           selectedFeatures.clearLayers();
           var size = map.getSize();
           var imgSize = [size.x, size.y, 96].join();
@@ -111,7 +111,7 @@ var vis = d3.select('#tree').append('svg:svg')
             geojson: true
           };
 
-          agsServer.sewerMs.request(onClickOptions)
+          $scope.itpipesPromise = agsServer.sewerMs.request(onClickOptions)
             .then(function(data){
               var selectedGeojson = L.geoJson(data, {
                 style: {
