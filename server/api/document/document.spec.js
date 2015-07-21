@@ -53,7 +53,7 @@ describe('GET /api/documents/exists', function() {
       });
   });
 
-  it('should respond 404 Not Found', function(done) {
+  it('should respond 200 Not Found', function(done) {
     request(app)
       .get('/api/documents/exists?duck=goose')
       .expect(200)
@@ -88,10 +88,10 @@ describe('GET /api/documents/download', function() {
       });
   });
 
-  it('should respond 404 Not Found', function(done) {
+  it('should respond 200 Not Found', function(done) {
     request(app)
       .get('/api/documents/download?duck=goose')
-      .expect(404)
+      .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err);
@@ -135,10 +135,10 @@ describe('GET /api/documents/:projectid/:documentid', function() {
   });
 
 
-  it('should respond 404 with JSON', function(done) {
+  it('should respond 200 with JSON', function(done) {
     request(app)
       .get('/api/documents/10/106387-AB-1')
-      .expect(404)
+      .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err);

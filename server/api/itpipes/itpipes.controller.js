@@ -106,10 +106,12 @@ exports.findImages = function(req, res){
  * Finds ITPipes data base on Sewer Gravity Main Facility ID
  */
 exports.find = function(req, res){
-  var id, psVid, psImg;
+  var id, psVid, psImg, re;
   if(mssql.isConnected){
     id = req.query.id;
-    if (req.query.id === undefined){
+    //Check inpput
+    re = /SGMN\d{6}/.test(id);
+    if (id === undefined || !re){
       res.status(200).json({message:'Asset Not Found'}).end();
       return;
     }

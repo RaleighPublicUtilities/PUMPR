@@ -58,7 +58,7 @@ exports.updateName = function(req, res){
         newPath = path.join(dir, newId + '.pdf');
         fs.rename(oldPath, newPath, function(err){
           if (err) {
-            res.status(404).json({ message: 'Document not renamed', error: err}).end();
+            res.status(200).json({ message: 'Document not renamed', error: err}).end();
           }
           else {
             res.status(200).json({update: newId, original: originalId}).end();
@@ -66,7 +66,7 @@ exports.updateName = function(req, res){
         });
       }
       else {
-        res.status(404).json({ error: 'Document does not exist' }).end();
+        res.status(200).json({ error: 'Document does not exist' }).end();
       }
 
 };
@@ -75,7 +75,7 @@ exports.updateName = function(req, res){
 exports.download = function(req, res){
   var file, dir, data, i, len;
   if (req.query.filename === undefined){
-    res.status(404).json({'error': 'File Not Found', 'exists': false}).end();
+    res.status(200).json({'error': 'File Not Found', 'exists': false}).end();
   }
   else {
   //Sets up response data
@@ -115,7 +115,7 @@ exports.send = function(req, res, next){
 
       fs.stat(path.join(dir, file), function(err, stats){
         if (err){
-          res.status(404);
+          res.status(200);
           res.json({'message':'Sorry, we cannot find that!'}).end();
         }
         else{
