@@ -154,7 +154,14 @@ angular.module('pumprApp', [
 
         if (water.test(config.url)){
             delete config.headers.Authorization;
-            if ($cookieStore.get('agolToken')) {
+            var d = new Date().getTime();
+            if ($cookieStore.get('agolToken') && (d > $cookieStore.get('agolTokenExp'))){
+              $location.path('/login');
+              $cookieStore.remove('token');
+              $cookieStore.remove('agolToken');
+              $cookieStore.remove('agolTokenExp');
+            }
+            else if ($cookieStore.get('agolToken')) {
               config.params.token = $cookieStore.get('agolToken');
             }
             return config;
@@ -178,6 +185,8 @@ angular.module('pumprApp', [
           $location.path('/login');
           // remove any stale tokens
           $cookieStore.remove('token');
+          $cookieStore.remove('agolToken');
+          $cookieStore.remove('agolTokenExp');
           return $q.reject(response);
         }
         else {

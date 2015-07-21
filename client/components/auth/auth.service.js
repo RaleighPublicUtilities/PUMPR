@@ -51,7 +51,7 @@ angular.module('pumprApp')
         $http.post('/api/arcgis/getToken').
         success(function(data) {
           $cookieStore.put('agolToken', data.token);
-          // $cookieStore.put('agolTokenExp', data.expires_in);
+          $cookieStore.put('agolTokenExp', data.expires);
           deferred.resolve(data);
           return cb();
         }).
@@ -72,6 +72,7 @@ angular.module('pumprApp')
       logout: function() {
         $cookieStore.remove('token');
         $cookieStore.remove('agolToken');
+        $cookieStore.remove('agolTokenExp');
         currentUser = {};
       },
 
@@ -220,6 +221,20 @@ angular.module('pumprApp')
        */
       getAgolToken: function() {
         return $cookieStore.get('agolToken');
+      },
+
+      /**
+       * Get auth token experiation
+       */
+      getAgolExpr: function() {
+        return $cookieStore.get('agolTokenExp');
+      },
+
+      /**
+       * Get auth token experiation
+       */
+      isAgolTokenExpr: function() {
+        return $cookieStore.get('agolToken') && (Date().getTime() > $cookieStore.get('agolTokenExp'));
       },
       /**
        *Checks sets authorization header
