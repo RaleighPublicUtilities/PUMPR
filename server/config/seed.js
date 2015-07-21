@@ -42,7 +42,19 @@ User.find({}).remove(function() {
     name: 'Admin',
     email: 'admin@admin.com',
     password: 'admin'
-  }, function() {
+  }, {
+    provider: 'local',
+    role: 'superuser',
+    name: 'Super User',
+    email: 'super@super.com',
+    password: 'super'
+  }, {
+    provider: 'local',
+    role: 'fireflow',
+    name: 'Fireflow',
+    email: 'fireflow@fireflow.com',
+    password: 'fireflow'
+  },function() {
       console.log('finished populating users');
     }
   );
