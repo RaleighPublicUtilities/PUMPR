@@ -1,1 +1,45 @@
-<div>this is the fireflow directive</div>
+<div class="tint fireflow-tint"></div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="fireflow-white">Fire Flow</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div ng-hide="test" class="well well-lg">
+        <h3>Step One</h3>
+        <p>Select Test Hydrant</p>
+      </div>
+      <div ng-show="test" class="thumbnail fireflow-thumb fireflow-white">
+        <img src="assets/images/testHydrantSm.png" alt="Test Hydrant">
+        <div class="caption">
+          <h3>Test Hydrant</h3>
+          <p>{{test.message}}</p>
+          <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div ng-hide="flow" class="well well-md">
+        <h3>Step Two</h3>
+        <p>Select Flow Hydrant</p>
+      </div>
+      <div ng-show="flow" class="thumbnail fireflow-thumb fireflow-white">
+        <img src="assets/images/flowHydrantSm.png" alt="Test Hydrant">
+        <div class="caption">
+          <h3>Flow Hydrant</h3>
+          <p>{{flow.message}}</p>
+          <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4" class="well well-md">
+      <h3>Step Three</h3>
+      <p>Fill Out Form</p>
+    </div>
+  </div>
+  <div class="row">
+    <progressbar ng-show="test" class="progress-striped active" value="dynamic" max="100" type="{{type}}">{{type}}</progressbar>
+  </div>
+</div>

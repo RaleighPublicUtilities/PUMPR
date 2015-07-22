@@ -47,9 +47,34 @@ angular.module('pumprApp')
        }
     };
 
-    //Get GeoIP
+
     leafletData.getMap('fireflow-map').then(function(map) {
+      //Get GeoIP
       map.locate({setView: true, maxZoom: 17});
+
+
+      //Add Custom controls
+      var flowControl = L.Control.extend({
+        options: {
+          position: 'bottomleft'
+        },
+
+        onAdd: function (map) {
+          this._container = L.DomUtil.get('flowControl');
+          // Disable dragging when user's cursor enters the element
+          this._container.addEventListener('mouseover', function () {
+              map.dragging.disable();
+          });
+
+          // Re-enable dragging when user's cursor leaves the element
+          this._container.addEventListener('mouseout', function () {
+              map.dragging.enable();
+          });
+            return this._container;
+        }
+      });
+
+      map.addControl(new flowControl());
     });
 
 
@@ -59,7 +84,6 @@ angular.module('pumprApp')
       var latlng = args.leafletEvent.latlng;
       fireflowFactory.find(latlng)
         .then(function(res){
-          console.log(res);
           if (Array.isArray(res.features) && res.features.length === 1){
             var geom = res.features[0].geometry.coordinates;
             var marker = {
@@ -72,7 +96,7 @@ angular.module('pumprApp')
                 }
               }
             };
-            
+
             switch ($scope.markers.length){
               case 0:
                 marker.message = 'Test: ' + res.features[0].properties['Facility Identifier'];
@@ -88,7 +112,6 @@ angular.module('pumprApp')
              //Add Markers
             $scope.markers.push(marker);
           }
-          console.log($scope.markers)
         })
         .catch(function(err){
           console.log(err);

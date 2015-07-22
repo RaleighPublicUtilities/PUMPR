@@ -1,0 +1,31 @@
+/*.fireflow-container {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.fireflow {
+  color: #fff;
+}
+
+.leaflet-control{
+
+  background-color: rgba(0, 0, 0, 0.7);
+}*/
+
+
+/*
+#flowControl.leaflet-control{
+  background-color: rgba(0, 0, 0, 0.7);
+
+}*/
+.fireflow-tint{
+  padding: 1.5em;
+}
+
+/*.fireflow-thumb{
+  height: 150px;
+  width: 100px;
+}*/
+
+.fireflow-white{
+  padding-top: 1em;
+  color: #fff;
+}
