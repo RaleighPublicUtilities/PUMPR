@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/fireflow', {
         templateUrl: 'app/fireflow/fireflow.html',
-        controller: 'FireflowCtrl'
+        controller: 'FireflowCtrl',
+        authenticate: true
       });
   });
