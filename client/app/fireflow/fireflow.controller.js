@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .controller('FireflowCtrl', function ($scope, Auth, mapLayers, leafletData) {
+  .controller('FireflowCtrl', function ($scope, Auth, mapLayers, leafletData, fireflowFactory) {
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
 
@@ -40,7 +40,15 @@ angular.module('pumprApp')
     $scope.$on('leafletDirectiveMap.click', function(event, args){
       $scope.eventDetected = event.name;
       console.log(event);
-      console.log(args.leafletEvent.latlng);
+      console.log(args.leafletEvent);
+      var latlng = args.leafletEvent.latlng;
+      fireflowFactory.find(latlng)
+        .then(function(res){
+          console.log(res);
+        })
+        .catch(function(err){
+          console.log(err);
+        });
     });
 
 

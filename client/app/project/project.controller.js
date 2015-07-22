@@ -162,7 +162,7 @@ $scope.controlViews = function (view){
               mapExtent: [e.latlng.lng, e.latlng.lat, e.latlng.lng + 0.01, e.latlng.lat + 0.01].toString(),
               tolerance: 1,
               imageDisplay: imgSize,
-              layers: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
+              layers: 'Force Main, Gravity Sewer',
               sr: 4326
             },
             actions: 'identify',
