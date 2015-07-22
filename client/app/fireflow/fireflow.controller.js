@@ -28,8 +28,24 @@ angular.module('pumprApp')
           enable: ['click', 'drag', 'blur', 'touchstart'],
           logic: 'emit'
         }
-      }
+      },
+      markers: []
     });
+
+    var icons = {
+       test: {
+         iconUrl: 'assets/images/testHydrant.png',
+         iconSize:     [20, 30], // size of the icon
+         iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
+        //  popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+       },
+       flow: {
+         iconUrl: 'assets/images/flowHydrant.png',
+         iconSize:     [20, 30], // size of the icon
+         iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
+        //  popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+       }
+    };
 
     //Get GeoIP
     leafletData.getMap('fireflow-map').then(function(map) {
@@ -39,12 +55,40 @@ angular.module('pumprApp')
 
     $scope.$on('leafletDirectiveMap.click', function(event, args){
       $scope.eventDetected = event.name;
-      console.log(event);
-      console.log(args.leafletEvent);
+      // console.log(args.leafletEvent);
       var latlng = args.leafletEvent.latlng;
       fireflowFactory.find(latlng)
         .then(function(res){
           console.log(res);
+          if (Array.isArray(res.features) && res.features.length === 1){
+            var geom = res.features[0].geometry.coordinates;
+            var marker = {
+              lat: geom[1],
+              lng: geom[0],
+              focus: true,
+              lable: {
+                options: {
+                  noHide: true
+                }
+              }
+            };
+            
+            switch ($scope.markers.length){
+              case 0:
+                marker.message = 'Test: ' + res.features[0].properties['Facility Identifier'];
+                marker.icon = icons.test;
+                break;
+              case 1:
+                marker.message = 'Flow: ' + res.features[0].properties['Facility Identifier'];
+                marker.icon = icons.flow;
+                break;
+              default:
+                return;
+            }
+             //Add Markers
+            $scope.markers.push(marker);
+          }
+          console.log($scope.markers)
         })
         .catch(function(err){
           console.log(err);
