@@ -12,6 +12,7 @@ angular.module('pumprApp')
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.isSuperuser = Auth.isSuperuser;
+    $scope.isFireflow = Auth.isFireflow;
 
     $scope.logout = function() {
       Auth.logout();
