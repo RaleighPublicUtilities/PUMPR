@@ -1,3 +1,26 @@
 .leaflet-popup-content{
   color: #fff;
 }
+
+#loader {
+    position:absolute; top:0; left:0; width:100%;
+    background:rgba(255, 255, 255, 1);
+    transition:background 1s ease-out;
+    -webkit-transition:background 1s ease-out;
+}
+#loader.done {
+    background:rgba(255, 255, 255, 0);
+}
+#loader.hide {
+    display:none;
+}
+#loader .message {
+    position:absolute;
+    left:50%;
+    top:50%;
+}
+#add-markers {
+    position:absolute;
+    top:10px;
+    right:10px;
+}

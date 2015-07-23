@@ -1,5 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="col-md-12">
+
+<!-- <div class="col-md-12"> -->
+  <!-- <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div> -->
   <leaflet id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
   <fireflow id="flowControl" hydrants="markers"></fireflow>
-</div>
+<!-- </div> -->

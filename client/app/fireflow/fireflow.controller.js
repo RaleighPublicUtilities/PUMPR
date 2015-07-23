@@ -80,7 +80,7 @@ angular.module('pumprApp')
       $scope.eventDetected = event.name;
       // console.log(args.leafletEvent);
       var latlng = args.leafletEvent.latlng;
-      fireflowFactory.find(latlng)
+      $scope.flowPromise = fireflowFactory.find(latlng)
         .then(function(res){
           if (Array.isArray(res.features) && res.features.length === 1){
             var geom = res.features[0].geometry.coordinates;
@@ -112,7 +112,7 @@ angular.module('pumprApp')
           }
         })
         .catch(function(err){
-          console.log(err);
+          // console.log(err);
         });
     });
 
