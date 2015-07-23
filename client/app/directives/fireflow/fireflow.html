@@ -7,11 +7,11 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <div ng-hide="test" class="well well-lg">
+      <div ng-hide="test" class="well well-lg fireflow-animation">
         <h3>Step One</h3>
         <p>Select Test Hydrant</p>
       </div>
-      <div ng-show="test" class="thumbnail fireflow-thumb fireflow-white">
+      <div ng-show="test" class="thumbnail fireflow-white fireflow-animation">
         <img src="assets/images/testHydrantSm.png" alt="Test Hydrant">
         <div class="caption">
           <h3>Test Hydrant</h3>
@@ -21,11 +21,11 @@
       </div>
     </div>
     <div class="col-md-4">
-      <div ng-hide="flow" class="well well-md">
+      <div ng-hide="flow" class="well well-md fireflow-animation">
         <h3>Step Two</h3>
         <p>Select Flow Hydrant</p>
       </div>
-      <div ng-show="flow" class="thumbnail fireflow-thumb fireflow-white">
+      <div ng-show="flow" class="thumbnail fireflow-white fireflow-animation">
         <img src="assets/images/flowHydrantSm.png" alt="Test Hydrant">
         <div class="caption">
           <h3>Flow Hydrant</h3>
@@ -40,6 +40,6 @@
     </div>
   </div>
   <div class="row">
-    <progressbar ng-show="test" class="progress-striped active" value="dynamic" max="100" type="{{type}}">{{type}}</progressbar>
+    <progressbar ng-show="test" class="progress-striped active fireflow-progress" value="dynamic" max="100" type="{{type}}">{{type}}</progressbar>
   </div>
 </div>

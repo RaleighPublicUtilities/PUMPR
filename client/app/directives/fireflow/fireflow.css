@@ -29,3 +29,24 @@
   padding-top: 1em;
   color: #fff;
 }
+
+.fireflow-progress{
+  /*padding: 2em 0;*/
+  width: 80%;
+  margin: auto 0 auto 1em;
+}
+
+.fireflow-animation {
+  -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+.fireflow-animation.ng-hide-add.ng-hide-add-active,
+.fireflow-animation.ng-hide-remove.ng-hide-remove-active{
+  -webkit-animation: flipOutY 1s;
+    animation: flipOutY 1s;
+    /*display: block !important;*/
+}
+.fireflow-animation.ng-hide{
+  -webkit-animation: flipOutY 1s;
+    animation: flipOutY 1s;
+}
