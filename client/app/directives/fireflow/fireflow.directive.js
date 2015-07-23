@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('fireflow', function () {
+  .directive('fireflow', function (fireflowFactory) {
     return {
       templateUrl: 'app/directives/fireflow/fireflow.html',
       transclude: true,
@@ -14,9 +14,11 @@ angular.module('pumprApp')
         scope.dynamic = 0;
         scope.test;
         scope.flow;
-        scope.$watchCollection('hydrants', function(){
-          console.log(scope.hydrants)
 
+        //Removes record
+        scope.remove = fireflowFactory.removeLog;
+        
+        scope.$watchCollection('hydrants', function(){
           if (Array.isArray(scope.hydrants)){
             switch (scope.hydrants.length){
               case 0:

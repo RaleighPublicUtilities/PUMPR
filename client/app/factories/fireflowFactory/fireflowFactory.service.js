@@ -4,7 +4,7 @@ angular.module('pumprApp')
   .factory('fireflowFactory', function (agsServer) {
     // Service logic
     // ...
-
+    var flowLog = [];
 
 
     // Public API here
@@ -26,6 +26,24 @@ angular.module('pumprApp')
         };
 
         return agsServer.waterMs.request(options);
+      },
+      addLog: function (hydrant){
+        flowLog.push(hydrant);
+        return flowLog;
+      },
+      removeLog: function (){
+        console.log(flowLog)
+        if (flowLog.length > 0){
+          flowLog.pop();
+        }
+        return flowLog;
+      },
+      getLog: function (){
+        return flowLog;
+      },
+      clearLog: function (){
+        flowLog = [];
+        return flowLog;
       }
     };
   });

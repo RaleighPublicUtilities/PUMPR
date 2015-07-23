@@ -25,11 +25,11 @@ angular.module('pumprApp')
       layers: mapLayers,
       events: {
         map: {
-          enable: ['click', 'drag', 'blur', 'touchstart'],
+          enable: ['click'],
           logic: 'emit'
         }
       },
-      markers: []
+      markers: fireflowFactory.getLog()
     });
 
     var icons = {
@@ -37,13 +37,11 @@ angular.module('pumprApp')
          iconUrl: 'assets/images/testHydrant.png',
          iconSize:     [20, 30], // size of the icon
          iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
-        //  popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
        },
        flow: {
          iconUrl: 'assets/images/flowHydrant.png',
          iconSize:     [20, 30], // size of the icon
          iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
-        //  popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
        }
     };
 
@@ -110,7 +108,7 @@ angular.module('pumprApp')
                 return;
             }
              //Add Markers
-            $scope.markers.push(marker);
+             fireflowFactory.addLog(marker);
           }
         })
         .catch(function(err){

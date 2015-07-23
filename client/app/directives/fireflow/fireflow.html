@@ -7,7 +7,7 @@
   </div>
   <div class="row">
     <div class="col-md-4">
-      <div ng-hide="test" class="well well-lg fireflow-animation">
+      <div ng-hide="test" class="well well-md fireflow-animation">
         <h3>Step One</h3>
         <p>Select Test Hydrant</p>
       </div>
@@ -16,7 +16,7 @@
         <div class="caption">
           <h3>Test Hydrant</h3>
           <p>{{test.message}}</p>
-          <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+          <p ng-hide="flow"><a href="" ng-click="remove();test=false;" class="btn btn-primary" role="button">Remove</a></p>
         </div>
       </div>
     </div>
@@ -30,13 +30,22 @@
         <div class="caption">
           <h3>Flow Hydrant</h3>
           <p>{{flow.message}}</p>
-          <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
+          <p><a href="" ng-click="remove();flow=false" class="btn btn-primary" role="button">Remove</a></p>
         </div>
       </div>
     </div>
-    <div class="col-md-4" class="well well-md">
-      <h3>Step Three</h3>
-      <p>Fill Out Form</p>
+    <div class="col-md-4">
+      <div ng-hide="flow && test" class="well well-md fireflow-animation">
+        <h3>Step Three</h3>
+        <p>Fill Out Form</p>
+      </div>
+      <div ng-show="flow && test" class="thumbnail fireflow-white fireflow-animation">
+        <!-- <img src="assets/images/flowHydrantSm.png" alt="Test Hydrant"> -->
+        <div class="caption">
+          <h3>Fill out Form</h3>
+          <p><a href="#" class="btn btn-success" role="button">Form</a></p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
