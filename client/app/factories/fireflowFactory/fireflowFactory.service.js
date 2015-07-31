@@ -44,6 +44,20 @@ angular.module('pumprApp')
       clearLog: function (){
         flowLog = [];
         return flowLog;
+      },
+      getForm: function (){
+        var options = {
+          layer: 'RPUD.FireFlow',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: '1=1',
+            outFields: '*',
+            returnGeometry: false
+          }
+        };
+        return agsServer.ptFs.request(options);
+
       }
     };
   });

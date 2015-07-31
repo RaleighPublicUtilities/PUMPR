@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('fireflowForm', function (agsServer) {
+  .directive('fireflowForm', function (fireflowFactory) {
     return {
       templateUrl: 'app/directives/fireflowForm/fireflowForm.html',
       transclude: true,
@@ -10,18 +10,8 @@ angular.module('pumprApp')
         flowData: '='
       },
       link: function (scope) {
-        var options = {
-          layer: 'FireFlow',
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: '1=1',
-            outFields: '*',
-            returnGeometry: false
-          }
-        }
-        agsServer.ptFs.request(options)
-          .then(function(res){
+
+        fireflowFactory.getForm().then(function(res){
             console.log(res);
           })
           .catch(function(err){
