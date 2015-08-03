@@ -5,7 +5,7 @@ angular.module('pumprApp')
     // Service logic
     // ...
     var flowLog = [];
-
+    var formStatus = false;
 
     // Public API here
     return {
@@ -58,6 +58,13 @@ angular.module('pumprApp')
         };
         return agsServer.ptFs.request(options);
 
+      },
+      setFormStatus: function (stat){
+        formStatus = stat;
+        return formStatus;
+      },
+      getFormStatus: function(){
+        return formStatus;
       }
     };
   });

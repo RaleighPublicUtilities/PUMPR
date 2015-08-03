@@ -2,7 +2,7 @@
 
 <div class="col-md-12">
   <!-- <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div> -->
-  <leaflet id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
+  <leaflet ng-hide="formStatus()" id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
   <fireflow id="flowControl" hydrants="markers"></fireflow>
-  <!-- <fireflow-form></fireflow-form> -->
+  <fireflow-form ng-show="formStatus()"></fireflow-form>
 </div>

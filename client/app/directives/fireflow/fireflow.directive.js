@@ -17,7 +17,7 @@ angular.module('pumprApp')
 
         //Removes record
         scope.remove = fireflowFactory.removeLog;
-        
+        scope.setFormStatus = fireflowFactory.setFormStatus;
         scope.$watchCollection('hydrants', function(){
           if (Array.isArray(scope.hydrants)){
             switch (scope.hydrants.length){

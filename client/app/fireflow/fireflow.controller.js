@@ -15,6 +15,9 @@ angular.module('pumprApp')
     mapLayers.overlays.sewer.visible = false;
     mapLayers.overlays.reuse.visible = false;
 
+    //Sets form status to false
+    $scope.formStatus = fireflowFactory.getFormStatus;
+
     //Set default map settings
     angular.extend($scope, {
       center: {

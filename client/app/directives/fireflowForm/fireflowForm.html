@@ -1,0 +1,134 @@
+<div class="tint"></div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <h1 class="page-header">Fire Flow Form <span class="glyphicon glyphicon-globe pull-right" aria-hidden="true"></span></h1>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="form-horizontal" novalidate>
+        <div class="form-group">
+          <label for="testid">Test ID</label>
+          <input type="number" class="form-control" id="testid" placeholder="Test Id" ng-model="TESTID" disabled>
+        </div>
+        <div class="form-group">
+          <label for="testfacid">Test Facility ID</label>
+          <input type="text" class="form-control" id="testfacid" ng-model="TESTFACILITYID" disabled>
+        </div>
+        <div class="form-group">
+          <label for="flowfacid">Flow Facility ID</label>
+          <input type="text" class="form-control" id="flowfacid" ng-model="FLOWFACILITYID" disabled>
+        </div>
+        <div class="form-group">
+          <label for="address">Address</label>
+          <input type="text" class="form-control" id="address" ng-model="ADDRESS">
+        </div>
+        <div class="form-group">
+          <label for="locdesc">Location Description</label>
+          <textarea rows="3" class="form-control" id="locdesc" ng-model="LOCDESC"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="applicantName">Applicant Name</label>
+          <input type="text" class="form-control" id="applicantName" ng-model="APPLICANTNAME">
+        </div>
+        <div class="form-group">
+          <label for="applicantAddress">Applicant Address</label>
+          <input type="text" class="form-control" id="applicantAddress" ng-model="APPLICANTADDRESS">
+        </div>
+        <div class="form-group">
+          <label for="contactPerson">Contact Person</label>
+          <input type="text" class="form-control" id="contactPerson" ng-model="CONTACTPERSON">
+        </div>
+        <div class="form-group">
+          <label for="contactPhone">Contact Phone</label>
+          <input type="tel" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="CONTACTPHONE">
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">Contact E-Mail</label>
+          <input type="email" class="form-control" id="contactEmail" ng-model="CONTACTEMAIL">
+        </div>
+        <div class="form-group">
+          <label for="testdateTime">Test Datetime</label>
+          <input type="datetime" class="form-control" id="testdateTime" ng-model="TESTDATETIME">
+        </div>
+        <div class="form-group">
+          <label for="testMainSize">Test Main Size</label>
+          <input type="number" class="form-control" id="testMainSize" ng-model="TESTMAINSIZE">
+        </div>
+        <div class="form-group">
+          <label for="flowMainSize">Flow Main Size</label>
+          <input type="number" class="form-control" id="flowMainSize" ng-model="FLOWMAINSIZE">
+        </div>
+        <div class="form-group">
+          <label for="staticPressure">Static Pressure</label>
+          <input type="number" class="form-control" id="staticPressure" ng-model="STATICPRESSURE">
+        </div>
+        <div class="form-group">
+          <label for="residualPressure">Residual Pressure</label>
+          <input type="number" class="form-control" id="residualPressure" ng-model="RESIDUALPRESSURE">
+        </div>
+        <div class="form-group">
+          <label for="outLetDiameter">Outlet Diameter</label>
+          <input type="number" class="form-control" id="outLetDiameter" ng-model="OUTLETDIAMETER">
+        </div>
+        <div class="form-group">
+          <label for="outLetFlowing">Outlet Flowing</label>
+          <input type="number" class="form-control" id="outLetFlowing" ng-model="OUTLETSFLOWING">
+        </div>
+        <div class="form-group">
+          <label for="flowOutdischargePressure">Flow Hydrant Discharge Pressure</label>
+          <input type="number" class="form-control" id="flowOutdischargePressure" ng-model="FHDISCHARGEPRESSURE">
+        </div>
+        <div class="form-group">
+          <label for="dischargeVolume">Volume of Discharge</label>
+          <input type="number" class="form-control" id="dischargeVolume" ng-model="DISCHARGEVOLUME">
+        </div>
+        <div class="form-group">
+          <label for="flowhyddischargeCoeff">Flow Hydrant Discharge Coefficient</label>
+          <input type="number" class="form-control" id="flowhyddischargeCoeff" ng-model="FHDISCHARGECOEFFICIENT">
+        </div>
+        <div class="form-group">
+          <label for="flowhyddischargeCoeff">Avaliable Fire Flow 20 psi</label>
+          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="AVBFIREFLOW20PSI" value="1" checked> True</label>
+          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="AVBFIREFLOW20PSI" value="0"> False</label>
+        </div>
+        <div class="form-group">
+          <label for="testHydrantElevation">Test Hydrant Elevation</label>
+          <input type="number" class="form-control" id="testHydrantElevation" ng-model="TESTHYDRANTELEVATION">
+        </div>
+        <div class="form-group">
+          <label for="nearestElevatedTank">Nearest Elevated Tank</label>
+          <input type="text" class="form-control" id="nearestElevatedTank" ng-model="NEARESTELEVATEDTANK">
+        </div>
+        <div class="form-group">
+          <label for="tankElevation">Tank Elevation</label>
+          <input type="text" class="form-control" id="tankElevation" ng-model="TANKELEVATION">
+        </div>
+        <div class="form-group">
+          <label for="theorPressure">Theoretical Pressure</label>
+          <input type="number" class="form-control" id="theorPressure" ng-model="THEORETICALPRESSURE">
+        </div>
+        <div class="form-group">
+          <label for="pressureZone">Pressure Zone</label>
+          <input type="text" class="form-control" id="pressureZone" ng-model="PRESSUREZONE">
+        </div>
+        <div class="form-group">
+          <label for="signature">Signature</label>
+          <input type="text" class="form-control" id="signature" ng-model="SIGNATURE">
+        </div>
+        <!-- <div class="form-group">
+          <label for="resultsFile">Results File</label>
+          <input id="resultsFile" type="file" nv-file-select="" uploader="uploader" options="" ng-model="RESULTSFILE"/>
+        </div> -->
+        <div class="form-group">
+          <label for="comments">Comments</label>
+          <textarea rows="3" class="form-control" id="comments" ng-model="COMMENTS"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
