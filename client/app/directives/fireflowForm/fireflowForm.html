@@ -1,131 +1,132 @@
-<div class="tint"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12 col-xs-12">
-      <h1 class="page-header">Fire Flow Form <span class="glyphicon glyphicon-globe pull-right" aria-hidden="true"></span></h1>
+      <h1 class="page-header">Fire Flow Form <span class="glyphicon glyphicon-file pull-right" aria-hidden="true"></span></h1>
     </div>
   </div>
 </div>
 <div class="container">
+  <pre>{{fireFlowForm | json}}</pre>
+  <pre>{{flowData | json}}</pre>
   <div class="row">
     <div class="col-md-12">
-      <form class="form-horizontal" novalidate>
+      <form name="fireFlowForm" class="form-horizontal" novalidate>
         <div class="form-group">
           <label for="testid">Test ID</label>
-          <input type="number" class="form-control" id="testid" placeholder="Test Id" ng-model="TESTID" disabled>
+          <input type="number" class="form-control" id="testid" placeholder="Test Id" ng-model="flowData.TESTID" disabled>
         </div>
         <div class="form-group">
           <label for="testfacid">Test Facility ID</label>
-          <input type="text" class="form-control" id="testfacid" ng-model="TESTFACILITYID" disabled>
+          <input type="text" class="form-control" id="testfacid" ng-model="flowData.TESTFACILITYID" disabled>
         </div>
         <div class="form-group">
           <label for="flowfacid">Flow Facility ID</label>
-          <input type="text" class="form-control" id="flowfacid" ng-model="FLOWFACILITYID" disabled>
+          <input type="text" class="form-control" id="flowfacid" ng-model="flowData.FLOWFACILITYID" disabled>
         </div>
         <div class="form-group">
           <label for="address">Address</label>
-          <input type="text" class="form-control" id="address" ng-model="ADDRESS">
+          <input type="text" class="form-control" id="address" ng-model="flowData.ADDRESS">
         </div>
         <div class="form-group">
           <label for="locdesc">Location Description</label>
-          <textarea rows="3" class="form-control" id="locdesc" ng-model="LOCDESC"></textarea>
+          <textarea rows="3" class="form-control" id="locdesc" ng-model="flowData.LOCDESC"></textarea>
         </div>
         <div class="form-group">
           <label for="applicantName">Applicant Name</label>
-          <input type="text" class="form-control" id="applicantName" ng-model="APPLICANTNAME">
+          <input type="text" class="form-control" id="applicantName" ng-model="flowData.APPLICANTNAME">
         </div>
         <div class="form-group">
           <label for="applicantAddress">Applicant Address</label>
-          <input type="text" class="form-control" id="applicantAddress" ng-model="APPLICANTADDRESS">
+          <input type="text" class="form-control" id="applicantAddress" ng-model="flowData.APPLICANTADDRESS">
         </div>
         <div class="form-group">
           <label for="contactPerson">Contact Person</label>
-          <input type="text" class="form-control" id="contactPerson" ng-model="CONTACTPERSON">
+          <input type="text" class="form-control" id="contactPerson" ng-model="flowData.CONTACTPERSON">
         </div>
         <div class="form-group">
           <label for="contactPhone">Contact Phone</label>
-          <input type="tel" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="CONTACTPHONE">
+          <input type="tel" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="flowData.CONTACTPHONE">
         </div>
         <div class="form-group">
           <label for="contactEmail">Contact E-Mail</label>
-          <input type="email" class="form-control" id="contactEmail" ng-model="CONTACTEMAIL">
+          <input type="email" class="form-control" id="contactEmail" ng-model="flowData.CONTACTEMAIL">
         </div>
         <div class="form-group">
           <label for="testdateTime">Test Datetime</label>
-          <input type="datetime" class="form-control" id="testdateTime" ng-model="TESTDATETIME">
+          <input type="datetime" class="form-control" id="testdateTime" ng-model="flowData.TESTDATETIME">
         </div>
         <div class="form-group">
           <label for="testMainSize">Test Main Size</label>
-          <input type="number" class="form-control" id="testMainSize" ng-model="TESTMAINSIZE">
+          <input type="number" class="form-control" id="testMainSize" ng-model="flowData.TESTMAINSIZE">
         </div>
         <div class="form-group">
           <label for="flowMainSize">Flow Main Size</label>
-          <input type="number" class="form-control" id="flowMainSize" ng-model="FLOWMAINSIZE">
+          <input type="number" class="form-control" id="flowMainSize" ng-model="flowData.FLOWMAINSIZE">
         </div>
         <div class="form-group">
           <label for="staticPressure">Static Pressure</label>
-          <input type="number" class="form-control" id="staticPressure" ng-model="STATICPRESSURE">
+          <input type="number" class="form-control" id="staticPressure" ng-model="flowData.STATICPRESSURE">
         </div>
         <div class="form-group">
           <label for="residualPressure">Residual Pressure</label>
-          <input type="number" class="form-control" id="residualPressure" ng-model="RESIDUALPRESSURE">
+          <input type="number" class="form-control" id="residualPressure" ng-model="flowData.RESIDUALPRESSURE">
         </div>
         <div class="form-group">
           <label for="outLetDiameter">Outlet Diameter</label>
-          <input type="number" class="form-control" id="outLetDiameter" ng-model="OUTLETDIAMETER">
+          <input type="number" class="form-control" id="outLetDiameter" ng-model="flowData.OUTLETDIAMETER">
         </div>
         <div class="form-group">
           <label for="outLetFlowing">Outlet Flowing</label>
-          <input type="number" class="form-control" id="outLetFlowing" ng-model="OUTLETSFLOWING">
+          <input type="number" class="form-control" id="outLetFlowing" ng-model="flowData.OUTLETSFLOWING">
         </div>
         <div class="form-group">
           <label for="flowOutdischargePressure">Flow Hydrant Discharge Pressure</label>
-          <input type="number" class="form-control" id="flowOutdischargePressure" ng-model="FHDISCHARGEPRESSURE">
+          <input type="number" class="form-control" id="flowOutdischargePressure" ng-model="flowData.FHDISCHARGEPRESSURE">
         </div>
         <div class="form-group">
           <label for="dischargeVolume">Volume of Discharge</label>
-          <input type="number" class="form-control" id="dischargeVolume" ng-model="DISCHARGEVOLUME">
+          <input type="number" class="form-control" id="dischargeVolume" ng-model="flowData.DISCHARGEVOLUME">
         </div>
         <div class="form-group">
           <label for="flowhyddischargeCoeff">Flow Hydrant Discharge Coefficient</label>
-          <input type="number" class="form-control" id="flowhyddischargeCoeff" ng-model="FHDISCHARGECOEFFICIENT">
+          <input type="number" class="form-control" id="flowhyddischargeCoeff" ng-model="flowData.FHDISCHARGECOEFFICIENT">
         </div>
         <div class="form-group">
           <label for="flowhyddischargeCoeff">Avaliable Fire Flow 20 psi</label>
-          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="AVBFIREFLOW20PSI" value="1" checked> True</label>
-          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="AVBFIREFLOW20PSI" value="0"> False</label>
+          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="flowData.AVBFIREFLOW20PSI" value="1" checked> True</label>
+          <label class="radio-inline"><input id="flowhyddischargeCoeff" type="radio" name="active"  ng-model="flowData.AVBFIREFLOW20PSI" value="0"> False</label>
         </div>
         <div class="form-group">
           <label for="testHydrantElevation">Test Hydrant Elevation</label>
-          <input type="number" class="form-control" id="testHydrantElevation" ng-model="TESTHYDRANTELEVATION">
+          <input type="number" class="form-control" id="testHydrantElevation" ng-model="flowData.TESTHYDRANTELEVATION">
         </div>
         <div class="form-group">
           <label for="nearestElevatedTank">Nearest Elevated Tank</label>
-          <input type="text" class="form-control" id="nearestElevatedTank" ng-model="NEARESTELEVATEDTANK">
+          <input type="text" class="form-control" id="nearestElevatedTank" ng-model="flowData.NEARESTELEVATEDTANK">
         </div>
         <div class="form-group">
           <label for="tankElevation">Tank Elevation</label>
-          <input type="text" class="form-control" id="tankElevation" ng-model="TANKELEVATION">
+          <input type="text" class="form-control" id="tankElevation" ng-model="flowData.TANKELEVATION">
         </div>
         <div class="form-group">
           <label for="theorPressure">Theoretical Pressure</label>
-          <input type="number" class="form-control" id="theorPressure" ng-model="THEORETICALPRESSURE">
+          <input type="number" class="form-control" id="theorPressure" ng-model="flowData.THEORETICALPRESSURE">
         </div>
         <div class="form-group">
           <label for="pressureZone">Pressure Zone</label>
-          <input type="text" class="form-control" id="pressureZone" ng-model="PRESSUREZONE">
+          <input type="text" class="form-control" id="pressureZone" ng-model="flowData.PRESSUREZONE">
         </div>
         <div class="form-group">
           <label for="signature">Signature</label>
-          <input type="text" class="form-control" id="signature" ng-model="SIGNATURE">
+          <input type="text" class="form-control" id="signature" ng-model="flowData.SIGNATURE">
         </div>
         <!-- <div class="form-group">
           <label for="resultsFile">Results File</label>
-          <input id="resultsFile" type="file" nv-file-select="" uploader="uploader" options="" ng-model="RESULTSFILE"/>
+          <input id="resultsFile" type="file" nv-file-select="" uploader="uploader" options="" ng-model="flowData.RESULTSFILE"/>
         </div> -->
         <div class="form-group">
           <label for="comments">Comments</label>
-          <textarea rows="3" class="form-control" id="comments" ng-model="COMMENTS"></textarea>
+          <textarea rows="3" class="form-control" id="comments" ng-model="flowData.COMMENTS"></textarea>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>

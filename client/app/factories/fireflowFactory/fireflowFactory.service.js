@@ -59,10 +59,19 @@ angular.module('pumprApp')
         return agsServer.ptFs.request(options);
 
       },
+      /*
+      * Activates form view
+      * Retures true/false
+      */
       setFormStatus: function (stat){
         formStatus = stat;
         return formStatus;
       },
+
+      /*
+      * Gets form status
+      * Retures true/false
+      */
       getFormStatus: function(){
         return formStatus;
       }
