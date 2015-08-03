@@ -11,6 +11,7 @@ angular.module('pumprApp')
       },
       link: function (scope) {
         var user = Auth.getCurrentUser();
+        scope.goBack = fireflowFactory.setFormStatus;
         scope.flowData = {};
         scope.$watchCollection('hydrants', function(){
           if (Array.isArray(scope.hydrants) && scope.hydrants.length === 2){
