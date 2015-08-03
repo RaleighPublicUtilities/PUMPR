@@ -25,8 +25,7 @@
         </div>
         <div class="form-group">
           <label for="address">Address</label>
-          <!-- <input type="text" class="form-control" id="address" ng-model="flowData.ADDRESS"> -->
-          <input type="text" name="address" class="form-control" id="address" ng-model="flowData.ADDRESS" ng-trim="true" typeahead-min-length="3" typeahead="project for project in findAddress($viewValue) | limitTo:8" typeahead-loading="addressPromise" typeahead-on-select="searchControl($item)"  typeahead-wait-ms="500">
+          <address-search id="address" ng-model="flowData.ADDRESS"></address-search>
         </div>
         <div class="form-group">
           <label for="locdesc">Location Description</label>
@@ -38,7 +37,7 @@
         </div>
         <div class="form-group">
           <label for="applicantAddress">Applicant Address</label>
-          <input type="text" class="form-control" id="applicantAddress" ng-model="flowData.APPLICANTADDRESS">
+          <address-search id="applicantAddress" ng-model="flowData.APPLICANTADDRESS"></address-search>
         </div>
         <div class="form-group">
           <label for="contactPerson">Contact Person</label>

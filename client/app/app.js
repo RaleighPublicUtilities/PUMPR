@@ -149,7 +149,7 @@ angular.module('pumprApp', [
         //Check if request is for arcgis server and do not add bearer token if it is
 
 
-        var re = /\/arcgis\/rest\/services\//.test(config.url);
+        var re = /\/arcgis\/rest\/services\//;
         var water = /maps.raleighnc.gov\/arcgis\/rest\/services\//;
 
         if (water.test(config.url)){
@@ -166,7 +166,7 @@ angular.module('pumprApp', [
             }
             return config;
           }
-          else if (re){
+          else if (re.test(config.url)){
             delete config.headers.Authorization;
             return config;
           }

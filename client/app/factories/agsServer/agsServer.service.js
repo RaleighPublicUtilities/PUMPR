@@ -33,7 +33,7 @@ angular.module('pumprApp')
     }),
 
     //Streets Service
-    addressesMs: maps.setService({
+    addressesMs: mapstest.setService({
       folder:'Addresses',
       service: '',
       server: 'MapServer',
