@@ -11,6 +11,11 @@ angular.module('pumprApp')
       },
       link: function (scope, element, attrs) {
 
+        scope.mainImage;
+        scope.viewImage = function(index){
+          scope.mainImage = scope.imgs[index].Image;
+        }
+
         scope.$watch('facid', function(){
           if (scope.facid){
             search.itpipes(scope.facid).then(function(res){
@@ -22,6 +27,7 @@ angular.module('pumprApp')
                 scope.status = true;
                 scope.vids = res.data.videos;
                 scope.imgs = res.data.images;
+                scope.mainImage = scope.imgs[0].Image;
               }
 
             })

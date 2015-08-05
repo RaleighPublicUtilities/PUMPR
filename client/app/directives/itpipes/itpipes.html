@@ -113,7 +113,7 @@
     <div class="col-md-6">
       <tabset justified="true">
         <tab heading="Images" select="">
-          <img class="img-responsive img-thumbnail itpipes-margin" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{imgs[0].Image}}" alt="img.File_Type"/>
+          <img class="img-responsive img-thumbnail itpipes-margin" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{mainImage}}" alt="img.File_Type"/>
         </tab>
         <tab heading="Video" select="">
           <object class="itpipes-margin" type="video/x-ms-wmv" data="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/Mainline/SMH116624SMH112324/2014.09.26_0935/Videos/1_SMH116624_SMH112324.wmv" width="574" height="430" z-index:1="" title="undefined">
@@ -129,7 +129,7 @@
           <ul class="list-inline list-unstyled">
             <li class="itpipes-sm-img" ng-repeat="img in imgs">
               <a href="#" class="itpipes-link thumbnail">
-                <img class="itpipes-img" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{img.Image}}" alt="img.File_Type"/>
+                <img class="itpipes-img" ng-click="viewImage($index)" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{img.Image}}" alt="img.File_Type"/>
               </a>
             </li>
           </ul>
