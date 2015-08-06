@@ -6,11 +6,11 @@
   </div>
 </div>
 <div class="container">
-  <!-- <pre>{{fireFlowForm | json}}</pre>
-  <pre>{{flowData | json}}</pre> -->
+  <pre>{{form | json}}</pre>
+  <!-- <pre>{{flowData | json}}</pre> -->
   <div class="row">
     <div class="col-md-12">
-      <form name="fireFlowForm" class="form-horizontal" novalidate>
+      <form name="form" class="form-horizontal" novalidate>
         <div class="form-group">
           <label for="testid">Test ID</label>
           <input type="number" class="form-control" id="testid" placeholder="Test Id" ng-model="flowData.TESTID" disabled>
@@ -45,11 +45,14 @@
         </div>
         <div class="form-group">
           <label for="contactPhone">Contact Phone</label>
-          <input type="tel" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="flowData.CONTACTPHONE">
+          <input type="text" name="CONTACTPHONE" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="flowData.CONTACTPHONE">
+          <p class="help-block eng-help" ng-show="(form.CONTACTPHONE.$error.pattern) && (form.CONTACTPHONE.$dirty || submitted)">Please reformat phone number<br> (xxx) xxx-xxxx</p>
         </div>
         <div class="form-group">
           <label for="contactEmail">Contact E-Mail</label>
-          <input type="email" class="form-control" id="contactEmail" ng-model="flowData.CONTACTEMAIL">
+          <input type="email" name="contactEmail" class="form-control" id="contactEmail" ng-model="flowData.CONTACTEMAIL" required>
+          <p class="help-block eng-help" ng-show="(form.contactEmail.$error.email) && (form.contactEmail.$dirty || submitted)">Please enter valid email address</p>
+          <p class="help-block eng-help" ng-show="(form.contactEmail.$error.required)">Required</p>
         </div>
         <div class="form-group">
           <label for="testdateTime">Test Datetime</label>
