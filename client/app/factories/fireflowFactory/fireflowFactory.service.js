@@ -74,6 +74,24 @@ angular.module('pumprApp')
       */
       getFormStatus: function(){
         return formStatus;
+      },
+
+      /*
+      * POSTs data to ArcGIS Server
+      * Retures @promise
+      */
+      submitForm: function(data){
+        var options = {
+          layer: 'RPUD.FireFlow',
+          actions: 'addFeatures',
+          timeout: 30000,
+          params: {
+            f: 'json',
+            features: [{attributes: data}]
+          }
+        };
+
+        return agsServer.ptFs.request(options);
       }
     };
   });
