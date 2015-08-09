@@ -15,7 +15,7 @@
         <img src="assets/images/testHydrantSm.png" alt="Test Hydrant">
         <div class="caption">
           <h3>Test Hydrant</h3>
-          <p>{{test.message}}</p>
+          <p>{{test.properties["Facility Identifier"]}}</p>
           <p ng-hide="flow"><a href="" ng-click="remove();test=false;" class="btn btn-primary" role="button">Remove</a></p>
         </div>
       </div>
@@ -29,7 +29,7 @@
         <img src="assets/images/flowHydrantSm.png" alt="Test Hydrant">
         <div class="caption">
           <h3>Flow Hydrant</h3>
-          <p>{{flow.message}}</p>
+          <p>{{flow.properties["Facility Identifier"]}}</p>
           <p><a href="" ng-click="remove();flow=false" class="btn btn-primary" role="button">Remove</a></p>
         </div>
       </div>

@@ -95,7 +95,8 @@ angular.module('pumprApp')
                 options: {
                   noHide: true
                 }
-              }
+              },
+              properties: res.features[0].properties
             };
 
             switch ($scope.markers.length){

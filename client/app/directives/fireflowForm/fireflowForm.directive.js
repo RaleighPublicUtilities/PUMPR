@@ -24,6 +24,15 @@ angular.module('pumprApp')
           }
         });
 
+        scope.submit = function (data){
+          fireflowFactory.submitForm(data)
+            .then(function(res){
+              console.log(res);
+            })
+            .catch(function(err){
+              console.log(err);
+            });
+        };
         // scope.findAddress = function (typed){
         //   var typed = typed.toUpperCase();
         //   var options = {

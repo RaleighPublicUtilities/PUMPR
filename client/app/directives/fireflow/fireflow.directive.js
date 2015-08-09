@@ -25,6 +25,7 @@ angular.module('pumprApp')
                 break;
               case 1:
                 scope.test = scope.hydrants[0];
+                console.log(scope.test)
                 scope.dynamic = (1/3) * 100;
                 scope.type= '33% Complete';
                 break;
