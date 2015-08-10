@@ -2,16 +2,9 @@
 
 angular.module('pumprApp')
   .factory('agsDomains', function () {
-    // Service logic
-    // ...
-
-    var meaningOfLife = 42;
-
+    
     // Public API here
     return {
-      mainSizes: [{
-        
-      }],
       diameter: [
         {
           code: 0.75,

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('fireflowForm', function (fireflowFactory, Auth) {
+  .directive('fireflowForm', function (fireflowFactory, Auth, agsDomains) {
     return {
       templateUrl: 'app/directives/fireflowForm/fireflowForm.html',
       transclude: true,
@@ -13,6 +13,10 @@ angular.module('pumprApp')
         var user = Auth.getCurrentUser();
         scope.goBack = fireflowFactory.setFormStatus;
         scope.flowData = {};
+
+        //Pull in domains
+        scope.diameter = agsDomains.diameter;
+
         scope.$watchCollection('hydrants', function(){
           if (Array.isArray(scope.hydrants) && scope.hydrants.length === 2){
             angular.extend(scope.flowData, {
