@@ -17,8 +17,20 @@ angular.module('pumprApp')
         //Pull in domains
         scope.diameter = agsDomains.diameter;
 
+
+
+
         scope.$watchCollection('hydrants', function(){
           if (Array.isArray(scope.hydrants) && scope.hydrants.length === 2){
+            //Get Values From Associated Water features
+            fireflowFactory.getRelatedFeatures('Water Pressure Mains', scope.hydrants[0])
+              .then(function(res){
+                console.log(res);
+              }).
+              catch(function(err){
+                console.log(err);
+              });
+            //Set form object
             angular.extend(scope.flowData, {
               TESTFACILITYID: scope.hydrants[0].message.split(':')[1].trim(),
               FLOWFACILITYID: scope.hydrants[1].message.split(':')[1].trim(),

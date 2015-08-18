@@ -60,6 +60,28 @@ angular.module('pumprApp')
 
       },
       /*
+      * Gets data from other water features
+      * Retures promise
+      */
+      getRelatedFeatures : function (fc, latlng){
+
+        var options = {
+          params: {
+              f: 'json',
+              geometry: {x: latlng.lng, y: latlng.lat},
+              mapExtent: [latlng.lng, latlng.lat, latlng.lng + 0.01, latlng.lat + 0.01].toString(),
+              tolerance: 2,
+              imageDisplay: '635,460,96',
+              layers: 'all',
+              sr: 4326
+            },
+            actions: 'identify',
+            geojson: false
+        };
+
+        return agsServer.waterMs.request(options);
+      },
+      /*
       * Activates form view
       * Retures true/false
       */
