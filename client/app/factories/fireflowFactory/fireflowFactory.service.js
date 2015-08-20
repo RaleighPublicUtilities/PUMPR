@@ -63,14 +63,14 @@ angular.module('pumprApp')
       * Gets data from other water features
       * Retures promise
       */
-      getRelatedFeatures : function (fc, latlng){
+      getRelatedFeatures : function (latlng){
 
         var options = {
           params: {
               f: 'json',
               geometry: {x: latlng.lng, y: latlng.lat},
               mapExtent: [latlng.lng, latlng.lat, latlng.lng + 0.01, latlng.lat + 0.01].toString(),
-              tolerance: 2,
+              tolerance: 3,
               imageDisplay: '635,460,96',
               layers: 'all',
               sr: 4326
