@@ -116,7 +116,7 @@ angular.module('pumprApp')
           }
         })
         .catch(function(err){
-          // console.log(err);
+          console.log(err);
         });
     });
 

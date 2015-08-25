@@ -47,7 +47,7 @@ angular.module('pumprApp', [
           projects:{
             name: 'Project Tracking',
             type: 'agsDynamic',
-            url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
+            url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
             visible: false,
             layerOptions: {
                 layers: [1],
@@ -59,7 +59,7 @@ angular.module('pumprApp', [
             sewer: {
               name: 'Sewer Collection Network',
               type: 'agsDynamic',
-              url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer',
+              url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
               visible: true,
               layerOptions: {
                   layers: [0,1,2,3,4],
@@ -71,7 +71,7 @@ angular.module('pumprApp', [
         water: {
           name: 'Water Distribution Network',
             type: 'agsDynamic',
-            url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer',
+            url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/',
             visible: true,
             layerOptions: {
                 layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
@@ -83,7 +83,7 @@ angular.module('pumprApp', [
         reuse: {
           name: 'Reuse Distribution Network',
             type: 'agsDynamic',
-            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer',
+            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/ReclaimedDistribution/MapServer/',
             visible: true,
             layerOptions: {
                 layers: [0,1,2,3,4,5,6,7,8,9,10,11],
@@ -95,7 +95,7 @@ angular.module('pumprApp', [
         cip: {
           name: 'Active CIP Projects',
             type: 'agsDynamic',
-            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer',
+            url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer/',
             visible: false,
             layerOptions: {
                 layers: [0],
@@ -107,7 +107,7 @@ angular.module('pumprApp', [
         detailsIntersections: {
           name: 'Detailed Intersections',
           type: 'agsDynamic',
-          url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer',
+          url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
           visible: false,
           layerOptions: {
             layers: [0],
@@ -119,7 +119,7 @@ angular.module('pumprApp', [
         parcels: {
           name: 'Parcels',
           type: 'agsDynamic',
-          url: 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer',
+          url: 'http://maps.raleighnc.gov/arcgis/rest/services/Parcels/MapServer/',
           visible: false,
           layerOptions: {
             layers: ['*'],
@@ -131,7 +131,7 @@ angular.module('pumprApp', [
       vehicles: {
         name: 'Vehicles',
         type: 'agsDynamic',
-        url: 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer',
+        url: 'http://geodevapplv1:6080/arcgis/rest/services/Networkfleet/MapServer/',
         visible: false,
         layerOptions: {
           layers: [0],
