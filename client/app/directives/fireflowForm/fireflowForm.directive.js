@@ -50,6 +50,7 @@ angular.module('pumprApp')
                         });
                       break;
                     case 'Water Pressure Zones':
+                      console.log(item.attributes);
                       scope.pressureZone = item.attributes['Pressure Zone Identifier'] || undefined;
                       break;
                     default:
