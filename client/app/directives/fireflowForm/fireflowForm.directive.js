@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('fireflowForm', function (fireflowFactory, Auth, agsDomains) {
+  .directive('fireflowForm', function (fireflowFactory, Auth, agsDomains, elevationFactory) {
     return {
       templateUrl: 'app/directives/fireflowForm/fireflowForm.html',
       transclude: true,
@@ -29,7 +29,16 @@ angular.module('pumprApp')
               APPLICANTNAME: user.name,
               CONTACTEMAIL: user.email
             });
+
+            // elevationFactory.getElevation(scope.hydrants[0]).success(function(data){
+            //   console.log(data);
+            // }).
+            // catch(function(err){
+            //   console.log(err)
+            // });
+
             //Get Values From Associated Water features
+            console.log(scope.hydrants)
             scope.hydrants.forEach(function (hydrant, index){
             fireflowFactory.getRelatedFeatures(hydrant)
               .then(function(res){
@@ -50,7 +59,6 @@ angular.module('pumprApp')
                         });
                       break;
                     case 'Water Pressure Zones':
-                      console.log(item.attributes);
                       scope.pressureZone = item.attributes['Pressure Zone Identifier'] || undefined;
                       break;
                     default:

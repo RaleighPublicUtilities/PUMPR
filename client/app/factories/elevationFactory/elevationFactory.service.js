@@ -6,10 +6,24 @@ angular.module('pumprApp')
     // ...
 
     var url = 'http://elevation.arcgis.com/arcgis/rest/services/Tools/Elevation/GPServer/SummarizeElevation/submitJob';
+    var tokenUrl = 'https://www.arcgis.com/sharing/rest/generatetoken';
 
     // Public API here
     return {
-      getElevation: function (featureSet) {
+      getElevation: function (hydrant) {
+        var featureSet = {
+          "geometryType":"esriGeometryPoint",
+          "spatialReference": 4326,
+          "fields":'FACILITYID',
+          "features":[
+            {
+              "geometry" : {
+                "x" : hydrant.lng,
+                "y" : hydrant.lat
+              }
+            }
+          ]
+        };
         var config = {
           params: {
             InputFeatures: featureSet,
@@ -18,7 +32,7 @@ angular.module('pumprApp')
             IncludeSlopeAspect: false
           }
         };
-        return $http.get(url, config);
+        return $http.post(url, config);
       }
     };
   });
