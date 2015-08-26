@@ -1,16 +1,24 @@
 'use strict';
 
 angular.module('pumprApp')
-  .factory('elevationFactory', function () {
+  .factory('elevationFactory', function ($http) {
     // Service logic
     // ...
 
-    var meaningOfLife = 42;
+    var url = 'http://elevation.arcgis.com/arcgis/rest/services/Tools/Elevation/GPServer/SummarizeElevation/submitJob';
 
     // Public API here
     return {
-      someMethod: function () {
-        return meaningOfLife;
+      getElevation: function (featureSet) {
+        var config = {
+          params: {
+            InputFeatures: featureSet,
+            FeatureIDField: 'FACILITYID',
+            DEMResolution: 'FINEST',
+            IncludeSlopeAspect: false
+          }
+        };
+        return $http.get(url, config);
       }
     };
   });
