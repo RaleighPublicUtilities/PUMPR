@@ -30,12 +30,7 @@ angular.module('pumprApp')
               CONTACTEMAIL: user.email
             });
 
-            // elevationFactory.getElevation(scope.hydrants[0]).success(function(data){
-            //   console.log(data);
-            // }).
-            // catch(function(err){
-            //   console.log(err)
-            // });
+
 
             //Get Values From Associated Water features
             console.log(scope.hydrants)
@@ -88,47 +83,6 @@ angular.module('pumprApp')
               console.log(err);
             });
         };
-        // scope.findAddress = function (typed){
-        //   var typed = typed.toUpperCase();
-        //   var options = {
-        //     layer: 'Addresses',
-        //     geojson: false,
-        //     actions: 'query',
-        //     params: {
-        //       f: 'json',
-        //       outFields: 'ADDRESSU, CITY, STATE, ZIP',
-        //       where: "ADDRESSU like '%" +typed + "%'",
-        //       returnGeometry: false,
-        //       orderByFields: 'ADDRESSU ASC'
-        //     }
-        //   };
-        //   scope.addressPromise = agsServer.addressesMs.request(options);
-        //   return scope.addressPromise
-        //     .then(function(data){
-        //       if (data.error){
-        //         console.log(data.error);
-        //       }
-        //       else {
-        //         return data.features.map(function(item){
-        //           return item.attributes.ADDRESSU + ', ' +  item.attributes.CITY + ', ' +  item.attributes.STATE + ', ' +  item.attributes.ZIP;
-        //       });
-        //       }
-        //     })
-        //     .catch(function(err){
-        //       console.log(err);
-        //     });
-        // };
-        //
-        // scope.searchControl = function (item){
-        //   scope.flowData.ADDRESS = item;
-        // }
-
-        // fireflowFactory.getForm().then(function(res){
-        //     console.log(res);
-        //   })
-        //   .catch(function(err){
-        //     console.log(err);
-        //   });
 
       }
     };

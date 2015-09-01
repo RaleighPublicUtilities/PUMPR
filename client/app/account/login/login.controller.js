@@ -13,16 +13,11 @@ angular.module('pumprApp')
           email: $scope.user.email,
           password: $scope.user.password
         })
-        .then( function() {
-          Auth.agolToken().then(function(){
-            // Logged in, redirect to home
-            $location.path('/');
-          })
-          .catch( function(err) {
-            $scope.errors.other = err.message;
-          });
+        .then(Auth.agolToken)
+        .then(function(){
+          $location.path('/');
         })
-        .catch( function(err) {
+        .catch(function(err){
           $scope.errors.other = err.message;
         });
       }

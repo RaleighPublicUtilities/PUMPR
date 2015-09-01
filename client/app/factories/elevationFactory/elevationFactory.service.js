@@ -5,12 +5,11 @@ angular.module('pumprApp')
     // Service logic
     // ...
 
-    var url = 'http://elevation.arcgis.com/arcgis/rest/services/Tools/Elevation/GPServer/SummarizeElevation/submitJob';
-    var tokenUrl = 'https://www.arcgis.com/sharing/rest/generatetoken';
+
 
     // Public API here
     return {
-      getElevation: function (hydrant) {
+      getElevation: function (hydrant, token) {
         var featureSet = {
           "geometryType":"esriGeometryPoint",
           "spatialReference": 4326,
@@ -25,14 +24,18 @@ angular.module('pumprApp')
           ]
         };
         var config = {
-          params: {
-            InputFeatures: featureSet,
-            FeatureIDField: 'FACILITYID',
-            DEMResolution: 'FINEST',
-            IncludeSlopeAspect: false
-          }
+          method: 'POST',
+          url: 'http://elevation.arcgis.com/arcgis/rest/services/Tools/Elevation/GPServer/Profile/submitJob',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          params: {},
+          data: $.param({
+              InputFeatures: featureSet,
+              FeatureIDField: 'FACILITYID',
+              DEMResolution: 'FINEST',
+              IncludeSlopeAspect: false
+          })
         };
-        return $http.post(url, config);
+        return $http(config);
       }
     };
   });

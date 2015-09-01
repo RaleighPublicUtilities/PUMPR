@@ -40,7 +40,7 @@ angular.module('pumprApp')
       },
 
       /**
-       * Get ArcGis Online Access Token
+       * Get ArcGIS server Token
        *
        * @return {Promise}
        */
