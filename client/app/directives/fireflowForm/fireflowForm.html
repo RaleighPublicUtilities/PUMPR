@@ -13,15 +13,15 @@
       <form name="form" class="form-horizontal" novalidate>
         <div class="form-group">
           <label for="testid">Test ID</label>
-          <input type="number" class="form-control form-inputs" id="testid" placeholder="Test Id" ng-model="flowData.TESTID" disabled>
+          <input type="number" class="form-control" id="testid" placeholder="Test Id" ng-model="flowData.TESTID" disabled>
         </div>
         <div class="form-group">
           <label for="testfacid">Test Facility ID</label>
-          <input type="text" class="form-control form-inputs" id="testfacid" ng-model="flowData.TESTFACILITYID" disabled>
+          <input type="text" class="form-control" id="testfacid" ng-model="flowData.TESTFACILITYID" disabled>
         </div>
         <div class="form-group">
           <label for="flowfacid">Flow Facility ID</label>
-          <input type="text" class="form-control form-inputs" id="flowfacid" ng-model="flowData.FLOWFACILITYID" disabled>
+          <input type="text" class="form-control" id="flowfacid" ng-model="flowData.FLOWFACILITYID" disabled>
         </div>
         <div class="form-group">
           <label for="address">Address</label>
@@ -29,11 +29,11 @@
         </div>
         <div class="form-group">
           <label for="locdesc">Location Description</label>
-          <textarea rows="3" class="form-control form-inputs" id="locdesc" ng-model="flowData.LOCDESC"></textarea>
+          <textarea rows="3" class="form-control" id="locdesc" ng-model="flowData.LOCDESC"></textarea>
         </div>
         <div class="form-group">
           <label for="applicantName">Applicant Name</label>
-          <input type="text" class="form-control form-inputs" id="applicantName" ng-model="flowData.APPLICANTNAME">
+          <input type="text" class="form-control" id="applicantName" ng-model="flowData.APPLICANTNAME">
         </div>
         <div class="form-group">
           <label for="applicantAddress">Applicant Address</label>
@@ -41,62 +41,62 @@
         </div>
         <div class="form-group">
           <label for="contactPerson">Contact Person</label>
-          <input type="text" class="form-control form-inputs" id="contactPerson" ng-model="flowData.CONTACTPERSON">
+          <input type="text" class="form-control" id="contactPerson" ng-model="flowData.CONTACTPERSON">
         </div>
         <div class="form-group">
           <label for="contactPhone">Contact Phone</label>
-          <input type="text" name="CONTACTPHONE" placeholder="(919) 222-5555" class="form-control form-inputs" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="flowData.CONTACTPHONE">
+          <input type="text" name="CONTACTPHONE" placeholder="(919) 222-5555" class="form-control" pattern="\(\d*\) \d{3}-\d{4}" id="contactPhone" ng-model="flowData.CONTACTPHONE">
           <p class="help-block eng-help" ng-show="(form.CONTACTPHONE.$error.pattern) && (form.CONTACTPHONE.$dirty || submitted)">Please reformat phone number<br> (xxx) xxx-xxxx</p>
         </div>
         <div class="form-group">
           <label for="contactEmail">Contact E-Mail</label>
-          <input type="email" name="contactEmail" class="form-control form-inputs" id="contactEmail" ng-model="flowData.CONTACTEMAIL" required>
+          <input type="email" name="contactEmail" class="form-control" id="contactEmail" ng-model="flowData.CONTACTEMAIL" required>
           <p class="help-block eng-help" ng-show="(form.contactEmail.$error.email) && (form.contactEmail.$dirty || submitted)">Please enter valid email address</p>
           <p class="help-block eng-help" ng-show="(form.contactEmail.$error.required)">Required</p>
         </div>
         <div class="form-group">
           <label for="testdateTime">Test Datetime</label>
-          <input type="datetime-local" class="form-control form-inputs" id="testdateTime" ng-model="flowData.TESTDATETIME">
+          <input type="datetime-local" class="form-control" id="testdateTime" ng-model="flowData.TESTDATETIME">
         </div>
         <div class="form-group">
           <label for="testMainSize">Test Main Size</label>
-          <select ng-options="dia.code as dia.desc for dia in diameter" class="form-control form-inputs" ng-model="flowData.TESTMAINSIZE">
+          <select ng-options="dia.code as dia.desc for dia in diameter" class="form-control" ng-model="flowData.TESTMAINSIZE">
             <option value="">--Select--</option>
           </select>
         </div>
         <div class="form-group">
           <label for="flowMainSize">Flow Main Size</label>
-          <select ng-options="dia.code as dia.desc for dia in diameter" class="form-control form-inputs" ng-model="flowData.FLOWMAINSIZE">
+          <select ng-options="dia.code as dia.desc for dia in diameter" class="form-control" ng-model="flowData.FLOWMAINSIZE">
             <option value="">--Select--</option>
           </select>
         </div>
         <div class="form-group">
           <label for="staticPressure">Static Pressure</label>
-          <input type="number" class="form-control form-inputs" id="staticPressure" ng-model="flowData.STATICPRESSURE">
+          <input type="number" class="form-control" id="staticPressure" ng-model="flowData.STATICPRESSURE">
         </div>
         <div class="form-group">
           <label for="residualPressure">Residual Pressure</label>
-          <input type="number" class="form-control form-inputs" id="residualPressure" ng-model="flowData.RESIDUALPRESSURE">
+          <input type="number" class="form-control" id="residualPressure" ng-model="flowData.RESIDUALPRESSURE">
         </div>
         <div class="form-group">
           <label for="outLetDiameter">Outlet Diameter</label>
-          <input type="number" class="form-control form-inputs" id="outLetDiameter" ng-model="flowData.OUTLETDIAMETER">
+          <input type="number" class="form-control" id="outLetDiameter" ng-model="flowData.OUTLETDIAMETER">
         </div>
         <div class="form-group">
           <label for="outLetFlowing">Outlet Flowing</label>
-          <input type="number" class="form-control form-inputs" id="outLetFlowing" ng-model="flowData.OUTLETSFLOWING">
+          <input type="number" class="form-control" id="outLetFlowing" ng-model="flowData.OUTLETSFLOWING">
         </div>
         <div class="form-group">
           <label for="flowOutdischargePressure">Flow Hydrant Discharge Pressure</label>
-          <input type="number" class="form-control form-inputs" id="flowOutdischargePressure" ng-model="flowData.FHDISCHARGEPRESSURE">
+          <input type="number" class="form-control" id="flowOutdischargePressure" ng-model="flowData.FHDISCHARGEPRESSURE">
         </div>
         <div class="form-group">
           <label for="dischargeVolume">Volume of Discharge</label>
-          <input type="number" class="form-control form-inputs" id="dischargeVolume" ng-model="flowData.DISCHARGEVOLUME">
+          <input type="number" class="form-control" id="dischargeVolume" ng-model="flowData.DISCHARGEVOLUME">
         </div>
         <div class="form-group">
           <label for="flowhyddischargeCoeff">Flow Hydrant Discharge Coefficient</label>
-          <input type="number" class="form-control form-inputs" id="flowhyddischargeCoeff" ng-model="flowData.FHDISCHARGECOEFFICIENT">
+          <input type="number" class="form-control" id="flowhyddischargeCoeff" ng-model="flowData.FHDISCHARGECOEFFICIENT">
         </div>
         <div class="form-group">
           <label for="flowhyddischargeCoeff">Avaliable Fire Flow 20 psi</label>
@@ -105,27 +105,27 @@
         </div>
         <div class="form-group">
           <label for="testHydrantElevation">Test Hydrant Elevation</label>
-          <input type="number" class="form-control form-inputs" id="testHydrantElevation" ng-model="flowData.TESTHYDRANTELEVATION">
+          <input type="number" class="form-control" id="testHydrantElevation" ng-model="flowData.TESTHYDRANTELEVATION">
         </div>
         <div class="form-group">
           <label for="nearestElevatedTank">Nearest Elevated Tank</label>
-          <input type="text" class="form-control form-inputs" id="nearestElevatedTank" ng-model="flowData.NEARESTELEVATEDTANK">
+          <input type="text" class="form-control" id="nearestElevatedTank" ng-model="flowData.NEARESTELEVATEDTANK">
         </div>
         <div class="form-group">
           <label for="tankElevation">Tank Elevation</label>
-          <input type="text" class="form-control form-inputs" id="tankElevation" ng-model="flowData.TANKELEVATION">
+          <input type="text" class="form-control" id="tankElevation" ng-model="flowData.TANKELEVATION">
         </div>
         <div class="form-group">
           <label for="theorPressure">Theoretical Pressure</label>
-          <input type="number" class="form-control form-inputs" id="theorPressure" ng-model="flowData.THEORETICALPRESSURE">
+          <input type="number" class="form-control" id="theorPressure" ng-model="flowData.THEORETICALPRESSURE">
         </div>
         <div class="form-group">
           <label for="pressureZone">Pressure Zone</label>
-          <input type="text" class="form-control form-inputs" id="pressureZone" ng-model="flowData.PRESSUREZONE">
+          <input type="text" class="form-control" id="pressureZone" ng-model="flowData.PRESSUREZONE">
         </div>
         <div class="form-group">
           <label for="signature">Signature</label>
-          <input type="text" class="form-control form-inputs" id="signature" ng-model="flowData.SIGNATURE">
+          <input type="text" class="form-control" id="signature" ng-model="flowData.SIGNATURE">
         </div>
         <!-- <div class="form-group">
           <label for="resultsFile">Results File</label>
@@ -133,7 +133,7 @@
         </div> -->
         <div class="form-group">
           <label for="comments">Comments</label>
-          <textarea rows="3" class="form-control form-inputs" id="comments" ng-model="flowData.COMMENTS"></textarea>
+          <textarea rows="3" class="form-control" id="comments" ng-model="flowData.COMMENTS"></textarea>
         </div>
         <button type="submit" class="btn btn-primary pull-right">Submit</button>
         <button class="btn btn-warning pull-right" ng-click="goBack(false)">Go Back</button>
