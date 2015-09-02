@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pumprApp')
-  .directive('fireflowForm', function (fireflowFactory, Auth, agsDomains, elevationFactory) {
+  .directive('fireflowForm', function (fireflowFactory, Auth, agsDomains) {
     return {
       templateUrl: 'app/directives/fireflowForm/fireflowForm.html',
       transclude: true,
@@ -11,6 +11,7 @@ angular.module('pumprApp')
       },
       link: function (scope) {
         var user = Auth.getCurrentUser();
+        var today = new Date();
         scope.goBack = fireflowFactory.setFormStatus;
         scope.flowData = {};
 
@@ -27,7 +28,8 @@ angular.module('pumprApp')
               TESTFACILITYID: scope.hydrants[0].message.split(':')[1].trim(),
               FLOWFACILITYID: scope.hydrants[1].message.split(':')[1].trim(),
               APPLICANTNAME: user.name,
-              CONTACTEMAIL: user.email
+              CONTACTEMAIL: user.email,
+              TESTDATETIME: today
             });
 
 
