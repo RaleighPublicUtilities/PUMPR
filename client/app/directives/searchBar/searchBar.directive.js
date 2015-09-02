@@ -35,17 +35,22 @@ angular.module('pumprApp')
            return scope.newProject
             .then(function(res){
               console.log(res);
-              var results = res[0].features.concat(res[1].features, res[2].features);
+              if (Array.isArray(res)){
+                  var filtered = _.flatten(res);
+                  console.log(filtered);
+              }
 
-              if (results.length === 0){
+              if (Array.isArray(filtered) && res.length === 0){
                 scope.projects.push('Sorry Project Not Found...');
                 return scope.projects;
               }
               else{
-                  var filtered = results.map(function(item){
-                    return {group: 'Projects', name: item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID};
-                  });
-                  var results = _(filtered)
+                  // var filtered = results.map(function(item){
+                  //   return {group: 'Projects', name: item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID};
+                  // });
+                  var unique = _.uniq(filtered);
+                  console.log(unique);
+                  var results = _(unique)
                           .groupBy('group')
                           .map(function (g) {
                             g[0].firstInGroup = true;  // the first item in each group

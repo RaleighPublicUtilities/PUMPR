@@ -14,40 +14,59 @@ angular.module('pumprApp')
     }
 
     //Takes array of addresses and buffers results by 0.25 mile returns esri json multipolygon
-    function createBuffer(data, callback){
-      var fc, candidates, features, arcgisMultipolygon;
-      candidates = data.candidates;
+    function createBuffer(data){
+      var deferred = $q.defer();
+      var fc, features, arcgisMultipolygon;
 
-        features = candidates.map(function(item){
-          var rObj = turf.point([item.location.x, item.location.y], item.attributes),
+        if (Array.isArray(data)){
+        features = data.map(function(item){
+
+          var rObj = turf.point([item.location.x, item.location.y], item),
               buffered = turf.buffer(rObj, 0.25, 'miles');
               return buffered.features[0];
         });
-
         fc = turf.featurecollection(features);
-        arcgisMultipolygon = Terraformer.ArcGIS.convert(fc)
-        callback(arcgisMultipolygon);
+        arcgisMultipolygon = Terraformer.ArcGIS.convert(fc);
+        var output = {buffer: arcgisMultipolygon, addresses: data};
+        deferred.resolve(output)
+      }
+      else {
+        deferred.resolve([])
+      }
+      return deferred.promise;
       }
 
     //Takes esri json multipolygon and returns projects that intersect
-    function projectIntersect (data, geomType){
-      var projectOptions = {
-        layer: 'Project Tracking',
-        geojson: false,
-        actions: 'query',
-        params: {
-          f: 'json',
-          outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
-          where: "1=1",
-          returnGeometry: false,
-          orderByFields: 'PROJECTNAME ASC',
-          inSR: 4326,
-          geometryType: geomType,
-          geometry: data
-        }
-      };
+    function projectIntersect (data){
+      var deferred = $q.defer();
+      if (Array.isArray(data.buffer) && data.buffer.length > 0){
 
-      return agsServer.ptMs.request(projectOptions);
+        var projectOptions = {
+          layer: 'Project Tracking',
+          geojson: false,
+          actions: 'query',
+          params: {
+            f: 'json',
+            outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
+            where: "1=1",
+            returnGeometry: false,
+            orderByFields: 'PROJECTNAME ASC',
+            inSR: 4326,
+            geometryType: 'esriGeometryPolygon',
+            geometry: data.buffer[0].geometry
+          }
+        };
+
+         agsServer.ptMs.request(projectOptions)
+          .then(function(res){
+
+            deferred.resolve({projects: res, addresses: data.addresses})
+          })
+      }
+      else {
+        deferred.resolve(data.addresses)
+      }
+      return deferred.promise;
     }
 
     //Converts utilities boolean from 0 - 1 to ture - false
@@ -131,6 +150,50 @@ angular.module('pumprApp')
 
    }
 
+
+   function getAddresses (data){
+     var addresses;
+      var deferred = $q.defer();
+     if (Array.isArray(data.candidates) && data.candidates.length > 0){
+       addresses = data.candidates.map(function(a){
+         return {group: 'address', name: a.address, location: a.location}
+       });
+       deferred.resolve(addresses);
+     }
+     else{
+       deferred.resolve([]);
+     }
+     return deferred.promise;
+   }
+
+   function getProjectByAddress (data){
+     var deferred = $q.defer();
+     createBuffer(data)
+      .then(projectIntersect)
+      .then(function(info){
+        deferred.resolve(info);
+      })
+      .catch(function(err){
+        deferred.reject(err);
+      })
+     return deferred.promise;
+   }
+
+   function combineAddressProjectArray (res){
+     var deferred = $q.defer();
+     if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
+       var projects = res.projects.features.map(function(f){
+         return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
+       });
+       deferred.resolve(projects.concat(res.addresses));
+     }
+     else {
+       deferred.resolve(res.addresses || []);
+     }
+
+     return deferred.promise;
+   }
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     // Public API here
     var search = {
@@ -209,6 +272,7 @@ angular.module('pumprApp')
 
       //Search for a Project by metadata
       projects: function (typed){
+        var deferred = $q.defer();
         typed = clean4Ags(typed);
 
         var options = {
@@ -224,13 +288,24 @@ angular.module('pumprApp')
           }
         };
 
-        return agsServer.ptMs.request(options);
+        agsServer.ptMs.request(options)
+          .then(function(res){
+            var filter = res.features.map(function(f){
+              return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
+            });
+            deferred.resolve(filter);
+          })
+          .catch(function(err) {
+            deffer.reject(err);
+          });
+        return deferred.promise;
 
       },
 
       //Search project by location
       addresses: function(typed){
         var deferred = $q.defer();
+        var addresses, filter;
         typed = clean4Ags(typed);
 
           var addressOptions  = {
@@ -243,28 +318,14 @@ angular.module('pumprApp')
           };
 
         agsServer.geocoder(addressOptions)
+          .then(getAddresses)
+          .then(getProjectByAddress)
+          .then(combineAddressProjectArray)
           .then(function(data){
-
-            if (Array.isArray(data.candidates) && data.candidates.length > 0){
-
-              createBuffer(data,function(buffer){
-                projectIntersect(buffer[0].geometry, 'esriGeometryPolygon')
-                  .then(function(res){
-                    deferred.resolve(res);
-                  })
-                  .catch(function(err){
-                    deffer.reject(err);
-                  });
-
-              });
-
-            }
-            else{
-              deferred.resolve({features: []});
-            }
+            deferred.resolve(data);
           })
           .catch(function(err){
-             deferred.reject(err);
+            deferred.reject(err);
           });
 
           return deferred.promise;
@@ -406,11 +467,11 @@ angular.module('pumprApp')
               });
             }
             else {
-              deferred.resolve({features: []});
+              deferred.resolve([]);
             }
         }
         else{
-          deferred.resolve({features: []});
+          deferred.resolve([]);
         }
         return deferred.promise;
       },
@@ -453,7 +514,7 @@ angular.module('pumprApp')
         };
 
         return $http(req);
-        
+
       },
 
       //Searches all posible options returns promise when all resolve
