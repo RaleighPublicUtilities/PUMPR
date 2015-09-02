@@ -1,5 +1,5 @@
 <div class="inner-addon right-addon">
-  <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500">
+  <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project as project.name for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500" typeahead-template-url="components/search/search.html">
   <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
 </div>
 <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>

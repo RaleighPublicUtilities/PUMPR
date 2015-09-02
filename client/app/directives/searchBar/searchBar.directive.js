@@ -42,9 +42,21 @@ angular.module('pumprApp')
                 return scope.projects;
               }
               else{
-                  return results.map(function(item){
-                    return item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID;
+                  var filtered = results.map(function(item){
+                    return {group: 'Projects', name: item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID};
                   });
+                  var results = _(filtered)
+                          .groupBy('group')
+                          .map(function (g) {
+                            g[0].firstInGroup = true;  // the first item in each group
+                            return g;
+                          })
+                          .flatten()
+                          .value();
+
+                        console.log(results);
+
+                        return results;
               }
 
             })
@@ -64,16 +76,16 @@ angular.module('pumprApp')
           console.log(scope.view);
           switch(scope.view){
             case 'main':
-              $location.url('/project/' + typed.split(':')[2]);
+              $location.url('/project/' + typed.name.split(':')[2]);
             break;
             case 'addDoc':
-              $location.path('/addDocument/' + typed.split(':')[2]);
+              $location.path('/addDocument/' + typed.name.split(':')[2]);
             break;
             case 'addProj':
 
             break;
             default:
-              $location.url('/project/' + typed.split(':')[2]);
+              $location.url('/project/' + typed.name.split(':')[2]);
           }
         };
 
