@@ -34,10 +34,10 @@ angular.module('pumprApp')
           scope.newProject = search.all(typed);
            return scope.newProject
             .then(function(res){
-              console.log(res);
+
               if (Array.isArray(res)){
                   var filtered = _.flatten(res);
-                  console.log(filtered);
+
               }
 
               if (Array.isArray(filtered) && res.length === 0){
@@ -45,11 +45,9 @@ angular.module('pumprApp')
                 return scope.projects;
               }
               else{
-                  // var filtered = results.map(function(item){
-                  //   return {group: 'Projects', name: item.attributes.PROJECTNAME + ':' + item.attributes.DEVPLANID + ':' + item.attributes.PROJECTID};
-                  // });
+
                   var unique = _.uniq(filtered);
-                  console.log(unique);
+
                   var results = _(unique)
                           .groupBy('group')
                           .map(function (g) {
@@ -59,14 +57,13 @@ angular.module('pumprApp')
                           .flatten()
                           .value();
 
-                        console.log(results);
+
 
                         return results;
               }
 
             })
             .catch(function(err){
-              console.log(err);
               scope.projectError = true;
             });
 
