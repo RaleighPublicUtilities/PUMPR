@@ -82,10 +82,11 @@ angular.module('pumprApp')
                 $location.url('/project/' + typed.name.split(':')[2]);
               }
               else if (typed.group === 'address'){
-                alert('Address:', typed.location)
+                $location.path('/map/' + typed.location.x + '/' + typed.location.y);
               }
               else if (typed.group === 'facilityid'){
                 alert('FACLITYID:', typed.location.x)
+                $location.path('/map/' + typed.location.x + '/' + typed.location.y);
               }
             break;
             case 'addDoc':
