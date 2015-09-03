@@ -75,10 +75,18 @@ angular.module('pumprApp')
           if (typed === 'Sorry Project Not Found...'){
             return;
           }
-          console.log(scope.view);
+          console.log(typed);
           switch(scope.view){
             case 'main':
-              $location.url('/project/' + typed.name.split(':')[2]);
+              if (typed.group === 'project'){
+                $location.url('/project/' + typed.name.split(':')[2]);
+              }
+              else if (typed.group === 'address'){
+                alert('Address:', typed.location)
+              }
+              else if (typed.group === 'facilityid'){
+                alert('FACLITYID:', typed.location.x)
+              }
             break;
             case 'addDoc':
               $location.path('/addDocument/' + typed.name.split(':')[2]);
