@@ -1,3 +1,7 @@
+<div class="tint"></div>
+<div ng-include="'components/navbar/navbar.html'"></div>
+
 <div class="col-md-12">
-This is the map view.
+  <!-- <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div> -->
+  <leaflet id="main-map" center="center" layers="layers" event-broadcast="events" ></leaflet>
 </div>
