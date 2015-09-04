@@ -2,6 +2,8 @@
 
 angular.module('pumprApp')
   .controller('MapCtrl', function ($scope, $location, Auth, mapLayers, leafletData) {
+    //Make map height 100%
+    angular.element('body').find('div').addClass('fullScreen');
     var center, markers = {};
     var searchObject = $location.search();
     console.log(searchObject)
@@ -49,8 +51,7 @@ angular.module('pumprApp')
     //   center.zoom = 13;
     // }
 
-    //Make map height 100%
-    angular.element('body').find('div').addClass('fullScreen');
+
     //Get token from ArcGIS Server
     $scope.agsToken = Auth.getAgolToken();
     $scope.searchStatus = false;
