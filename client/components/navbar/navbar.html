@@ -19,9 +19,10 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li ng-class="{active: isActive('/map')}"><a href="/map">map</a></li>
+        <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/map')}"><a href="/map">Map</a></li>
         <li ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></li>
         <li ng-show="isLoggedIn()"><p class="navbar-text">Hello {{ getCurrentUser().name }}</p> </li>
+        <li ng-show="isLoggedIn()" ng-class="{active: isActive('/map')}"><a href="/map">Map</a></li>
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/addProject')}"><a href="/addProject">Add Projects</a></li>
         <li ng-show="isLoggedIn()" ng-class="{active: isActive('/addDocument')}"><a href="/addDocument">Add Documents</a></li>
         <li ng-show="isSuperuser()" ng-class="{active: isActive('/addEngineeringFirm')}"><a href="/addEngineeringFirm">Add Engineering Firm</a></li>

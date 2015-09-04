@@ -1,7 +1,20 @@
 <div class="tint"></div>
 <div ng-include="'components/navbar/navbar.html'"></div>
 
+<!-- <div id="searchBar">
+<div class="inner-addon right-addon">
+  <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control mapSearchStyle" typeahead-wait-ms="500">
+  <i class="glyphicon glyphicon-search" aria-hidden="true" style="color:#fff"></i>
+</div>
+<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+<div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
+<div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>Please try again.</div>
+</div> -->
+
+
+
 <div class="col-md-12">
+  <search-bar id="searchBar" view="map"></search-bar>
   <!-- <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div> -->
   <leaflet ng-hide="formStatus()" id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
   <fireflow id="flowControl" hydrants="markers"></fireflow>

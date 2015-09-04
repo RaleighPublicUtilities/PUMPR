@@ -76,7 +76,41 @@ angular.module('pumprApp')
       });
 
       map.addControl(new flowControl());
+
+      //Adds search bar to map
+        var searchBar = L.Control.extend({
+          options: {
+            position: 'topleftish'
+          },
+
+          onAdd: function (map) {
+            var $controlContainer = map._controlContainer,
+                nodes = $controlContainer.childNodes,
+                topleftish = false;
+
+            for (var i = 0, len = nodes.length; i < len; i++) {
+                var klass = nodes[i].className;
+                if (/leaflet-top/.test(klass) && /leaflet-leftish/.test(klass)) {
+                  topleftish = true;
+                    break;
+                }
+            }
+            if (!topleftish) {
+                var tc = document.createElement('div');
+                tc.className += 'leaflet-top leaflet-leftish';
+                $controlContainer.appendChild(tc);
+                map._controlCorners.topleftish = tc;
+            }
+            this._map = map;
+            this._container = L.DomUtil.get('searchBar');
+              return this._container;
+          }
+      });
+
+      map.addControl(new searchBar());
     });
+
+
 
 
     $scope.$on('leafletDirectiveMap.click', function(event, args){

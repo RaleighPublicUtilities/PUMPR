@@ -82,17 +82,20 @@ angular.module('pumprApp')
                 $location.url('/project/' + typed.name.split(':')[2]);
               }
               else if (typed.group === 'address'){
-                $location.path('/map/' + typed.location.x + '/' + typed.location.y);
+                // $location.path('/map/' + typed.location.x + '/' + typed.location.y);
+                  var path =  '/map?' + $.param(typed);
+                  location = path;
               }
               else if (typed.group === 'facilityid'){
-                alert('FACLITYID:', typed.location.x)
-                $location.path('/map/' + typed.location.x + '/' + typed.location.y);
+                var path =  '/map?' + $.param(typed);
+                location = path;
               }
             break;
             case 'addDoc':
               $location.path('/addDocument/' + typed.name.split(':')[2]);
             break;
-            case 'addProj':
+            case 'map':
+
 
             break;
             default:
