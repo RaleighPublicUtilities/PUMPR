@@ -116,12 +116,11 @@
           <img class="img-responsive img-thumbnail itpipes-margin" ng-src="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/{{mainImage}}" alt="img.File_Type"/>
         </tab>
         <tab heading="Video" select="">
-          <object class="itpipes-margin" type="video/x-ms-wmv" data="http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/Mainline/SMH116624SMH112324/2014.09.26_0935/Videos/1_SMH116624_SMH112324.wmv" width="574" height="430" z-index:1="" title="undefined">
-            <param name="autostart" value="false">
-            <param name="sound" value="false">
-            <param name="controller" value="true">
-            <param name="wmode" value="transparent">
-          </object>
+          <video width="320" height="240" controls>
+            <!-- <source src="/api/itpipes/steamystream" type="video/mp4"> -->
+
+          Your browser does not support the video tag.
+          </video>
         </tab>
       </tabset>
       <div class="row">
@@ -152,7 +151,7 @@
               <th>Jnt</th>
             </thead>
             <tbody>
-              <tr ng-repeat="img in imgs">
+              <tr ng-repeat="img in imgs | orderBy: 'Dist'">
                 <td>{{img.Dist | number:2}}</td>
                 <td>{{img.Code}}</td>
                 <td>{{img.Description}}</td>

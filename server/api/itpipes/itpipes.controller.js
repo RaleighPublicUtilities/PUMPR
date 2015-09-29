@@ -2,23 +2,53 @@
 
 var _ = require('lodash');
 var mssql = require('mssql');
+var ffmpeg = require('fluent-ffmpeg');
 var Itpipes = require('./itpipes.model');
+var request = require('request');
+var fs = require('fs');
 
-function getImgId (vids, cb){
-  var ids;
-  if (vids.length > 1){
-    ids = vids.map(function(vid){
-      return vid.MLI_ID;
-    });
-  }
-  else if (vids.length === 1){
-    ids = [vids[0].MLI_ID];
-  }
-  else {
-    ids = [];
-  }
-  cb(ids);
-}
+
+exports.streamVideo = function(req, res){
+  var myWmv = 'http://telepipeprdapp1.ci.raleigh.nc.us/ITMedia/Mainline/SMH116624SMH112324/2014.09.26_0935/Videos/1_SMH116624_SMH112324.wmv';
+  // request
+  //   .get(myWmv)
+  //   .on('error', function(err) {
+  //     console.log(err)
+  //   })
+  //   .pipe(fs.createWriteStream('temp.wmv'))
+  //   .on('finish', function(){
+  //     console.log('Downloaded WMV')
+
+      res.contentType('mp4');
+      var temp = 'temp.wmv'; //fs.createReadStream('temp.wmv');
+      ffmpeg(myWmv)
+      .addOption(['-c:v libx264', '-s 320x240', '-crf 23', '-c:a libfaac', '-q:a 100', '-f mp4'])
+      // .outputOptions('-f mp4')
+      // .outputOptions('-movflags frag_keyframe+empty_moov')
+      // .videoCodec('libx264')
+      // .audioCodec('libfaac')
+      // .output('output.mp4')
+      .on('end', function() {
+          console.log('file has been converted succesfully');
+          fs.createReadStream('output.mp4').pipe(res);
+        })
+        .on('start', function(cmd) {
+          console.log('Started ' + cmd);
+        })
+        .on('progress', function(progress) {
+          console.log('Processing: ' + progress.percent + '% done');
+        })
+        .on('error', function(err,stdout,stderr) {
+          console.log('an error happened: ' + err.message);
+          console.log('ffmpeg stdout: ' + stdout);
+          console.log('ffmpeg stderr: ' + stderr);
+        })
+        // save to stream
+        .save('output.mp4');
+    // })
+
+
+};
 
 
 /**
@@ -173,3 +203,19 @@ exports.find = function(req, res){
     res.status(500).json({error: 'Lost Connection'}).end();
   }
 }; //end find
+
+function getImgId (vids, cb){
+  var ids;
+  if (vids.length > 1){
+    ids = vids.map(function(vid){
+      return vid.MLI_ID;
+    });
+  }
+  else if (vids.length === 1){
+    ids = [vids[0].MLI_ID];
+  }
+  else {
+    ids = [];
+  }
+  cb(ids);
+}

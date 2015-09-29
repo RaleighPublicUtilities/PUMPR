@@ -30,28 +30,13 @@ angular.module('pumprApp')
       case 'facilityid':
         break;
       default:
-
+      center = {
+         lat: 35.77882840327371,
+         lng: -78.63945007324219,
+        zoom: 13
+      };
     }
-    // var path = $location.path().split('/');
-    // var center = {
-    //   lat: parseFloat(path[3]) || 35.77882840327371,
-    //   lng: parseFloat(path[2]) || -78.63945007324219,
-    //   zoom: 19
-    // };
-    // if(path.length === 4){
-    //    markers = {
-    //      address: {
-    //        lat: parseFloat(path[3]),
-    //        lng: parseFloat(path[2])
-    //      }
-    //   }
-    // }
-    // else {
-    //   markers = {};
-    //   center.zoom = 13;
-    // }
-
-
+  
     //Get token from ArcGIS Server
     $scope.agsToken = Auth.getAgolToken();
     $scope.searchStatus = false;
