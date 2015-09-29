@@ -83,6 +83,7 @@ function createPopup (feature, layer) {
       newScope = $scope.$new();
       newScope.features = feature.properties;
       newScope.featuresGroup = selectedFeatures;
+
   layer.bindPopup(linkFunction(newScope)[0], {
     maxHeight: 300
   });
