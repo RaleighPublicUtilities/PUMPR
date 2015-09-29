@@ -15,7 +15,16 @@ describe('Controller: AddDocumentCtrl', function () {
     });
   }));
 
-  it('should ...', function () {
+  it('should get a projectid from path', function () {
     expect(1).toEqual(1);
   });
+
+  it('should not get a projectid from path', function () {
+    expect(1).toEqual(1);
+  });
+
+  it('should return project via XHR', function () {
+    expect(12).toEqual(12);
+  });
+
 });

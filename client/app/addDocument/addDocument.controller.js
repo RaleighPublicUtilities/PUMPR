@@ -17,7 +17,7 @@
       var self = this;
 
       self.path = $location.path();
-      self.projectid;
+      self.projectid = undefined;
       self.reload = reload;
 
       activate();
@@ -69,7 +69,7 @@
         }
         //Activates table view
         $scope.searchStatus = true;
-        $scope.project_docs = true;
+        $scope.projectDocs = true;
       }
 
       function reload() {
