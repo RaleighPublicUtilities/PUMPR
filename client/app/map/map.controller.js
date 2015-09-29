@@ -4,7 +4,7 @@ angular.module('pumprApp')
   .controller('MapCtrl', function ($scope, $location, Auth, mapLayers, leafletData) {
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
-    var center, markers = {};
+    var center, markers = {}, paths = {};
     var searchObject = $location.search();
     console.log(searchObject)
     switch (searchObject.group){
@@ -28,6 +28,44 @@ angular.module('pumprApp')
        }
         break;
       case 'facilityid':
+        if(searchObject.hasOwnProperty("location[x]")){
+          center = {
+             lat: parseFloat(searchObject["location[y]"])|| 35.77882840327371,
+             lng: parseFloat(searchObject["location[x]"]) || -78.63945007324219,
+            zoom: 19
+          };
+          markers = {
+            address: {
+              lat: parseFloat(searchObject["location[y]"]),
+              lng: parseFloat(searchObject["location[x]"]),
+              label: {
+                message: searchObject.name,
+                options: {
+                  noHide: true
+                }
+              }
+            }
+         }
+        }
+        else {
+          center = {
+             lat: parseFloat(searchObject["location[paths][0][0][]"][1])|| 35.77882840327371,
+             lng: parseFloat(searchObject["location[paths][0][0][]"][0]) || -78.63945007324219,
+            zoom: 19
+          };
+          paths = {
+            path: {
+              color: 'red',
+              weight: 8,
+              latlngs: [
+                {lat: parseFloat(searchObject["location[paths][0][0][]"][1]), lng: parseFloat(searchObject["location[paths][0][0][]"][0])},
+                {lat: parseFloat(searchObject["location[paths][0][1][]"][1]), lng: parseFloat(searchObject["location[paths][0][1][]"][0])}
+              ],
+              message: '<h3>' + searchObject.name + '</h3>',
+            }
+         }
+        }
+
         break;
       default:
       center = {
@@ -36,7 +74,7 @@ angular.module('pumprApp')
         zoom: 13
       };
     }
-  
+
     //Get token from ArcGIS Server
     $scope.agsToken = Auth.getAgolToken();
     $scope.searchStatus = false;
@@ -58,7 +96,8 @@ angular.module('pumprApp')
           logic: 'emit'
         }
       },
-      markers: markers
+      markers: markers,
+      paths: paths
     });
 
   });
