@@ -1,5 +1,5 @@
 <div ng-if="choice">
-  <h1 ng-if="props['Project Name']" class="popbody">{{props['Project Name']}}</h1>
+  <h1 ng-if="props['Project Name']" class="popbody"><a ng-href="/project/{{props['Project ID']}}" title="Go to project page">{{props['Project Name']}}</a></h1>
   <project-table id="mapTable" project="props" type="project"></project-table>
 </div>
 
