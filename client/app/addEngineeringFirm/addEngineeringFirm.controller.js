@@ -1,3 +1,9 @@
+/**
+ * addEngineeringFirm Controller
+ * @namespace Controller
+ * @desc Adds new engineering firms to table
+ */
+
 (function(){
   'use strict';
   angular
@@ -97,6 +103,7 @@
         });
     	}
 
+      //Finds matching addesses in address feature class
       function findAddress(typed) {
         var typed = typed.toUpperCase();
         var options = {
