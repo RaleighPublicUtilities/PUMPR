@@ -16,7 +16,7 @@
   function AdminCtrl($scope, $http, Auth, User) {
     var self = this;
 
-    self.roles = [
+    $scope.roles = [
       {role: 'admin'},
       {role:'superuser'},
       {role: 'eng'},
