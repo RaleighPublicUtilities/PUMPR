@@ -594,7 +594,8 @@
         deferred = $q.defer();
         if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
           projects = res.projects.features.map(function(f){
-            return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID};
+            f = f.attributes;
+            return {group: 'project', name: f.PROJECTNAME + ':' + f.DEVPLANID + ':' + f.PROJECTID};
           });
           projects = projects.splice(0,5);
           res.addresses = res.addresses.splice(0,5);
@@ -693,14 +694,15 @@
       *@returns {HttpPromise}
       */
       function combineFacidsProjectsArray(res) {
-        var deferred = $q.defer();
+        var projects, deferred = $q.defer();
         if (res === undefined || (Array.isArray(res) && res.length === 0)){
           deferred.resolve([]);
         }
         else{
           if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
-            var projects = res.projects.features.map(function(f){
-              return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
+            projects = res.projects.features.map(function(f){
+              f = f.attributes;
+              return {group: 'project', name: f.PROJECTNAME + ':' + f.DEVPLANID + ':' + f.PROJECTID}
             });
             projects = projects.splice(0,5);
             res.facid = res.facid.splice(0,5);
@@ -714,5 +716,5 @@
       }
 
     }
-    
+
 })();
