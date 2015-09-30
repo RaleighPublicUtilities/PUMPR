@@ -1,3 +1,9 @@
+/**
+ * addressSearch Directive
+ * @namespace Directive
+ * @desc Auto fill address form element
+ */
+
 (function() {
   'use strict';
 
