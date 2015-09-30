@@ -536,139 +536,183 @@
         return deferred.promise;
       }
 
-
-   function getAddresses (data){
-     var addresses;
-      var deferred = $q.defer();
-     if (Array.isArray(data.candidates) && data.candidates.length > 0){
-       addresses = data.candidates.map(function(a){
-         return {group: 'address', name: a.address, location: a.location};
-       });
-       deferred.resolve(addresses);
-     }
-     else{
-       deferred.resolve([]);
-     }
-     return deferred.promise;
-   }
-
-   function getProjectByAddress (data){
-     var deferred = $q.defer();
-       createBuffer(data)
-        .then(projectIntersect)
-        .then(function(info){
-          deferred.resolve(info);
-        })
-        .catch(function(err){
-          deferred.reject([]);
-        });
-     return deferred.promise;
-   }
-
-   function combineAddressProjectArray (res){
-     var deferred = $q.defer();
-     if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
-       var projects = res.projects.features.map(function(f){
-         return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID};
-       });
-       projects = projects.splice(0,5);
-       res.addresses = res.addresses.splice(0,5);
-       deferred.resolve(projects.concat(res.addresses));
-     }
-     else {
-       deferred.resolve(res.addresses || []);
-     }
-
-     return deferred.promise;
-   }
-
-   function setFacilityIdsServer (typed){
-     var deferred = $q.defer(),
-         facidList, len, i;
-
-    typed = clean4Ags(typed);
-
-     if (typed.length > 4 && (typed[0] === 'S' || typed[0] === 'W')){
-       facidList = typed[0] === 'S' ? facilityIdFactory.sfids : facilityIdFactory.wfids;
-       len = facidList.length;
-       for (i = 0; i < len; i++){
-         if (typed.search(facidList[i].tag) === 0){
-           facidList = facidList[i];
-           break;
-         }
-       }
-       if (!Array.isArray(facidList)){
-         deferred.resolve({facidList: facidList, typed: typed});
+      /**
+      *@type method
+      *@access private
+      *@name getAddresses
+      *@desc Prepares address data for grouped search results
+      *@param {Object} data - Address candidates returned form server
+      *@returns {HttpPromise}
+      */
+      function getAddresses(data) {
+        var addresses, deferred;
+        deferred = $q.defer();
+        if (Array.isArray(data.candidates) && data.candidates.length > 0){
+          addresses = data.candidates.map(function(a){
+            return {group: 'address', name: a.address, location: a.location};
+          });
+          deferred.resolve(addresses);
+        }
+        else{
+          deferred.resolve([]);
+        }
+        return deferred.promise;
       }
+
+      /**
+      *@type method
+      *@access private
+      *@name getProjectByAddress
+      *@desc Gets nearby projects by address
+      *@param {Array} data - Array of addresses
+      *@returns {HttpPromise}
+      */
+      function getProjectByAddress(data) {
+        var deferred = $q.defer();
+
+        createBuffer(data)
+          .then(projectIntersect)
+          .then(function(info){
+            deferred.resolve(info);
+          })
+          .catch(function(err){
+            deferred.reject([]);
+          });
+        return deferred.promise;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name combineAddressProjectArray
+      *@desc Combines project and address arrays from grouped search
+      *@param {Object} res - Object containing project and address arrays
+      *@returns {HttpPromise}
+      */
+      function combineAddressProjectArray(res) {
+        var projects, deferred;
+        deferred = $q.defer();
+        if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
+          projects = res.projects.features.map(function(f){
+            return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID};
+          });
+          projects = projects.splice(0,5);
+          res.addresses = res.addresses.splice(0,5);
+          deferred.resolve(projects.concat(res.addresses));
+        }
+        else {
+          deferred.resolve(res.addresses || []);
+        }
+        return deferred.promise;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name setFacilityIdsServer
+      *@desc Determines which feature service facility id belongs too
+      *@param {String} typed - Facility ID
+      *@returns {HttpPromise}
+      */
+      function setFacilityIdsServer(typed) {
+        var facidList, len, i, deferred = $q.defer();
+        typed = clean4Ags(typed);
+
+        if (typed.length > 4 && (typed[0] === 'S' || typed[0] === 'W')){
+          facidList = typed[0] === 'S' ? facilityIdFactory.sfids : facilityIdFactory.wfids;
+          len = facidList.length;
+          for (i = 0; i < len; i++){
+            if (typed.search(facidList[i].tag) === 0){
+              facidList = facidList[i];
+              break;
+            }
+          }
+          if (!Array.isArray(facidList)){
+            deferred.resolve({facidList: facidList, typed: typed});
+          }
+        }
+        else {
+          deferred.resolve([]);
+        }
+        return deferred.promise;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name getFacids
+      *@desc Query's feature service for facilityid
+      *@param {String} inData
+      *@returns {HttpPromise}
+      */
+      function getFacids(inData) {
+        var deferred = $q.defer(), options;
+        if (Array.isArray(inData) && inData.length === 0){
+          deferred.resolve([]);
+        }
+        else {
+          options = {
+            geojson: false,
+            actions: 'query',
+            params: {
+              f: 'json',
+              outFields: 'FACILITYID',
+              where: "FACILITYID like '%" + inData.typed + "%'",
+              returnGeometry: true,
+              orderByFields: 'FACILITYID ASC',
+              outSR: 4326
+            }
+          };
+
+          options.layer = inData.facidList.name;
+          agsServer[inData.facidList.server].request(options)
+            .then(function(data){
+              if (Array.isArray(data.features) && data.features.length === 0){
+                deferred.resolve([]);
+              }
+              else{
+                var facilityids = data.features.map(function(f){
+                  return {group: 'facilityid', name: f.attributes.FACILITYID, location: f.geometry};
+                });
+                deferred.resolve({points: data, facid: facilityids});
+              }
+            })
+            .catch(function(err){
+              deferred.resolve([]);
+            });
+        }
+        return deferred.promise;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name combineFacidsProjectsArray
+      *@desc Combines facilityids and project arrays for group display
+      *@param {Object} res - Contains project and facilityid arrays
+      *@returns {HttpPromise}
+      */
+      function combineFacidsProjectsArray(res) {
+        var deferred = $q.defer();
+        if (res === undefined || (Array.isArray(res) && res.length === 0)){
+          deferred.resolve([]);
+        }
+        else{
+          if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
+            var projects = res.projects.features.map(function(f){
+              return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
+            });
+            projects = projects.splice(0,5);
+            res.facid = res.facid.splice(0,5);
+            deferred.resolve(projects.concat(res.facid));
+          }
+          else {
+            deferred.resolve(res.facid || []);
+          }
+        }
+        return deferred.promise;
+      }
+
     }
-    else {
-      deferred.resolve([]);
-    }
-    return deferred.promise;
-   }
-
-   function getFacids (inData){
-     var deferred = $q.defer(), options;
-     if (Array.isArray(inData) && inData.length === 0){
-       deferred.resolve([]);
-     }
-     else{
-
-       options = {
-           geojson: false,
-           actions: 'query',
-           params: {
-             f: 'json',
-             outFields: 'FACILITYID',
-             where: "FACILITYID like '%" + inData.typed + "%'",
-             returnGeometry: true,
-             orderByFields: 'FACILITYID ASC',
-             outSR: 4326
-           }
-         };
-
-         options.layer = inData.facidList.name;
-         agsServer[inData.facidList.server].request(options)
-           .then(function(data){
-
-             if (Array.isArray(data.features) && data.features.length === 0){
-               deferred.resolve([]);
-             }
-             else{
-               var facilityids = data.features.map(function(f){
-                 return {group: 'facilityid', name: f.attributes.FACILITYID, location: f.geometry};
-               });
-               deferred.resolve({points: data, facid: facilityids});
-             }
-           })
-           .catch(function(err){
-             deferred.resolve([]);
-           });
-         }
-
-     return deferred.promise;
-   }
-
-   function combineFacidsProjectsArray (res) {
-     var deferred = $q.defer();
-     if (res === undefined || (Array.isArray(res) && res.length === 0)){
-       deferred.resolve([]);
-     }
-     else{
-       if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
-         var projects = res.projects.features.map(function(f){
-           return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
-         });
-         projects = projects.splice(0,5);
-         res.facid = res.facid.splice(0,5);
-         deferred.resolve(projects.concat(res.facid));
-       }
-       else {
-         deferred.resolve(res.facid || []);
-       }
-     }
-     return deferred.promise;
-   }
-
-  }
+    
 })();
