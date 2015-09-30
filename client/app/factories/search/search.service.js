@@ -27,6 +27,7 @@
 
       /**
       *@type method
+      *@access public
       *@name project
       *@desc Querys a single project from database by its project id
       *@param {Number} projectid
@@ -52,6 +53,7 @@
 
       /**
       *@type method
+      *@access public
       *@name getDocument
       *@desc Get details on a single document
       *@param {String} doc - The document search string (ex. <projectid>-<doctypeid>-<docid>)
@@ -75,6 +77,7 @@
 
       /**
       *@type method
+      *@access public
       *@name documents
       *@desc Find all documents for a single project
       *@param {Number} projectid
@@ -110,6 +113,7 @@
 
       /**
       *@type method
+      *@access public
       *@name display
       *@desc Display view for project with aliases for engineering firms, document types and sheettypes
       *@param {Number} projectid
@@ -125,6 +129,7 @@
 
       /**
       *@type method
+      *@access public
       *@name display
       *@desc Search for project by name, development plan id, project id, alias or formername
       *@param {String} typed - Project Identifier
@@ -172,6 +177,7 @@
 
       /**
       *@type method
+      *@access public
       *@name addresses
       *@desc Search for project or address by address
       *@param {String} typed - Full Address
@@ -209,6 +215,7 @@
 
       /**
       *@type method
+      *@access public
       *@name facilityids
       *@desc Find documents by facilityid
       *@param {String} typed - Facility ID
@@ -233,17 +240,32 @@
 
       }
 
-      //Lookup project by permit #
-      function permits(){
+      /**
+      *@todo This method is not implemented
+      *@type method
+      *@access public
+      *@name street
+      *@desc Lookup project by permit #
+      *@param {String} permitNum - permit number
+      *@returns {HttpPromise}
+      */
+      function permits(permitNum){
         return;
       }
 
-      //Lookup Address
+      /**
+      *@type method
+      *@access public
+      *@name street
+      *@desc Lookup address
+      *@param {String} typed - Address
+      *@returns {HttpPromise}
+      */
       function street(typed){
+        var options;
         typed = clean4Ags(typed);
 
-        //Reused options for location and address search
-        var options = {
+        options = {
           layer: 'Streets',
           geojson: true,
           actions: 'query',
@@ -261,22 +283,32 @@
 
       }
 
-      //Gets itpipes date for a given sewer gravity main or force main
+      /**
+      *@type method
+      *@access public
+      *@name itpipes
+      *@desc Gets itpipes data for a given sewer gravity main or force main
+      *@param {String} facid - Facility ID
+      *@returns {HttpPromise}
+      */
       function itpipes(facid) {
-
         var req = {
           method: 'GET',
           url: '/api/itpipes',
           params: { id: facid }
         };
-
         return $http(req);
-
       }
 
-      //Searches all posible options returns promise when all resolve
+      /**
+      *@type method
+      *@access public
+      *@name all
+      *@desc Searches projects, addresses and facility ids
+      *@param {String} typed - Any search term
+      *@returns {HttpPromise}
+      */
       function all(typed) {
-        //Generate promises for all search vectors
         var projects = this.projects(typed),
             addresses = this.addresses(typed),
             // permits = this.permits(typed);
@@ -286,36 +318,49 @@
 
       }
 
-    //Private
-    //Clean data before searching in ArcGIS Server
-    function clean4Ags(typed){
-      typed = typed.toUpperCase();
-      //Allows apostrophe (single quote) to be searched
-      typed = typed.replace("'", "''");
-      return typed;
-    }
 
-    //Takes array of addresses and buffers results by 0.25 mile returns esri json multipolygon
-    function createBuffer(data){
-      var deferred = $q.defer();
-      var fc, features, arcgisMultipolygon;
+      /**
+      *@type method
+      *@access private
+      *@name clean4Ags
+      *@desc Clean data before searching in ArcGIS Server
+      *@param {String} typed - Any search term
+      *@returns {String}
+      */
+      function clean4Ags(typed) {
+        typed = typed.toUpperCase();
+        //Allows apostrophe (single quote) to be searched
+        typed = typed.replace("'", "''");
+        return typed;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name createBuffer
+      *@desc Takes array of addresses and buffers results by 0.25 mile returns esri json multipolygon
+      *@param {Array} data - Array of addresses
+      *@returns {HttpPromise}
+      */
+      function createBuffer(data){
+        var deferred, fc, features, arcgisMultipolygon, rObj, buffered, output;
+        deferred = $q.defer();
 
         if (Array.isArray(data)){
-        features = data.map(function(item){
-
-          var rObj = turf.point([item.location.x, item.location.y], item),
-              buffered = turf.buffer(rObj, 0.25, 'miles');
-              return buffered.features[0];
-        });
-        fc = turf.featurecollection(features);
-        arcgisMultipolygon = Terraformer.ArcGIS.convert(fc);
-        var output = {buffer: arcgisMultipolygon, addresses: data};
-        deferred.resolve(output);
-      }
-      else {
-        deferred.resolve([]);
-      }
-      return deferred.promise;
+          features = data.map(function(item){
+            rObj = turf.point([item.location.x, item.location.y], item);
+            buffered = turf.buffer(rObj, 0.25, 'miles');
+            return buffered.features[0];
+          });
+          fc = turf.featurecollection(features);
+          arcgisMultipolygon = Terraformer.ArcGIS.convert(fc);
+          output = {buffer: arcgisMultipolygon, addresses: data};
+          deferred.resolve(output);
+        }
+        else {
+          deferred.resolve([]);
+        }
+        return deferred.promise;
       }
 
     //Takes esri json multipolygon and returns projects that intersect
