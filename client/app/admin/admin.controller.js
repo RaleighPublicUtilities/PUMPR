@@ -1,32 +1,36 @@
-'use strict';
+/**
+ * Admin Controller
+ * @namespace Controller
+ * @desc Allows users to be deleted and have roles changed
+ */
 
-angular.module('pumprApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User) {
+(function() {
+  'use strict';
 
-    // Use the User $resource to fetch all users
-    $scope.users = User.query();
+  angular
+    .module('pumprApp')
+    .controller('AdminCtrl', AdminCtrl);
 
-    $scope.delete = function(user) {
-      User.remove({ id: user._id });
-      angular.forEach($scope.users, function(u, i) {
-        if (u === user) {
-          $scope.users.splice(i, 1);
-        }
-      });
-    };
+    AdminCtrl.$inject = ['$scope', '$http', 'Auth', 'User'];
 
-    $scope.roles = [
+  function AdminCtrl($scope, $http, Auth, User) {
+    var self = this;
+
+    self.roles = [
       {role: 'admin'},
       {role:'superuser'},
       {role: 'eng'},
       {role: 'fireflow'},
       {role:'user'}
     ];
-    // $scope.selectedRole;
+    $scope.delete = deleteUser;
+    $scope.changeRole = changeRole;
+    $scope.users = User.query();
 
-    $scope.changeRole = function(user, role){
-      var targ;
-      if (!e) var e = window.event;
+    //changes users role
+    function changeRole(user, role){
+      var targ, e;
+      if (!e) e = window.event;
       if (e.target) targ = e.target;
       else if (e.srcElement) targ = e.srcElement;
       // defeat Safari bug
@@ -43,6 +47,16 @@ angular.module('pumprApp')
         .catch( function() {
           angular.element(targ).addClass('role-failure');
         });
-    };
+    }
 
-  });
+    //Delete user
+    function deleteUser(user) {
+      User.remove({ id: user._id });
+      angular.forEach($scope.users, function(u, i) {
+        if (u === user) {
+          $scope.users.splice(i, 1);
+        }
+      });
+    }
+  }
+})();
