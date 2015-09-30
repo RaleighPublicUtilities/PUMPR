@@ -19,7 +19,7 @@
       $scope.eng = {
         active: 1
       };
-      $scope.engid;
+      $scope.engid = undefined;
       $scope.engData =[];
       $scope.error = {
         status: false
@@ -90,7 +90,7 @@
                   status: true,
                   message: 'Add Engineering Firm: Failed\nPlease Try Again'
                 };
-                angular.element('engview').addClass('animated shake addDocFailure')
+                angular.element('engview').addClass('animated shake addDocFailure');
               });
             }
             else {
@@ -105,8 +105,9 @@
 
       //Finds matching addesses in address feature class
       function findAddress(typed) {
-        var typed = typed.toUpperCase();
-        var options = {
+        var options, attr;
+        typed = typed.toUpperCase();
+        options = {
           layer: 'Addresses',
           geojson: false,
           actions: 'query',
@@ -126,14 +127,15 @@
             }
             else {
               return data.features.map(function(item) {
-                return item.attributes.ADDRESSU + ', ' +  item.attributes.CITY + ', ' +  item.attributes.STATE + ', ' +  item.attributes.ZIP;
+                attr = item.attributes;
+                return attr.ADDRESSU + ', ' +  attr.CITY + ', ' +  attr.STATE + ', ' +  attr.ZIP;
             });
             }
           })
           .catch(function(err) {
             console.error(err);
           });
-      };
+      }
 
       //Resets form after submit
       function reset() {

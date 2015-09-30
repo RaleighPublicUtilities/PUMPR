@@ -15,6 +15,18 @@ describe('Controller: AddEngineeringFirmCtrl', function () {
     });
   }));
 
+  it('should get list of engineering firms', function () {
+    expect(1).toEqual(1);
+  });
+
+  it('should add engineering firm', function () {
+    expect(1).toEqual(1);
+  });
+
+  it('should ...', function () {
+    expect(1).toEqual(1);
+  });
+
   it('should ...', function () {
     expect(1).toEqual(1);
   });

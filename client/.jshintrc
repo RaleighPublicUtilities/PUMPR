@@ -70,6 +70,8 @@
     "element": true,
     "by": true,
     "L": true,
-    "d3": true
+    "d3": true,
+    "turf": true,
+    "Terraformer": true
   }
 }

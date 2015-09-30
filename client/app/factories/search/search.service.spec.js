@@ -11,7 +11,27 @@ describe('Service: search', function () {
     search = _search_;
   }));
 
-  it('should do something', function () {
+  it('should get address', function () {
+    expect(!!search).toBe(true);
+  });
+
+  it('should make uppercase and convert single quote', function () {
+    expect(!!search).toBe(true);
+  });
+
+  it('should delete fields that are null', function () {
+    expect(!!search).toBe(true);
+  });
+
+  it('should join two tables', function () {
+    expect(!!search).toBe(true);
+  });
+
+  it('should create buffer', function () {
+    expect(!!search).toBe(true);
+  });
+
+  it('should convert utilities', function () {
     expect(!!search).toBe(true);
   });
 

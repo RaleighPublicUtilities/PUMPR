@@ -1,10 +1,292 @@
-'use strict';
+(function(){
+  'use strict';
 
-angular.module('pumprApp')
-  .factory('search', ['agsServer', '$q', '$interval', '$http', 'facilityIdFactory', function (agsServer, $q, $interval, $http, facilityIdFactory) {
-    // Service logic
-    // ...
+  angular
+    .module('pumprApp')
+    .factory('search', search);
 
+    search.$inject = ['agsServer', '$q', '$interval', '$http', 'facilityIdFactory'];
+
+    function search(agsServer, $q, $interval, $http, facilityIdFactory) {
+
+      var service = {
+        addresses: addresses,
+        all: all,
+        display: display,
+        documents: documents,
+        getDocument: getDocument,
+        itpipes: itpipes,
+        street: street,
+        permits: permits,
+        project: project,
+        projects: projects,
+        facilityids: facilityids
+      };
+
+      return service;
+
+      /**
+      *@type method
+      *@name project
+      *@desc Querys a single project from database by its project id
+      *@param {Number} projectid
+      *@returns {HttpPromise}
+      */
+      function project(projectid){
+
+        var options = {
+          params: {
+            f: 'json',
+            searchText: projectid,
+            searchFields: 'PROJECTID',
+            layers: 'Project Tracking', //Use layer names or layer ids
+            sr: 4326
+          },
+          actions: 'find',
+          geojson: true
+        };
+
+        return agsServer.ptMs.request(options);
+
+      }
+
+      /**
+      *@type method
+      *@name getDocument
+      *@desc Get details on a single document
+      *@param {String} doc - The document search string (ex. <projectid>-<doctypeid>-<docid>)
+      *@returns {HttpPromise}
+      */
+      function getDocument(docid){
+        docid = docid.split('-');
+        var options = {
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: 'PROJECTID = ' + docid[0] + " AND DOCTYPEID = '" + docid[1] + "' AND DOCID = " + docid[2],
+            outFields: 'DOCID, WATER, SEWER, REUSE, STORM, PROJECTNAME, FORMERNAME, ALIAS, ENGID, DOCTYPEID, SHEETTYPEID',
+            returnGeometry: false
+          }
+        };
+
+        return agsServer.ptFs.request(options);
+      }
+
+      /**
+      *@type method
+      *@name documents
+      *@desc Find all documents for a single project
+      *@param {Number} projectid
+      *@returns {HttpPromise}
+      */
+      function documents(projectid){
+        var deferred, options;
+
+        deferred = $q.defer();
+        options = {
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: 'PROJECTID = ' + projectid,
+            outFields: '*',
+            orderByFields: 'DOCID ASC',
+            returnGeometry: false
+          }
+        };
+
+        agsServer.ptFs.request(options)
+        .then(function(documents){
+          deferred.resolve(getSupportTables(documents.features));
+        })
+        .catch(function(err){
+          deferred.reject(err);
+        });
+
+        return deferred.promise;
+
+      }
+
+      /**
+      *@type method
+      *@name display
+      *@desc Display view for project with aliases for engineering firms, document types and sheettypes
+      *@param {Number} projectid
+      *@returns {HttpPromise}
+      */
+      function display(projectid){
+        var project, docs;
+        project = this.project(projectid);
+        docs = this.documents(projectid);
+
+        return $q.all([project, docs]);
+      }
+
+      /**
+      *@type method
+      *@name display
+      *@desc Search for project by name, development plan id, project id, alias or formername
+      *@param {String} typed - Project Identifier
+      *@returns {HttpPromise}
+      */
+      function projects(typed){
+        var deferred, options;
+        deferred = $q.defer();
+        typed = clean4Ags(typed);
+
+        options = {
+          layer: 'Project Tracking',
+          geojson: false,
+          actions: 'query',
+          params: {
+            f: 'json',
+            outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
+            where: "PROJECTNAME like '%" +typed + "%' OR DEVPLANID like '%" +typed + "%' OR PROJECTID like '%" +typed + "%' OR ALIAS like '%" +typed + "%' OR FORMERNAME like'%" +typed + "%'",
+            returnGeometry: false,
+            orderByFields: 'PROJECTNAME ASC'
+          }
+        };
+
+        agsServer.ptMs.request(options)
+          .then(function(res){
+            deferred.resolve(projectFilter(res.features));
+          })
+          .catch(function(err) {
+            deferred.reject(err);
+          });
+
+        return deferred.promise;
+
+        function projectFilter(features) {
+          var filter;
+          filter = features.map(function(f){
+            f = f.attributes;
+            return {group: 'project', name: f.PROJECTNAME + ':' + f.DEVPLANID + ':' + f.PROJECTID};
+          });
+          filter = filter.splice(0,5);
+          return filter;
+        }
+
+      }
+
+      /**
+      *@type method
+      *@name addresses
+      *@desc Search for project or address by address
+      *@param {String} typed - Full Address
+      *@returns {HttpPromise}
+      */
+      function addresses(typed){
+        var deferred, addresses, filter, addressOptions;
+
+        deferred = $q.defer();
+        typed = clean4Ags(typed);
+
+        addressOptions  = {
+          f: 'json',
+          address: typed,
+          outSR: 4326,
+          outFields: '*',
+          returnGeometry: true,
+          maxLocations: 5
+        };
+
+        agsServer.geocoder(addressOptions)
+          .then(getAddresses)
+          .then(getProjectByAddress)
+          .then(combineAddressProjectArray)
+          .then(function(data){
+            deferred.resolve(data);
+          })
+          .catch(function(err){
+            deferred.reject('Address:',err);
+          });
+
+          return deferred.promise;
+
+      }
+
+      /**
+      *@type method
+      *@name facilityids
+      *@desc Find documents by facilityid
+      *@param {String} typed - Facility ID
+      *@returns {HttpPromise}
+      */
+      function facilityids(typed){
+
+        var deferred = $q.defer();
+
+        setFacilityIdsServer(typed)
+          .then(getFacids)
+          .then(projectIntersect)
+          .then(combineFacidsProjectsArray)
+          .then(function(data){
+            deferred.resolve(data);
+          })
+          .catch(function(err){
+            deferred.reject('Facid:', err);
+          });
+
+          return deferred.promise;
+
+      }
+
+      //Lookup project by permit #
+      function permits(){
+        return;
+      }
+
+      //Lookup Address
+      function street(typed){
+        typed = clean4Ags(typed);
+
+        //Reused options for location and address search
+        var options = {
+          layer: 'Streets',
+          geojson: true,
+          actions: 'query',
+          params: {
+            f: 'json',
+            outSR: 4326,
+            text: typed,
+            outFields: 'CARTONAME',
+            returnGeometry: true,
+            orderByFields: 'CARTONAME ASC'
+          }
+        };
+
+        return agsServer.streetsMs.request(options);
+
+      }
+
+      //Gets itpipes date for a given sewer gravity main or force main
+      function itpipes(facid) {
+
+        var req = {
+          method: 'GET',
+          url: '/api/itpipes',
+          params: { id: facid }
+        };
+
+        return $http(req);
+
+      }
+
+      //Searches all posible options returns promise when all resolve
+      function all(typed) {
+        //Generate promises for all search vectors
+        var projects = this.projects(typed),
+            addresses = this.addresses(typed),
+            // permits = this.permits(typed);
+            facilityids = this.facilityids(typed);
+
+        return $q.all([projects, addresses, facilityids]);
+
+      }
+
+    //Private
     //Clean data before searching in ArcGIS Server
     function clean4Ags(typed){
       typed = typed.toUpperCase();
@@ -28,36 +310,38 @@ angular.module('pumprApp')
         fc = turf.featurecollection(features);
         arcgisMultipolygon = Terraformer.ArcGIS.convert(fc);
         var output = {buffer: arcgisMultipolygon, addresses: data};
-        deferred.resolve(output)
+        deferred.resolve(output);
       }
       else {
-        deferred.resolve([])
+        deferred.resolve([]);
       }
       return deferred.promise;
       }
 
     //Takes esri json multipolygon and returns projects that intersect
     function projectIntersect (data){
-      var deferred = $q.defer();
-      if ((data.buffer && Array.isArray(data.buffer) && data.buffer.length > 0 ) || (data.points && Array.isArray(data.points.features) && data.points.features.length > 0)){
-        var projectOptions = {
+      var deferred, points, options;
+      deferred = $q.defer();
+      points = data.points;
+      if ((data.buffer && Array.isArray(data.buffer) && data.buffer.length > 0 ) || (points && Array.isArray(points.features) && points.features.length > 0)){
+        options = {
           layer: 'Project Tracking',
           geojson: false,
           actions: 'query',
           params: {
             f: 'json',
             outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
-            where: "1=1",
+            where: '1=1',
             returnGeometry: false,
             orderByFields: 'PROJECTNAME ASC',
             inSR: 4326
           }
         };
 
-         projectOptions.params.geometryType = (data.points && data.points.geometryType) ? data.points.geometryType : 'esriGeometryPolygon';
-         projectOptions.params.geometry = (data.points && data.points.features) ? data.points.features[0].geometry : data.buffer[0].geometry;
+         options.params.geometryType = (points && points.geometryType) ? points.geometryType : 'esriGeometryPolygon';
+         options.params.geometry = (points && points.features) ? points.features[0].geometry : data.buffer[0].geometry;
 
-         agsServer.ptMs.request(projectOptions)
+         agsServer.ptMs.request(options)
           .then(function(res){
             if (data.addresses){
               deferred.resolve({projects: res, addresses: data.addresses});
@@ -67,11 +351,11 @@ angular.module('pumprApp')
             }
           })
           .catch(function(err){
-            deferred.resolve(data.addresses || data.facid)
-          })
+            deferred.resolve(data.addresses || data.facid);
+          });
       }
       else {
-        deferred.resolve(data.addresses || data.facid)
+        deferred.resolve(data.addresses || data.facid);
       }
       return deferred.promise;
     }
@@ -87,20 +371,32 @@ angular.module('pumprApp')
 
     //Remove null values from results
     function removeEmptyFields (data) {
-        for (var a in data){
-          data[a] === 'Null' | null | '' | NaN ? delete data[a] : data[a];
+      var a;
+      for (a in data){
+        if (findfalsy(data[a])){
+          delete data[a];
         }
-        return data;
+      }
+      return data;
+
+      function findfalsy(value) {
+        var blacklist = ['Null', null, '', NaN, undefined];
+        blacklist.some(function(element){
+          return value === element;
+        });
+       }
       }
 
     //Joins tables together based on field
     //addFieldFromTable(table1, table2, joinField, addFiedl);
     function addFieldFromTable (t1, t2, joinField, addField){
-       t1.map(function(t1Data){
-         t2.forEach(function(t2Data){
-           t1Data.attributes[addField] =  t1Data.attributes[joinField] === t2Data.attributes[joinField] ? t2Data.attributes[addField] : t1Data.attributes[addField];
+       t1.map(function(table1){
+         table1 = table1.attributes;
+         t2.forEach(function(table2){
+           table2 = table2.attributes;
+           table1[addField] =  table1[joinField] === table2[joinField] ? table2[addField] : table1[addField];
          });
-         convertUtilities(t1Data.attributes);
+         convertUtilities(table1);
        });
        return t1;
      }
@@ -163,7 +459,7 @@ angular.module('pumprApp')
       var deferred = $q.defer();
      if (Array.isArray(data.candidates) && data.candidates.length > 0){
        addresses = data.candidates.map(function(a){
-         return {group: 'address', name: a.address, location: a.location}
+         return {group: 'address', name: a.address, location: a.location};
        });
        deferred.resolve(addresses);
      }
@@ -182,7 +478,7 @@ angular.module('pumprApp')
         })
         .catch(function(err){
           deferred.reject([]);
-        })
+        });
      return deferred.promise;
    }
 
@@ -190,7 +486,7 @@ angular.module('pumprApp')
      var deferred = $q.defer();
      if (res.projects && Array.isArray(res.projects.features) && res.projects.features.length > 0){
        var projects = res.projects.features.map(function(f){
-         return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
+         return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID};
        });
        projects = projects.splice(0,5);
        res.addresses = res.addresses.splice(0,5);
@@ -205,15 +501,16 @@ angular.module('pumprApp')
 
    function setFacilityIdsServer (typed){
      var deferred = $q.defer(),
-         typed = clean4Ags(typed),
          facidList, len, i;
+
+    typed = clean4Ags(typed);
 
      if (typed.length > 4 && (typed[0] === 'S' || typed[0] === 'W')){
        facidList = typed[0] === 'S' ? facilityIdFactory.sfids : facilityIdFactory.wfids;
        len = facidList.length;
        for (i = 0; i < len; i++){
          if (typed.search(facidList[i].tag) === 0){
-           facidList = facidList[i]
+           facidList = facidList[i];
            break;
          }
        }
@@ -256,14 +553,14 @@ angular.module('pumprApp')
              }
              else{
                var facilityids = data.features.map(function(f){
-                 return {group: 'facilityid', name: f.attributes.FACILITYID, location: f.geometry}
-               })
+                 return {group: 'facilityid', name: f.attributes.FACILITYID, location: f.geometry};
+               });
                deferred.resolve({points: data, facid: facilityids});
              }
            })
            .catch(function(err){
              deferred.resolve([]);
-           })
+           });
          }
 
      return deferred.promise;
@@ -290,223 +587,5 @@ angular.module('pumprApp')
      return deferred.promise;
    }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Public API here
-    var search = {
-
-      //Find a single project
-      project: function (projectid){
-
-        var options = {
-          params: {
-            f: 'json',
-            searchText: projectid,
-            searchFields: 'PROJECTID',
-            layers: 'Project Tracking', //Use layer names or layer ids
-            sr: 4326
-          },
-          actions: 'find',
-          geojson: true
-        };
-
-        return agsServer.ptMs.request(options);
-
-      },
-
-      //Get details on a single document
-      getDocument: function (docid){
-        docid = docid.split('-');
-        var options = {
-          layer: 'RPUD.PTK_DOCUMENTS',
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: 'PROJECTID = ' + docid[0] + " AND DOCTYPEID = '" + docid[1] + "' AND DOCID = " + docid[2],
-            outFields: 'DOCID, WATER, SEWER, REUSE, STORM, PROJECTNAME, FORMERNAME, ALIAS, ENGID, DOCTYPEID, SHEETTYPEID',
-            returnGeometry: false
-          }
-        };
-
-        return agsServer.ptFs.request(options);
-      },
-
-      //Find all documents for a single project
-      documents: function (projectid){
-        var deferred = $q.defer();
-        var options = {
-          layer: 'RPUD.PTK_DOCUMENTS',
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: 'PROJECTID = ' + projectid,
-            outFields: '*',
-            orderByFields: 'DOCID ASC',
-            returnGeometry: false
-          }
-        };
-
-        agsServer.ptFs.request(options)
-        .then(function(documents){
-          deferred.resolve(getSupportTables(documents.features));
-        })
-        .catch(function(err){
-          deferred.reject(err);
-        });
-
-        return deferred.promise;
-
-      },
-
-      //Display project with proper engineering firms, document types and sheettypes
-      display: function(projectid){
-        //Generate promises for display
-        var project = this.project(projectid),
-            docs = this.documents(projectid);
-
-        return $q.all([project, docs]);
-      },
-
-      //Search for a Project by metadata
-      projects: function (typed){
-        var deferred = $q.defer();
-        typed = clean4Ags(typed);
-
-        var options = {
-          layer: 'Project Tracking',
-          geojson: false,
-          actions: 'query',
-          params: {
-            f: 'json',
-            outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
-            where: "PROJECTNAME like '%" +typed + "%' OR DEVPLANID like '%" +typed + "%' OR PROJECTID like '%" +typed + "%' OR ALIAS like '%" +typed + "%' OR FORMERNAME like'%" +typed + "%'",
-            returnGeometry: false,
-            orderByFields: 'PROJECTNAME ASC'
-          }
-        };
-
-        agsServer.ptMs.request(options)
-          .then(function(res){
-            var filter = res.features.map(function(f){
-              return {group: 'project', name: f.attributes.PROJECTNAME + ':' + f.attributes.DEVPLANID + ':' + f.attributes.PROJECTID}
-            });
-            filter = filter.splice(0,5);
-            deferred.resolve(filter);
-          })
-          .catch(function(err) {
-            deffer.reject(err);
-          });
-        return deferred.promise;
-
-      },
-
-      //Search project by location
-      addresses: function(typed){
-        var deferred = $q.defer();
-        var addresses, filter;
-        typed = clean4Ags(typed);
-
-          var addressOptions  = {
-              f: 'json',
-              address: typed,
-              outSR: 4326,
-              outFields: '*',
-              returnGeometry: true,
-              maxLocations: 5
-          };
-
-        agsServer.geocoder(addressOptions)
-          .then(getAddresses)
-          .then(getProjectByAddress)
-          .then(combineAddressProjectArray)
-          .then(function(data){
-            deferred.resolve(data);
-          })
-          .catch(function(err){
-            deferred.reject('Address:',err);
-          });
-
-          return deferred.promise;
-
-      },
-
-      //Find documents by facilityid
-      facilityids: function (typed){
-
-        var deferred = $q.defer();
-
-        setFacilityIdsServer(typed)
-              .then(getFacids)
-              .then(projectIntersect)
-              .then(combineFacidsProjectsArray)
-              .then(function(data){
-                deferred.resolve(data);
-              })
-              .catch(function(err){
-                deferred.reject('Facid:', err);
-              });
-
-              return deferred.promise;
-
-      },
-
-      //Lookup project by permit #
-      permits: function(){
-
-      },
-
-      //Lookup Address
-      street: function(typed){
-        typed = clean4Ags(typed);
-
-        //Reused options for location and address search
-        var options = {
-          layer: 'Streets',
-          geojson: true,
-          actions: 'query',
-          params: {
-            f: 'json',
-            outSR: 4326,
-            text: typed,
-            outFields: 'CARTONAME',
-            returnGeometry: true,
-            orderByFields: 'CARTONAME ASC'
-          }
-        };
-
-        return agsServer.streetsMs.request(options);
-
-      },
-
-      //Gets itpipes date for a given sewer gravity main or force main
-      itpipes: function (facid){
-
-        var req = {
-          method: 'GET',
-          url: '/api/itpipes',
-          params: { id: facid }
-        };
-
-        return $http(req);
-
-      },
-
-      //Searches all posible options returns promise when all resolve
-      all: function(typed){
-        //Generate promises for all search vectors
-        var projects = this.projects(typed),
-            addresses = this.addresses(typed),
-            // permits = this.permits(typed);
-            facilityids = this.facilityids(typed);
-
-        return $q.all([projects, addresses, facilityids]);
-
-      }
-
-
-    }; //end search object
-
-
-    return (search);
-
-
-  }]);
+  }
+})();

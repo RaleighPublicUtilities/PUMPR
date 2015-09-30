@@ -18,4 +18,11 @@ describe('Directive: documentForm', function () {
     scope.$apply();
     expect(element.text()).toBe('this is the documentForm directive');
   }));
+
+  it('should make hidden element visible', inject(function ($compile) {
+    element = angular.element('<document-form></document-form>');
+    element = $compile(element)(scope);
+    scope.$apply();
+    expect(element.text()).toBe('this is the documentForm directive');
+  }));
 });

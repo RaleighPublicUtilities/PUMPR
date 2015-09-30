@@ -35,7 +35,6 @@ angular.module('pumprApp')
 
 
             //Get Values From Associated Water features
-            console.log(scope.hydrants)
             scope.hydrants.forEach(function (hydrant, index){
             fireflowFactory.getRelatedFeatures(hydrant)
               .then(function(res){

@@ -30,11 +30,17 @@
     //changes users role
     function changeRole(user, role){
       var targ, e;
-      if (!e) e = window.event;
-      if (e.target) targ = e.target;
-      else if (e.srcElement) targ = e.srcElement;
+      if (!e) {
+        e = window.event;
+      }
+      if (e.target) {
+        targ = e.target;
+      }
+      else if (e.srcElement) {
+        targ = e.srcElement;
+      }
       // defeat Safari bug
-      if (targ.nodeType == 3){
+      if (targ.nodeType === 3){
         targ = targ.parentNode;
       }
 
