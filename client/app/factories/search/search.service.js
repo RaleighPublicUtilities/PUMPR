@@ -33,7 +33,7 @@
       *@param {Number} projectid
       *@returns {HttpPromise}
       */
-      function project(projectid){
+      function project(projectid) {
 
         var options = {
           params: {
@@ -59,7 +59,7 @@
       *@param {String} doc - The document search string (ex. <projectid>-<doctypeid>-<docid>)
       *@returns {HttpPromise}
       */
-      function getDocument(docid){
+      function getDocument(docid) {
         docid = docid.split('-');
         var options = {
           layer: 'RPUD.PTK_DOCUMENTS',
@@ -83,7 +83,7 @@
       *@param {Number} projectid
       *@returns {HttpPromise}
       */
-      function documents(projectid){
+      function documents(projectid) {
         var deferred, options;
 
         deferred = $q.defer();
@@ -119,7 +119,7 @@
       *@param {Number} projectid
       *@returns {HttpPromise}
       */
-      function display(projectid){
+      function display(projectid) {
         var project, docs;
         project = this.project(projectid);
         docs = this.documents(projectid);
@@ -135,7 +135,7 @@
       *@param {String} typed - Project Identifier
       *@returns {HttpPromise}
       */
-      function projects(typed){
+      function projects(typed) {
         var deferred, options;
         deferred = $q.defer();
         typed = clean4Ags(typed);
@@ -183,7 +183,7 @@
       *@param {String} typed - Full Address
       *@returns {HttpPromise}
       */
-      function addresses(typed){
+      function addresses(typed) {
         var deferred, addresses, filter, addressOptions;
 
         deferred = $q.defer();
@@ -221,7 +221,7 @@
       *@param {String} typed - Facility ID
       *@returns {HttpPromise}
       */
-      function facilityids(typed){
+      function facilityids(typed) {
 
         var deferred = $q.defer();
 
@@ -249,7 +249,7 @@
       *@param {String} permitNum - permit number
       *@returns {HttpPromise}
       */
-      function permits(permitNum){
+      function permits(permitNum) {
         return;
       }
 
@@ -261,7 +261,7 @@
       *@param {String} typed - Address
       *@returns {HttpPromise}
       */
-      function street(typed){
+      function street(typed) {
         var options;
         typed = clean4Ags(typed);
 
@@ -318,7 +318,6 @@
 
       }
 
-
       /**
       *@type method
       *@access private
@@ -342,7 +341,7 @@
       *@param {Array} data - Array of addresses
       *@returns {HttpPromise}
       */
-      function createBuffer(data){
+      function createBuffer(data) {
         var deferred, fc, features, arcgisMultipolygon, rObj, buffered, output;
         deferred = $q.defer();
 
@@ -363,140 +362,179 @@
         return deferred.promise;
       }
 
-    //Takes esri json multipolygon and returns projects that intersect
-    function projectIntersect (data){
-      var deferred, points, options;
-      deferred = $q.defer();
-      points = data.points;
-      if ((data.buffer && Array.isArray(data.buffer) && data.buffer.length > 0 ) || (points && Array.isArray(points.features) && points.features.length > 0)){
-        options = {
-          layer: 'Project Tracking',
-          geojson: false,
-          actions: 'query',
-          params: {
-            f: 'json',
-            outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
-            where: '1=1',
-            returnGeometry: false,
-            orderByFields: 'PROJECTNAME ASC',
-            inSR: 4326
-          }
-        };
-
-         options.params.geometryType = (points && points.geometryType) ? points.geometryType : 'esriGeometryPolygon';
-         options.params.geometry = (points && points.features) ? points.features[0].geometry : data.buffer[0].geometry;
-
-         agsServer.ptMs.request(options)
-          .then(function(res){
-            if (data.addresses){
-              deferred.resolve({projects: res, addresses: data.addresses});
+      /**
+      *@type method
+      *@access private
+      *@name projectIntersect
+      *@desc Takes esri json multipolygon and returns projects that intersect
+      *@param {Array} data - Array of addresses
+      *@returns {HttpPromise}
+      */
+      function projectIntersect(data) {
+        var deferred, points, options;
+        deferred = $q.defer();
+        points = data.points;
+        if ((data.buffer && Array.isArray(data.buffer) && data.buffer.length > 0 ) || (points && Array.isArray(points.features) && points.features.length > 0)){
+          options = {
+            layer: 'Project Tracking',
+            geojson: false,
+            actions: 'query',
+            params: {
+              f: 'json',
+              outFields: 'PROJECTNAME,DEVPLANID,PROJECTID',
+              where: '1=1',
+              returnGeometry: false,
+              orderByFields: 'PROJECTNAME ASC',
+              inSR: 4326
             }
-            else {
-              deferred.resolve({projects: res, facid: data.facid});
-            }
-          })
-          .catch(function(err){
-            deferred.resolve(data.addresses || data.facid);
-          });
-      }
-      else {
-        deferred.resolve(data.addresses || data.facid);
-      }
-      return deferred.promise;
-    }
+          };
 
-    //Converts utilities boolean from 0 - 1 to ture - false
-    function convertUtilities (data){
-      var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
-      utils.forEach(function(util){
-        data[util] = data[util] ? true : false;
-      });
-      return data;
-    }
+           options.params.geometryType = (points && points.geometryType) ? points.geometryType : 'esriGeometryPolygon';
+           options.params.geometry = (points && points.features) ? points.features[0].geometry : data.buffer[0].geometry;
 
-    //Remove null values from results
-    function removeEmptyFields (data) {
-      var a;
-      for (a in data){
-        if (findfalsy(data[a])){
-          delete data[a];
+           agsServer.ptMs.request(options)
+            .then(function(res){
+              if (data.addresses){
+                deferred.resolve({projects: res, addresses: data.addresses});
+              }
+              else {
+                deferred.resolve({projects: res, facid: data.facid});
+              }
+            })
+            .catch(function(err){
+              deferred.resolve(data.addresses || data.facid);
+            });
         }
+        else {
+          deferred.resolve(data.addresses || data.facid);
+        }
+        return deferred.promise;
       }
-      return data;
 
-      function findfalsy(value) {
-        var blacklist = ['Null', null, '', NaN, undefined];
-        blacklist.some(function(element){
-          return value === element;
+      /**
+      *@type method
+      *@access private
+      *@name convertUtilities
+      *@desc onverts utilities boolean from 0 - 1 to ture - false
+      *@param {Array} data - List of projects or documents
+      *@returns {Array}
+      */
+      function convertUtilities(data) {
+        var utils = ['WATER', 'SEWER', 'REUSE', 'STORM'];
+        utils.forEach(function(util){
+          data[util] = data[util] ? true : false;
         });
-       }
+        return data;
       }
 
-    //Joins tables together based on field
-    //addFieldFromTable(table1, table2, joinField, addFiedl);
-    function addFieldFromTable (t1, t2, joinField, addField){
-       t1.map(function(table1){
-         table1 = table1.attributes;
-         t2.forEach(function(table2){
-           table2 = table2.attributes;
-           table1[addField] =  table1[joinField] === table2[joinField] ? table2[addField] : table1[addField];
-         });
-         convertUtilities(table1);
-       });
-       return t1;
-     }
-
-   //Get all helper tables to create view of doucments with real names
-   function getSupportTables (data){
-     var deferred = $q.defer();
-     var supportTables = [
-       {
-           name: 'engTypes',
-           id: 'RPUD.ENGINEERINGFIRM',
-           joinField: 'ENGID',
-           addField: 'SIMPLIFIEDNAME',
-       },
-       {
-           name: 'sheetTypes',
-           id: 'RPUD.SHEETTYPES',
-           joinField: 'SHEETTYPEID',
-           addField: 'SHEETTYPE',
-       },
-       {
-           name: 'docTypes',
-           id: 'RPUD.DOCUMENTTYPES',
-           joinField: 'DOCTYPEID',
-           addField: 'DOCUMENTTYPE',
-       }
-     ];
-
-      supportTables.forEach(function(table){
-        var name = table.name;
-
-        var options = {
-          layer: table.id,
-          actions: 'query',
-          params: {
-            f: 'json',
-            where: '1=1',
-            outFields: '*',
-            orderByFields: table.addField + ' ASC',
-            returnGeometry: false
+      /**
+      *@type method
+      *@access private
+      *@name removeEmptyFields
+      *@desc Removes blacklisted key/value pairs from object
+      *@param {Object} data - Form data
+      *@returns {Object}
+      */
+      function removeEmptyFields(data) {
+        var a;
+        for (a in data){
+          if (findfalsy(data[a])){
+            delete data[a];
           }
-        };
-        agsServer.ptFs.request(options).then(function(d){
-          table.data = d.features;
-          addFieldFromTable(data, table.data, table.joinField, table.addField);
-        })
-        .catch(function(err){
-          deferred.reject(err);
-        });
-        deferred.resolve(data);
-      }); //End loop
+        }
+        return data;
 
-      return deferred.promise;
+        function findfalsy(value) {
+          var blacklist = ['Null', null, '', NaN, undefined];
+          blacklist.some(function(element){
+            return value === element;
+          });
+         }
+      }
 
-   }
+      /**
+      *@type method
+      *@access private
+      *@name addFieldFromTable
+      *@desc Adds field from on array of objects to another based on an object key
+      *@param {Array} t1 - Data from first table
+      *@param {Array} t2 - Data from second table
+      *@param {String} joinField - Key objects will be joined by
+      *@param {String} addField - New key to be added to t1
+      *@returns {Array}
+      */
+      function addFieldFromTable(t1, t2, joinField, addField) {
+         t1.map(function(table1){
+           table1 = table1.attributes;
+           t2.forEach(function(table2){
+             table2 = table2.attributes;
+             table1[addField] =  table1[joinField] === table2[joinField] ? table2[addField] : table1[addField];
+           });
+           convertUtilities(table1);
+         });
+         return t1;
+      }
+
+      /**
+      *@type method
+      *@access private
+      *@name getSupportTables
+      *@desc Get helper tables to create view of doucments with real names
+      *@param {Array} data - Data from documents
+      *@returns {Object}
+      */
+      function getSupportTables(data) {
+        var supportTables, deferred;
+        deferred = $q.defer();
+        supportTables = [
+          {
+            name: 'engTypes',
+            id: 'RPUD.ENGINEERINGFIRM',
+            joinField: 'ENGID',
+            addField: 'SIMPLIFIEDNAME',
+          },
+          {
+            name: 'sheetTypes',
+            id: 'RPUD.SHEETTYPES',
+            joinField: 'SHEETTYPEID',
+            addField: 'SHEETTYPE',
+          },
+          {
+            name: 'docTypes',
+            id: 'RPUD.DOCUMENTTYPES',
+            joinField: 'DOCTYPEID',
+            addField: 'DOCUMENTTYPE',
+          }
+        ];
+
+        supportTables.forEach(function(table){
+          var name, options;
+          name = table.name;
+
+          options = {
+            layer: table.id,
+            actions: 'query',
+            params: {
+              f: 'json',
+              where: '1=1',
+              outFields: '*',
+              orderByFields: table.addField + ' ASC',
+              returnGeometry: false
+            }
+          };
+          agsServer.ptFs.request(options)
+            .then(function(d){
+              table.data = d.features;
+              addFieldFromTable(data, table.data, table.joinField, table.addField);
+            })
+            .catch(function(err){
+              deferred.reject(err);
+            });
+            deferred.resolve(data);
+          }); //End loop
+
+        return deferred.promise;
+      }
 
 
    function getAddresses (data){
