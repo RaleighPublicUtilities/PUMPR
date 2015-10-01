@@ -1,3 +1,9 @@
+/**
+ * Search Service
+ * @namespace Service/Factory
+ * @desc Contains all application search methods
+ */
+
 (function(){
   'use strict';
 

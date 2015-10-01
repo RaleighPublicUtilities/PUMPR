@@ -1,11 +1,24 @@
-'use strict';
+/**
+ * agsDomains Service
+ * @namespace Service/Factory
+ * @desc Stores table domains
+ */
 
-angular.module('pumprApp')
-  .factory('agsDomains', function () {
-    
-    // Public API here
-    return {
-      diameter: [
+(function(){
+  'use strict';
+
+  angular
+    .module('pumprApp')
+    .factory('agsDomains', agsDomains);
+
+  function agsDomains() {
+    var service = {
+      diameter: diameter
+    };
+
+    return service;
+
+    var diameter = [
         {
           code: 0.75,
           desc: '3/4"'
@@ -115,5 +128,6 @@ angular.module('pumprApp')
           desc: '72"'
         }
     ]
-    };
-  });
+  }
+
+})();
