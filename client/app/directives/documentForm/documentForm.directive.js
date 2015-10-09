@@ -231,7 +231,7 @@
           edit: false
         };
         scope.deleteError = false;
-        scope.deletePromise = DocumentFactory.delete(data)
+        scope.deletePromise = DocumentFactory.deleteDoc(data)
           .then(function(res){
             if (index === 0){
 
