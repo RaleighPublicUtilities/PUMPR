@@ -90,7 +90,7 @@
       *@param {Object} data - Attribute data
       *@returns {HttpPromise}
       */
-      function add(data){
+      function add(data) {
         var options = {
           layer: 'RPUD.PTK_DOCUMENTS',
           actions: 'addFeatures',
@@ -179,7 +179,7 @@
       *@param {Object} data - Attribute data
       *@returns {HttpPromise}
       */
-      function deleteDoc(data){
+      function deleteDoc(data) {
         var options = {
           layer: 'RPUD.PTK_DOCUMENTS',
           actions: 'deleteFeatures',
