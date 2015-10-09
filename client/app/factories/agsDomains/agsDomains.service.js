@@ -2,6 +2,7 @@
  * agsDomains Service
  * @namespace Service/Factory
  * @desc Stores table domains
+ * @todo Update angular-arcgis-server and use built in control
  */
 
 (function(){
