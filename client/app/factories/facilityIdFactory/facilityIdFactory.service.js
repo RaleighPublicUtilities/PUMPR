@@ -1,93 +1,81 @@
-'use strict';
+/**
+ * FacilityId Service
+ * @namespace Service/Factory
+ * @desc Contains all facility id constructors
+ */
 
-angular.module('pumprApp')
-  .factory('facilityIdFactory', function ($http) {
-    // Service logic
-    // ...
-    var facilityids = {
-        wfids: [
-          {
-            tag: /(WHYD)\d*/,
-            name: 'Water Hydrants',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WSV)\d*/,
-            name: 'Water System Valves',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WFIT)\d*/,
-            name: 'Water Fittings',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WSC)\d*/,
-            name: 'Water Service Connections',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WSS)\d*/,
-            name: 'Water Sampling Stations',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WCV)\d*/,
-            name: 'Water Control Valves',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WNS)\d*/,
-            name: 'Water Network Structures',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WMN)\d*/,
-            name: 'Water Pressure Mains',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WGM)\d*/,
-            name: 'Water Gravity Mains',
-            server: 'waterMs'
-          },
-          {
-            tag: /(WLAT)\d*/,
-            name: 'Water Lateral Lines',
-            server: 'waterMs'
-          }
-        ],
-        sfids: [
-          {
-            tag: /(SNS)\d*/,
-            name: 'Sewer Pump Stations',
-            server: 'sewerMs'
-          },
-          {
-            tag: /(SMH)\d*/,
-            name: 'Sewer Manhole',
-            server: 'sewerMs'
-          },
-          {
-            tag: /(SFMN)\d*/,
-            name: 'Force Main',
-            server: 'sewerMs'
-          },
-          {
-            tag: /(SGMN)\d*/,
-            name: 'Gravity Sewer',
-            server: 'sewerMs'
-          },
-          {
-            tag: /(SLAT)\d*/,
-            name: 'Lateral',
-            server: 'sewerMs'
-          }
-        ]
+(function(){
+  'use strict';
+
+  angular
+    .module('pumprApp')
+    .factory('facilityIdFactory', facilityIdFactory);
+
+    function facilityIdFactory() {
+
+      //Water Services
+      var wControlValves = new WaterFacilityId(/(WCV)\d*/, 'Water Control Valves');
+      var wFittings = new WaterFacilityId(/(WFIT)\d*/, 'Water Fittings');
+      var wGravityMains = new WaterFacilityId(/(WGM)\d*/, 'Water Gravity Mains');
+      var wHydrants = new WaterFacilityId(/(WHYD)\d*/, 'Water Hydrants');
+      var wLaterals = new WaterFacilityId(/(WLAT)\d*/, 'Water Lateral Lines');
+      var wNetStruct = new WaterFacilityId(/(WNS)\d*/, 'Water Network Structures');
+      var wPressureMains = new WaterFacilityId(/(WMN)\d*/, 'Water Pressure Mains');
+      var wSamplingStation = new WaterFacilityId(/(WSS)\d*/, 'Water Sampling Stations');
+      var wServiceConnection = new WaterFacilityId(/(WSC)\d*/, 'Water Service Connections');
+      var wSystemValves = new WaterFacilityId(/(WSV)\d*/, 'Water System Valves');
+
+      //Sewer Services
+      var ssForceMains = new SewerFacilityId(/(SFMN)\d*/, 'Force Main');
+      var ssGravityMain = new SewerFacilityId(/(SGMN)\d*/, 'Gravity Sewer');
+      var ssLateral = new SewerFacilityId(/(SLAT)\d*/, 'Lateral');
+      var ssManHoles = new SewerFacilityId(/(SMH)\d*/, 'Sewer Manhole');
+      var ssPumpStation = new SewerFacilityId(/(SNS)\d*/, 'Sewer Pump Stations');
+
+      var service = {
+        wfids: [wControlValves, wFittings, wGravityMains, wHydrants, wLaterals, wNetStruct, wPressureMains, wSamplingStation, wServiceConnection, wSystemValves],
+        sfids: [ssForceMains, ssGravityMain, ssLateral, ssManHoles, ssPumpStation]
       };
 
+      return service;
 
-    // Public API here
-    return (facilityids);
+      /**
+      * @desc Represents a FacilityId
+      * @constructor
+      * @param {RegEx} tag - Regular Express that identifies the feature class.
+      * @param {string} name - Name of the layer in the Map Service.
+      */
+      function FacilityId(tag, name, server) {
+        var self = this;
+        self.tag = tag;
+        self.name = name;
+        self.server = server;
+        return self;
+      }
 
-  });
+      /**
+      * @desc Represents a Water Service FacilityId
+      * @constructor
+      * @param {RegEx} tag - Regular Express that identifies the feature class.
+      * @param {string} name - Name of the layer in the Map Service.
+      */
+      function WaterFacilityId(tag, name){
+        var self = this;
+        FacilityId.call(self, tag, name, 'waterMs');
+        return self;
+      }
+
+      /**
+      * @desc Represents a Sewer Service FacilityId
+      * @constructor
+      * @param {RegEx} tag - Regular Express that identifies the feature class.
+      * @param {string} name - Name of the layer in the Map Service.
+      */
+      function SewerFacilityId(tag, name){
+        var self = this;
+        FacilityId.call(self, tag, name, 'sewerMs');
+        return self;
+      }
+    }
+
+})();
