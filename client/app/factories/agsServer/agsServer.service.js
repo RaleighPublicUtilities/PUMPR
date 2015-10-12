@@ -83,7 +83,7 @@
         $http({
           method: 'GET',
           url: endpoint,
-          params: options,
+          params: options
         })
         .success(function (data) {
           deferred.resolve(data);
