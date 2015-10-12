@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/project/:projectid/:docid', {
         templateUrl: 'app/projectDocument/projectDocument.html',
-        controller: 'ProjectDocumentCtrl'
+        controller: 'ProjectDocumentCtrl',
+        controllerAs: 'vm'
       });
   });
