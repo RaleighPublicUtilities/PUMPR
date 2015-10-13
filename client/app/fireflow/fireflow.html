@@ -3,8 +3,8 @@
 
 <div class="col-md-12">
   <search-bar id="searchBar" view="map" mapid="fireflow-map"></search-bar>
-  <!-- <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div> -->
-  <leaflet ng-hide="formStatus()" id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
+  <div id='loader'><div cg-busy="{promise:flowPromise,backdrop:false, templateUrl:'components/loader/loader.html'}"></div></div>
+  <leaflet ng-hide="vm.formStatus()" id="fireflow-map" center="center" layers="layers" event-broadcast="events" markers="markers"></leaflet>
   <fireflow id="flowControl" hydrants="markers"></fireflow>
-  <fireflow-form hydrants="markers" ng-show="formStatus()"></fireflow-form>
+  <fireflow-form hydrants="markers" ng-show="vm.formStatus()"></fireflow-form>
 </div>

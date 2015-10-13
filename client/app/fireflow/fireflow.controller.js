@@ -9,38 +9,39 @@
 
   function FireflowCtrl($scope, Auth, mapLayers, leafletData, fireflowFactory, icon) {
     var vm = this;
-    $scope.agsToken = Auth.getAgolToken();
-    $scope.searchStatus = false;
-    mapLayers.overlays.water.visible = true;
-    mapLayers.overlays.water.layerParams = {
-        token: $scope.agsToken
-    },
-    mapLayers.overlays.sewer.visible = false;
-    mapLayers.overlays.reuse.visible = false;
+    vm.agsToken = Auth.getAgolToken();
+    vm.searchStatus = false;
 
-    //Sets form status to false
-    $scope.formStatus = fireflowFactory.getFormStatus;
-
-    //Set default map settings
-    angular.extend($scope, {
-      center: {
-        lat: 35.77882840327371,
-        lng: -78.63945007324219,
-        zoom: 13
-      },
-      layers: mapLayers,
-      events: {
-        map: {
-          enable: ['click'],
-          logic: 'emit'
-        }
-      },
-      markers: fireflowFactory.getLog()
-    });
     activate();
 
     function activate() {
       angular.element('body').find('div').addClass('fullScreen');
+      mapLayers.overlays.water.visible = true;
+      mapLayers.overlays.water.layerParams = {
+          token: vm.agsToken
+      },
+      mapLayers.overlays.sewer.visible = false;
+      mapLayers.overlays.reuse.visible = false;
+
+      //Sets form status to false
+      vm.formStatus = fireflowFactory.getFormStatus;
+
+      //Set default map settings
+      angular.extend($scope, {
+        center: {
+          lat: 35.77882840327371,
+          lng: -78.63945007324219,
+          zoom: 13
+        },
+        layers: mapLayers,
+        events: {
+          map: {
+            enable: ['click'],
+            logic: 'emit'
+          }
+        },
+        markers: fireflowFactory.getLog()
+      });
       return leafletData.getMap('fireflow-map').then(function(map) {
         map.locate({setView: true, maxZoom: 17});
       });
