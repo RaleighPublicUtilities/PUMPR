@@ -5,6 +5,7 @@ angular.module('pumprApp')
     $routeProvider
       .when('/', {
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        controllerAs: 'vm'
       });
   });
