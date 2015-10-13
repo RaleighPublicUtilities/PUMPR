@@ -5,9 +5,10 @@
     .module('pumprApp')
     .controller('FireflowCtrl', FireflowCtrl);
 
-    FireflowCtrl.$inject = ['$scope', 'Auth', 'mapLayers', 'leafletData', 'fireflowFactory'];
+    FireflowCtrl.$inject = ['$scope', 'Auth', 'mapLayers', 'leafletData', 'fireflowFactory', 'icon'];
 
-  function FireflowCtrl($scope, Auth, mapLayers, leafletData, fireflowFactory) {
+  function FireflowCtrl($scope, Auth, mapLayers, leafletData, fireflowFactory, icon) {
+    var vm = this;
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
 
@@ -40,48 +41,14 @@
       },
       markers: fireflowFactory.getLog()
     });
+    activate();
 
-    var icons = {
-       test: {
-         iconUrl: 'assets/images/testHydrant.png',
-         iconSize:     [20, 30], // size of the icon
-         iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
-       },
-       flow: {
-         iconUrl: 'assets/images/flowHydrant.png',
-         iconSize:     [20, 30], // size of the icon
-         iconAnchor:   [10, 25], // point of the icon which will correspond to marker's location
-       }
-    };
+    function activate() {
 
-
+    }
     leafletData.getMap('fireflow-map').then(function(map) {
       //Get GeoIP
       map.locate({setView: true, maxZoom: 17});
-
-
-      //Add Custom controls
-      var flowControl = L.Control.extend({
-        options: {
-          position: 'bottomleft'
-        },
-
-        onAdd: function (map) {
-          this._container = L.DomUtil.get('flowControl');
-          // Disable dragging when user's cursor enters the element
-          this._container.addEventListener('mouseover', function () {
-              map.dragging.disable();
-          });
-
-          // Re-enable dragging when user's cursor leaves the element
-          this._container.addEventListener('mouseout', function () {
-              map.dragging.enable();
-          });
-            return this._container;
-        }
-      });
-
-      map.addControl(new flowControl());
 
       //Adds search bar to map
         var searchBar = L.Control.extend({
@@ -142,11 +109,11 @@
             switch ($scope.markers.length){
               case 0:
                 marker.message = 'Test: ' + res.features[0].properties['Facility Identifier'];
-                marker.icon = icons.test;
+                marker.icon = icon.test;
                 break;
               case 1:
                 marker.message = 'Flow: ' + res.features[0].properties['Facility Identifier'];
-                marker.icon = icons.flow;
+                marker.icon = icon.flow;
                 break;
               default:
                 return;
