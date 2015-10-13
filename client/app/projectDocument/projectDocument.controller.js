@@ -1,3 +1,9 @@
+/**
+ * Project Document Controller
+ * @namespace Controller
+ * @desc Controls project document view
+ */
+
 (function(){
   'use strict';
 
