@@ -1,7 +1,13 @@
-'use strict';
+(function(){
+  'use strict';
 
-angular.module('pumprApp')
-  .controller('FireflowCtrl', function ($scope, Auth, mapLayers, leafletData, fireflowFactory) {
+  angular
+    .module('pumprApp')
+    .controller('FireflowCtrl', FireflowCtrl);
+
+    FireflowCtrl.$inject = ['$scope', 'Auth', 'mapLayers', 'leafletData', 'fireflowFactory'];
+
+  function FireflowCtrl($scope, Auth, mapLayers, leafletData, fireflowFactory) {
     //Make map height 100%
     angular.element('body').find('div').addClass('fullScreen');
 
@@ -155,4 +161,5 @@ angular.module('pumprApp')
     });
 
 
-  });//End Controller
+  }
+})();
