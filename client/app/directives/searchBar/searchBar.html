@@ -1,13 +1,7 @@
 <div class="inner-addon right-addon">
-  <input id="searchControl" type="text" ng-model="asyncSelected" placeholder="{{placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project as project.name for project in autoFillProjects($viewValue) | limitTo:8" typeahead-loading="loadingLocations" typeahead-on-select="searchControl($item)" class="form-control" typeahead-wait-ms="500" typeahead-template-url="components/search/search.html">
+  <input id="searchControl" type="text" ng-model="vm.asyncSelected" placeholder="{{vm.placeholder || 'Search by Project Name...'}}" typeahead-min-length="2" typeahead="project as project.name for project in vm.autoFillProjects($viewValue) | limitTo:8" typeahead-loading="vm.loadingLocations" typeahead-on-select="vm.searchControl($item)" class="form-control" typeahead-wait-ms="500" typeahead-template-url="components/search/search.html">
   <i class="glyphicon glyphicon-search" aria-hidden="true"></i>
 </div>
-<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-<div cg-busy="{promise:newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
-<error-message error="projectError"></error-message>
-<!-- <div ng-show="projectError" class="alert alert-danger main-alert" role="alert">Sorry the server seems to not be responding :(<br>
-  Please try again.
-   <button type="button" ng-click="reload()" class="btn btn-primary" aria-label="Left Align">
-<span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Reload
-</button>
-</div> -->
+<i ng-show="vm.loadingLocations" class="glyphicon glyphicon-refresh"></i>
+<div cg-busy="{promise:vm.newProject,message:'Loading Projects',backdrop:false,delay:1500}"></div>
+<error-message error="vm.projectError"></error-message>
