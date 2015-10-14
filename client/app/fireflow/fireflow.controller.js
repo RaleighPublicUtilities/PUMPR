@@ -50,7 +50,6 @@
 
     $scope.$on('leafletDirectiveMap.click', function(event, args){
       $scope.eventDetected = event.name;
-      // console.log(args.leafletEvent);
       var latlng = args.leafletEvent.latlng;
       $scope.flowPromise = fireflowFactory.find(latlng)
         .then(function(res){
