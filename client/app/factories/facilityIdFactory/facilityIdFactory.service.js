@@ -50,7 +50,6 @@
         self.tag = tag;
         self.name = name;
         self.server = server;
-        return self;
       }
 
       /**
@@ -59,10 +58,9 @@
       * @param {RegEx} tag - Regular Express that identifies the feature class.
       * @param {string} name - Name of the layer in the Map Service.
       */
-      function WaterFacilityId(tag, name){
+      function WaterFacilityId(tag, name) {
         var self = this;
         FacilityId.call(self, tag, name, 'waterMs');
-        return self;
       }
 
       /**
@@ -71,10 +69,9 @@
       * @param {RegEx} tag - Regular Express that identifies the feature class.
       * @param {string} name - Name of the layer in the Map Service.
       */
-      function SewerFacilityId(tag, name){
+      function SewerFacilityId(tag, name) {
         var self = this;
         FacilityId.call(self, tag, name, 'sewerMs');
-        return self;
       }
     }
 

@@ -51,17 +51,13 @@
 
     function Diameter(code, desc) {
       'use strict';
-
       var self = this;
-      if (self instanceof Diameter){
-        self.code = code;
-        self.desc = desc;
-        return self;
-      }
-      else {
+      if (!(self instanceof Diameter)){
         return new Diameter(code, desc);
-      }
 
+      }
+      self.code = code;
+      self.desc = desc;
     }
   }
 
