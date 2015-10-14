@@ -36,6 +36,7 @@
       name: 'Project Tracking',
       type: 'agsDynamic',
       url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
+      legend: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/legend?f=pjson',
       visible: false,
       layerOptions: {
         layers: [1],
@@ -49,6 +50,7 @@
       name: 'Sewer Collection Network',
       type: 'agsDynamic',
       url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/',
+      legend: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/SewerExternal/MapServer/legend?f=pjson',
       visible: true,
       layerOptions: {
         layers: [0,1,2,3,4],
@@ -60,15 +62,16 @@
 
     var water = {
       name: 'Water Distribution Network',
-        type: 'agsDynamic',
-        url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/',
-        visible: true,
-        layerOptions: {
-          layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
-          opacity: 1,
-          attribution: 'Copyright:© 2015 City of Raleigh',
-          position: 'back'
-        }
+      type: 'agsDynamic',
+      url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/',
+      legend: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/WaterDistribution/MapServer/legend?f=pjson',
+      visible: true,
+      layerOptions: {
+        layers: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+        opacity: 1,
+        attribution: 'Copyright:© 2015 City of Raleigh',
+        position: 'back'
+      }
     };
 
     var reuse = {
@@ -88,6 +91,7 @@
       name: 'Active CIP Projects',
       type: 'agsDynamic',
       url: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer/',
+      legend: 'http://gis.raleighnc.gov/arcgis/rest/services/PublicUtility/RPUD_Projects/MapServer/legend',
       visible: false,
       layerOptions: {
         layers: [0],
