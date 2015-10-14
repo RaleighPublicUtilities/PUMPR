@@ -47,7 +47,7 @@ angular.module('pumprApp', [
           projects:{
             name: 'Project Tracking',
             type: 'agsDynamic',
-            url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
+            url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
             visible: false,
             layerOptions: {
                 layers: [1],
@@ -107,7 +107,7 @@ angular.module('pumprApp', [
         detailsIntersections: {
           name: 'Detailed Intersections',
           type: 'agsDynamic',
-          url: 'http://mapststarcsvr1:6080/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
+          url: 'http://maps.raleighnc.gov/arcgis/rest/services/PublicUtility/ProjectTracking/MapServer/',
           visible: false,
           layerOptions: {
             layers: [0],

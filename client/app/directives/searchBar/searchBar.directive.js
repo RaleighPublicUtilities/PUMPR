@@ -126,7 +126,30 @@
         function findOnMap() {
           leafletData.getMap(vm.mapid)
             .then(function(map) {
-              console.log(typed)
+              switch(typed.group) {
+                case 'project':
+                  search.project(typed.name.split(':')[2])
+                    .then(function(res) {
+                      L.geoJson(res, {
+                          onEachFeature: function (feature, layer) {
+                              layer.bindPopup(feature.properties.PROJECTNAME);
+                          }
+                      }).addTo(map);
+                      console.log(res);
+                    })
+                    .catch(function(err) {
+                      console.error(err)
+                    })
+                  break;
+                case 'address':
+                  path =  '/map?' + $.param(typed);
+                  location = path;
+                case 'facilityid':
+                  path =  '/map?' + $.param(typed);
+                  location = path;
+                default:
+                  console.error('Group Not Recognized', typed.group);
+              }
             });
         }
       }

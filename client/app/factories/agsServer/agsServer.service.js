@@ -23,8 +23,8 @@
       var addressesMs =  mapstest.setService({folder:'Addresses',service: '',server: 'MapServer'});
       var cip = gis.setService({folder:'PublicUtility',service: 'RPUD_Projects',server: 'MapServer'});
       var parcelsMs = maps.setService({folder:'',service: 'Parcels',server: 'MapServer'});
-      var ptFs = mapstest.setService({folder:'PublicUtility',service: 'ProjectTracking',server: 'FeatureServer'});
-      var ptMs = mapstest.setService({folder:'PublicUtility',service: 'ProjectTracking',server: 'MapServer'});
+      var ptFs = maps.setService({folder:'PublicUtility',service: 'ProjectTracking',server: 'FeatureServer'});
+      var ptMs = maps.setService({folder:'PublicUtility',service: 'ProjectTracking',server: 'MapServer'});
       var reclaimedMs = gis.setService({folder:'PublicUtility',service: 'ReclaimedDistribution',server: 'MapServer'});
       var sewerMs = maps.setService({folder:'PublicUtility',service: 'SewerExternal',server: 'MapServer'});
       var streetsMs = maps.setService({folder:'StreetsDissolved',service: '',server: 'MapServer'});
