@@ -13,122 +13,56 @@
     .factory('agsDomains', agsDomains);
 
   function agsDomains() {
+    var diameter = [
+      Diameter(0.75, '3/4'),
+      Diameter(1, '1"'),
+      Diameter(1.5, '1 1/2"'),
+      Diameter(2, '2"'),
+      Diameter(2.5, '2 1/2"'),
+      Diameter(3, '3"'),
+      Diameter(4, '4"'),
+      Diameter(6, '6"'),
+      Diameter(8, '8"'),
+      Diameter(10, '10"'),
+      Diameter(12, '12"'),
+      Diameter(14, '14"'),
+      Diameter(15, '15"'),
+      Diameter(16, '16"'),
+      Diameter(18, '18"'),
+      Diameter(20, '20"'),
+      Diameter(21, '21"'),
+      Diameter(24, '24"'),
+      Diameter(30, '30"'),
+      Diameter(36, '36"'),
+      Diameter(42, '42"'),
+      Diameter(48, '48"'),
+      Diameter(54, '54"'),
+      Diameter(57, '57"'),
+      Diameter(60, '60"'),
+      Diameter(66, '66"'),
+      Diameter(72, '72"')
+    ];
+
     var service = {
       diameter: diameter
     };
 
     return service;
 
-    var diameter = [
-        {
-          code: 0.75,
-          desc: '3/4"'
-        },
-        {
-          code: 1,
-          desc: '1"'
-        },
-        {
-          code: 1.5,
-          desc: '1 1/2"'
-        },
-        {
-          code: 2,
-          desc: '2"'
-        },
-        {
-          code: 2.5,
-          desc: '2 1/2"'
-        },
-        {
-          code: 3,
-          desc: '3"'
-        },
-        {
-          code: 4,
-          desc: '4"'
-        },
-        {
-          code: 6,
-          desc: '6"'
-        },
-        {
-          code: 8,
-          desc: '8"'
-        },
-        {
-          code: 10,
-          desc: '10"'
-        },
-        {
-          code: 12,
-          desc: '12"'
-        },
-        {
-          code: 14,
-          desc: '14"'
-        },
-        {
-          code: 15,
-          desc: '15"'
-        },
-        {
-          code: 16,
-          desc: '16"'
-        },
-        {
-          code: 18,
-          desc: '18"'
-        },
-        {
-          code: 20,
-          desc: '20"'
-        },
-        {
-          code: 21,
-          desc: '21"'
-        },
-        {
-          code: 24,
-          desc: '24"'
-        },
-        {
-          code: 30,
-          desc: '30"'
-        },
-        {
-          code: 36,
-          desc: '36"'
-        },
-        {
-          code: 42,
-          desc: '42"'
-        },
-        {
-          code: 48,
-          desc: '48"'
-        },
-        {
-          code: 54,
-          desc: '54"'
-        },
-        {
-          code: 57,
-          desc: '57"'
-        },
-        {
-          code: 60,
-          desc: '66"'
-        },
-        {
-          code: 66,
-          desc: '66"'
-        },
-        {
-          code: 72,
-          desc: '72"'
-        }
-    ]
+    function Diameter(code, desc) {
+      'use strict';
+
+      var self = this;
+      if (self instanceof Diameter){
+        self.code = code;
+        self.desc = desc;
+        return self;
+      }
+      else {
+        return new Diameter(code, desc);
+      }
+
+    }
   }
 
 })();
