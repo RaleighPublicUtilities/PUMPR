@@ -124,18 +124,28 @@
         }
 
         function findOnMap() {
+          var selectedFeatures = new L.FeatureGroup();
+          selectedFeatures.clearLayers();
           leafletData.getMap(vm.mapid)
             .then(function(map) {
               switch(typed.group) {
                 case 'project':
-                  search.project(typed.name.split(':')[2])
+                  var projectid = typed.name.split(':')[2];
+                  search.display(projectid)
                     .then(function(res) {
                       L.geoJson(res, {
+                        style: {
+                          color: 'rgb(54, 186, 252)'
+                          },
                           onEachFeature: function (feature, layer) {
-                              layer.bindPopup(feature.properties.PROJECTNAME);
+                            var ele = '<a href="/project/'+ projectid +'">View Project</a>'
+                            layer.bindPopup(ele);
+                            selectedFeatures.addLayer(layer);
                           }
-                      }).addTo(map);
-                      console.log(res);
+                      });
+                      map.fitBounds(selectedFeatures.getBounds());
+                      //add project to map
+                      selectedFeatures.addTo(map);
                     })
                     .catch(function(err) {
                       console.error(err)
