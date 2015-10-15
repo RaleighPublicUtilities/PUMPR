@@ -152,9 +152,8 @@
                     })
                   break;
                 case 'address':
-                  console.log(typed);
-                  // path =  '/map?' + $.param(typed);
-                  // location = path;
+                  path =  '/map?' + $.param(typed);
+                  location = path;
                 case 'facilityid':
                   path =  '/map?' + $.param(typed);
                   location = path;
