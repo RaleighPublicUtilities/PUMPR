@@ -13,34 +13,34 @@
     AddEngineeringFirmCtrl.$inject = ['$scope', 'agsServer', 'addEngineeringFirm'];
 
     function AddEngineeringFirmCtrl($scope, agsServer, addEngineeringFirm) {
-      var self = this;
-
-      $scope.addFirm = addFirm;
-      $scope.eng = {
+      var vm = this;
+      vm.form;
+      vm.addFirm = addFirm;
+      vm.eng = {
         active: 1
       };
-      $scope.engid = undefined;
-      $scope.engData =[];
-      $scope.error = {
+      vm.engid = undefined;
+      vm.engData =[];
+      vm.error = {
         status: false
       };
-      $scope.errors = {};
-      self.findAddress = findAddress;
-      self.reset = reset;
-      self.searchControl = searchControl;
+      vm.errors = {};
+      vm.findAddress = findAddress;
+      vm.reset = reset;
+      vm.searchControl = searchControl;
 
       activate();
 
       function activate() {
-        $scope.engtable = addEngineeringFirm.getAll()
+        vm.engtable = addEngineeringFirm.getAll()
           .then(function(res){
             addEngineeringFirm.setTable(res.features, function(tableData){
-              $scope.totalfirms = tableData.length;
-              $scope.numberofpages = Math.ceil($scope.totalfirms / 10);
-              $scope.engData = tableData;
+              vm.totalfirms = tableData.length;
+              vm.numberofpages = Math.ceil(vm.totalfirms / 10);
+              vm.engData = tableData;
             });
           }, function(err){
-            $scope.error = {
+              vm.error = {
               status: true,
               message: 'Whoops..Failed to load data to server\nplease try again'
             };
@@ -49,10 +49,9 @@
 
       //Add engineering firm to db
       function addFirm(form) {
-        addEngineeringFirm.generateId($scope.eng.name, function(engid){
+        addEngineeringFirm.generateId(vm.eng.name, function(engid){
           addEngineeringFirm.checkId(engid, function(eId){
-            $scope.engid = eId;
-
+            vm.engid = eId;
 
           var options = {
             layer: 'RPUD.ENGINEERINGFIRM',
@@ -62,31 +61,31 @@
               f: 'json',
               features: [{attributes:
                 {
-                  FULLNAME: $scope.eng.name,
-                  SIMPLIFIEDNAME: $scope.eng.simp,
-                  ENGID: $scope.engid,
-                  ADDRESS: $scope.eng.address,
-                  PHONE: $scope.eng.phone,
-                  EMAIL: $scope.eng.email,
-                  ACTIVE: $scope.eng.active,
-                  URL: $scope.eng.url
+                  FULLNAME: vm.eng.name,
+                  SIMPLIFIEDNAME: vm.eng.simp,
+                  ENGID: vm.engid,
+                  ADDRESS: vm.eng.address,
+                  PHONE: vm.eng.phone,
+                  EMAIL: vm.eng.email,
+                  ACTIVE: vm.eng.active,
+                  URL: vm.eng.url
                 }
               }]
             }
           };
 
 
-          $scope.submitted = true;
-          if(form.$valid && !$scope.engid.error) {
-            $scope.engPromise = agsServer.ptFs.request(options)
+          vm.submitted = true;
+          if(form.$valid && !vm.engid.error) {
+            vm.engPromise = agsServer.ptFs.request(options)
               .then(function(data){
-                $scope.success = {
+                vm.success = {
                   status: true,
                   message: 'Engineering Firm added'
                 };
-                self.reset();
+                vm.reset();
               }, function(err){
-                $scope.error = {
+                vm.error = {
                   status: true,
                   message: 'Add Engineering Firm: Failed\nPlease Try Again'
                 };
@@ -94,7 +93,7 @@
               });
             }
             else {
-              $scope.error = {
+              vm.error = {
                 status: true,
                 message: 'Please Check Name for Proper Formatting'
               };
@@ -119,8 +118,8 @@
             orderByFields: 'ADDRESSU ASC'
           }
         };
-        $scope.addressPromise = agsServer.addressesMs.request(options);
-        return $scope.addressPromise
+        vm.addressPromise = agsServer.addressesMs.request(options);
+        return vm.addressPromise
           .then(function(data) {
             if (data.error) {
               console.error(data.error);
@@ -139,13 +138,13 @@
 
       //Resets form after submit
       function reset() {
-        $scope.eng = {
+        vm.eng = {
           active: 1
         };
       }
 
       function searchControl(item) {
-        $scope.eng.address = item;
+        vm.eng.address = item;
       }
     }
 

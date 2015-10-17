@@ -6,6 +6,7 @@ angular.module('pumprApp')
       .when('/addEngineeringFirm', {
         templateUrl: 'app/addEngineeringFirm/addEngineeringFirm.html',
         controller: 'AddEngineeringFirmCtrl',
+        controllerAs: 'vm',
         authenticate: true
       });
   });

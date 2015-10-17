@@ -32,8 +32,9 @@
     function checkId(engid, cb){
       var that = this;
       var options;
+      console.log(engid);
       if (typeof engid === 'object' || engid === ''){
-        cb({error: 'Please Enter String'});
+        cb({error: 'Please Enter String'}, null);
       }
       else{
         options = {
@@ -114,7 +115,7 @@
     *@param {Array} data - List of engineering firm data
     *@returns {Callback}
     */
-    function generateId(data, cb) {
+    function generateId(eng, cb) {
       var engid = '';
       var whiteList = /[A-Z]/;
       if (typeof eng === 'string'){
@@ -203,6 +204,6 @@
       cb(outData);
     }
 
-    
+
   }
 })();
