@@ -18,7 +18,7 @@ exports.exists = function(req, res){
       exists: false
     };
   //Checks if the file exisits
-  fs.readdir(path.join('public/documents', data.folder), function (err, files){
+  fs.readdir(path.join(__dirname, '../../', 'public/documents', data.folder), function (err, files){
     if (err){
       res.status(200).json(data).end();
     }
@@ -50,12 +50,13 @@ exports.updateName = function(req, res){
       docType = req.body.params.docType,
       split = originalId.split('-'),
       dir = path.join('public/documents', split[0]),
-      oldPath = path.join(dir, originalId + '.pdf'),
+
+      oldPath = path.join(__dirname, '../../', dir, originalId + '.pdf'),
       newPath;
 
       if (Array.isArray(split) && split.length === 3){
         newId = [split[0], docType, split[2]].join('-');
-        newPath = path.join(dir, newId + '.pdf');
+        newPath = path.join(__dirname, '../../', dir, newId + '.pdf');
         fs.rename(oldPath, newPath, function(err){
           if (err) {
             res.status(200).json({ message: 'Document not renamed', error: err}).end();
@@ -113,10 +114,9 @@ exports.send = function(req, res, next){
       fileInfo,
       options;
 
-      fs.stat(path.join(dir, file), function(err, stats){
+      fs.stat(path.join(__dirname, '../../', dir, file), function(err, stats){
         if (err){
-          res.status(200);
-          res.json({'message':'Sorry, we cannot find that!'}).end();
+          res.send(404, err).end();
         }
         else{
           options = {
@@ -130,8 +130,7 @@ exports.send = function(req, res, next){
 
           res.sendfile(file, options, function (err) {
             if (err) {
-              res.json({'message':'Sorry, we cannot find that!'}).end();
-              res.status(err.status).end();
+              res.send(404, err).end();
             }
             else {
               console.log('IP:', req.ip, 'Sent:', file);
