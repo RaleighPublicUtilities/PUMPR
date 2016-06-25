@@ -11,40 +11,43 @@
     .module('pumprApp')
     .controller('AddDocumentCtrl', AddDocumentCtrl);
 
-    AddDocumentCtrl.$inject = ['$scope', 'search', '$location'];
+  AddDocumentCtrl.$inject = ['$scope', 'search', '$location'];
 
   function AddDocumentCtrl($scope, search, $location) {
-      var self = this;
+    var self = this;
+    angular.extend(self, {
+      path: $location.path(),
+      projectError: false,
+      projectid: undefined,
+      projectPromise: undefined,
+      reload: reload
+    });
 
-      self.path = $location.path();
-      self.projectid = undefined;
-      self.reload = reload;
+    activate();
 
-      activate();
+    function activate() {
+      var options;
+      if (self.path.split('/').length === 3){
+        self.projectid = self.path.split('/')[2];
+        options = {
+          layer: 'RPUD.PTK_DOCUMENTS',
+          actions: 'query',
+          params: {
+            f: 'json',
+            where: 'PROJECTID = ' + self.projectid,
+            outFields: '*',
+            orderByFields: 'DOCID ASC',
+            returnGeometry: false
+          }
+        };
 
-      function activate() {
-        var options;
-        if (self.path.split('/').length === 3){
-          self.projectid = self.path.split('/')[2];
-          options = {
-            layer: 'RPUD.PTK_DOCUMENTS',
-            actions: 'query',
-            params: {
-              f: 'json',
-              where: 'PROJECTID = ' + self.projectid,
-              outFields: '*',
-              orderByFields: 'DOCID ASC',
-              returnGeometry: false
-            }
-          };
-
-          $scope.projectPromise = search.display(self.projectid)
-            .then(prepareForm)
-            .catch(function(error){
-              $scope.projectError = true;
+        self.projectPromise = search.display(self.projectid)
+          .then(prepareForm)
+          .catch(function(err) {
+            self.projectError = true;
           });
-        }
       }
+    }
 
       function prepareForm(data) {
         var project = data[0];
