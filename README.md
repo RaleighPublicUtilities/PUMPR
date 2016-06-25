@@ -26,7 +26,6 @@ Save trips downtown and money on copies by using the digital submittal standard.
 - [Git](https://git-scm.com/)
 - [Node.js and NPM](nodejs.org) >= v0.12.0
 - [Bower](bower.io) (`npm install -g bower`)
-- [Ruby](https://www.ruby-lang.org) and then `gem install sass`
 - [Grunt](http://gruntjs.com/) (`npm install -g grunt-cli`)
 - [MongoDB](https://www.mongodb.org/) - Keep a running daemon with `mongod`
 
