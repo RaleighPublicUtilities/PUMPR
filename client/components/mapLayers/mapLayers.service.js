@@ -14,11 +14,11 @@
   function mapLayers() {
     var raleighImagery = {
       name: 'Raleigh Imagery',
-      url: 'http://api.tiles.mapbox.com/v4/{mapId}/{z}/{x}/{y}.png?access_token={token}',
-      type: 'xyz',
-      layerParams: {
-        token: 'pk.eyJ1IjoiY3R3aGl0ZSIsImEiOiItb0dqdUlZIn0.4Zb1DGESXnx0ePxMVLihZQ',
-        mapId: 'ctwhite.mdf6egjp'
+      url: 'http://maps.raleighnc.gov/arcgis/rest/services/BaseMap/MapServer',
+      type: 'agsDynamic',
+      layerOptions: {
+        attribution: 'Copyright:© 2015 City of Raleigh',
+        position: 'back'
       }
     };
 
